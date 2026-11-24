@@ -2224,7 +2224,7 @@ function folhaAjustes(){
   h += '<div class="bloco"><h3>Zerar</h3><div class="botoes"><button class="per" onclick="A.zerarLanc()">Apagar todos os lançamentos (mantém preços)</button></div><p class="pequeno">Use depois do treinamento, para começar do zero.</p></div>';
   const acA = estadoAcesso();
   h += '<div class="bloco"><h3>Acesso</h3><p style="margin:0 0 8px">Celular: <b>'+esc(c.aparelho)+'</b><br>Válido até: <b>'+(acA.ate?dmA(acA.ate):'—')+'</b>'+(acA.nivel==='parcial'?'<br><span style="color:var(--red)">Resumo e cobranças travados</span>':'')+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar novo código</button></div></div>';
-  h += '<p class="pequeno" style="text-align:center">Versão 1.2 · dados salvos só neste celular</p>';
+  h += '<p class="pequeno" style="text-align:center">Versão 1.3 · dados salvos só neste celular</p>';
   return h;
 }
 
@@ -2440,7 +2440,12 @@ const A = {
       if (!l || l === 'sem-ddd') { toast('Telefone do cliente incompleto'); return; }
       window.open(l + '?text=' + encodeURIComponent(msg), '_blank');
       c.cobrancas = c.cobrancas || []; if (!c.cobrancas.includes(hoje())) c.cobrancas.push(hoje());
-      salvar(); fecharModal(); render();
+      salvar(); render();
+      if (!D.cfg.pixChave) { fecharModal(); return; }
+      window._ck = () => { const k = so_dig(D.cfg.pixChave).length===14 ? so_dig(D.cfg.pixChave) : D.cfg.pixChave.trim(); window.open(l + '?text=' + encodeURIComponent(k), '_blank'); fecharModal(); };
+      modal('<h3>Falta 1 passo</h3><p style="font-size:18px;margin:0 0 6px">Mandou a mensagem? Agora mande <b>só a chave Pix</b>, sozinha, para o cliente copiar e colar no banco.</p>'+
+        '<div class="botoes"><button class="pri" style="background:var(--wa)" onclick="_ck()">ENVIAR CHAVE PIX (CNPJ)</button>'+
+        '<button onclick="fecharModal()">Pronto, fechar</button></div>');
     };
     modal('<h3>Cobrança para '+esc(c.nome)+'</h3><pre style="white-space:pre-wrap;font-family:var(--f);font-size:16px;background:#f3f7ee;border-radius:12px;padding:12px;margin:0">'+esc(msg)+'</pre>'+
       '<div class="botoes"><button class="pri" style="background:var(--wa)" onclick="_cb()">Abrir no WhatsApp</button><button onclick="fecharModal()">Voltar</button></div>');
@@ -2805,7 +2810,7 @@ function mensagemCobranca(c){
   if (D.cfg.pixChave) {
     t += '\nPix (' + (so_dig(D.cfg.pixChave).length===14?'CNPJ':'chave') + '): ' + fmtCnpj(D.cfg.pixChave) + '\n';
     if (D.cfg.pixNome) t += 'No banco aparece: ' + titularPix() + '\n';
-    t += 'Ou Pix copia e cola, já com o valor de ' + fmt(deb) + ':\n' + payloadPix(deb) + '\n';
+    t += 'A chave vai sozinha na próxima mensagem, para copiar e colar.\n';
   }
   t += '\nObrigado pela preferência!';
   return t;
