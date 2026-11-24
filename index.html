@@ -59,6 +59,7 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .cartao .info{flex:1;padding:10px 12px;min-width:0}
 .cartao .nome{font-weight:800;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cartao .det{font-size:15px;color:var(--muted);margin-top:2px;line-height:1.3}
+.nova-versao{display:flex;width:calc(100% - 24px);align-items:center;justify-content:space-between;gap:10px;background:var(--wa);color:#fff;border:0;border-radius:16px;padding:14px 16px;margin:12px 12px 0;font:inherit;font-size:17px;font-weight:700;text-align:left}.nova-versao b{background:#fff;color:var(--wa);border-radius:10px;padding:8px 12px;font-size:16px}
 .m-pronto{background:var(--wa);color:#fff;font-size:15px !important}
 .m-pronto svg{width:18px;height:18px}
 .avisado{display:inline-block;font-size:13px;font-weight:800;color:var(--wa);background:#e5f3e8;border-radius:8px;padding:2px 6px;margin-top:4px}
@@ -1898,6 +1899,7 @@ function telaInicio(){
   const ciclo = cicloAluguel(hoje()), alu = D.cfg.aluguel || 0, ja = entrouEntre(ciclo.ini, ciclo.fim);
   const pct = alu ? Math.min(100, Math.round(ja/alu*100)) : 0;
   let h = '<div class="wrap">' + avisoAcesso(estadoAcesso());
+  if (U.novaVersao) h += '<button class="nova-versao" onclick="A.atualizarApp()"><span>Saiu uma versão nova do app</span><b>ATUALIZAR</b></button>';
   if (alu) h += '<div class="aluguel"><div class="l1"><span>Aluguel '+fmt0(alu)+' · vence '+ddmm(ciclo.fim)+'</span><span>'+(ja>=alu?'✓ coberto':pct+'%')+'</span></div>'+
       '<div class="barra"><i style="width:'+pct+'%"></i></div><div class="pequeno" style="margin-top:6px">Entrou desde '+ddmm(ciclo.ini)+': <b>'+fmt(ja)+'</b>'+(ja<alu?' · faltam '+fmt(alu-ja):'')+'</div></div>';
   h += '<div class="nums"><div class="num"><span>Carros '+(dia===hoje()?'hoje':ddmm(dia))+' <small style="text-transform:none">(chegaram)</small></span><b>'+carros+'</b></div><div class="num"><span>Entrou '+(dia===hoje()?'hoje':ddmm(dia))+'</span><b style="font-size:30px;white-space:nowrap">'+fmt(entrou)+'</b></div></div>';
@@ -2224,7 +2226,7 @@ function folhaAjustes(){
   h += '<div class="bloco"><h3>Zerar</h3><div class="botoes"><button class="per" onclick="A.zerarLanc()">Apagar todos os lançamentos (mantém preços)</button></div><p class="pequeno">Use depois do treinamento, para começar do zero.</p></div>';
   const acA = estadoAcesso();
   h += '<div class="bloco"><h3>Acesso</h3><p style="margin:0 0 8px">Celular: <b>'+esc(c.aparelho)+'</b><br>Válido até: <b>'+(acA.ate?dmA(acA.ate):'—')+'</b>'+(acA.nivel==='parcial'?'<br><span style="color:var(--red)">Resumo e cobranças travados</span>':'')+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar novo código</button></div></div>';
-  h += '<p class="pequeno" style="text-align:center">Versão 1.3 · dados salvos só neste celular</p>';
+  h += '<div class="botoes"><button onclick="A.atualizarApp()">Atualizar o app agora</button></div><p class="pequeno" style="text-align:center">Versão '+VERSAO_APP+' · dados salvos só neste celular</p>';
   return h;
 }
 
@@ -2430,6 +2432,12 @@ const A = {
     modal('<h3>Na conta de quem?</h3><div class="botoes">'+D.contas.map(c => '<button onclick="_ec(\''+c.id+'\')">'+esc(c.nome)+' · deve '+fmt(saldoConta(c))+'</button>').join('')+'<button class="lim" onclick="_ecNovo()">+ Novo cliente de conta</button><button onclick="fecharModal()">Cancelar</button></div>');
   },
   abrirConta(cid){ if (estadoAcesso().nivel === 'parcial') { modal(telaTravada()); return; } abrirFolha({t:'conta', id:cid}); },
+  async atualizarApp(){
+    toast('Atualizando…');
+    try { if ('serviceWorker' in navigator) { const rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r => r.unregister())); } } catch(e) {}
+    try { if (window.caches) { const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); } } catch(e) {}
+    location.replace(location.pathname + '?v=' + Date.now());
+  },
   cobrar(cid){
     if (estadoAcesso().nivel === 'parcial') { modal(telaTravada()); return; }
     const c = contaPorId(cid); if (!c) return;
@@ -2760,7 +2768,17 @@ function telaTravada(){
   return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
 }
 function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
+const VERSAO_APP = '1.4';
+async function checarVersao(){
+  try {
+    const t = await (await fetch('sw.js?t=' + Date.now(), {cache:'no-store'})).text();
+    const m = t.match(/popo-v([\d.]+)/); if (!m) return;
+    const nova = m[1] !== VERSAO_APP ? m[1] : null;
+    if (nova !== (U.novaVersao || null)) { U.novaVersao = nova; render(); }
+  } catch(e) {}
+}
 async function checarRemoto(){
+  checarVersao();
   try {
     const r = await fetch('acesso.json?t=' + Date.now(), {cache:'no-store'});
     if (!r.ok) return;
@@ -2964,6 +2982,7 @@ setInterval(checarRemoto, 30*60000);
   perguntaManha();
 })();
 // atalho do ícone (segurar o ícone > Chegou carro): o navegador só abre a câmera depois de um toque
+if (new URLSearchParams(location.search).has('v')) { history.replaceState(null, '', location.pathname); setTimeout(() => toast('App atualizado · versão ' + VERSAO_APP), 600); }
 if (new URLSearchParams(location.search).get('acao') === 'carro') {
   history.replaceState(null, '', location.pathname);
   modal('<h3>Chegou carro</h3><div class="botoes"><button class="lim" style="font-size:26px;padding:26px" onclick="fecharModal();A.chegouCarro()">TIRAR FOTO</button><button onclick="fecharModal()">Voltar</button></div>');
