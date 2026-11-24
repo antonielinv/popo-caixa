@@ -59,6 +59,12 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .cartao .info{flex:1;padding:10px 12px;min-width:0}
 .cartao .nome{font-weight:800;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cartao .det{font-size:15px;color:var(--muted);margin-top:2px;line-height:1.3}
+.m-pronto{background:var(--wa);color:#fff;font-size:15px !important}
+.m-pronto svg{width:18px;height:18px}
+.avisado{display:inline-block;font-size:13px;font-weight:800;color:var(--wa);background:#e5f3e8;border-radius:8px;padding:2px 6px;margin-top:4px}
+.b-pronto{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 24px);margin:12px;background:var(--wa);color:#fff;border-radius:16px;padding:16px;font-family:var(--fc);font-size:24px;font-weight:800;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.b-pronto svg{width:28px;height:28px}
+.b-pronto.feito{background:#e5f3e8;color:var(--wa);box-shadow:none;font-size:19px}
 .cartao .lem{font-size:14px;background:#fff6d8;border-radius:8px;padding:2px 6px;margin-top:4px;display:inline-block}
 .cartao .pe{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px}
 .cartao .tot{font-family:var(--fc);font-size:22px;font-weight:800;white-space:nowrap}
@@ -1604,7 +1610,8 @@ function dadosIniciais(){
   return {
     v:1,
     cfg:{ nome:'POPÔ', pixChave:'67200409000122', pixNome:'DOUGLAS PEREIRA LEITE', pixBanco:'Mercado Pago', pixCidade:'Brasília', ddd:'61',
-          aluguel:2100, aluguelDia:10, sem2:false, sem3:false },
+          aluguel:2100, aluguelDia:10, sem2:false, sem3:false,
+          msgPronto:'Olá, {nome}! Aqui é do Lava Jato do Popô: seu carro já está pronto. Pode vir buscar quando quiser. Obrigado pela preferência!' },
     servicos:[
       {id:'lav', nome:'Lavagem', tipo:'carro', p:{P:70,S:80,C:100}, mudou:d},
       {id:'cl',  nome:'Cera líquida', tipo:'carro', grupo:'cera', fixo:10, mudou:d},
@@ -1672,6 +1679,7 @@ try { D = JSON.parse(localStorage.getItem(KEY)); } catch(e) { D = null; }
 if (!D || !D.cfg) D = dadosIniciais();
 if (!D.cfg.ddd) D.cfg.ddd = '61';
 if (!D.contas) D.contas = [];
+if (!D.cfg.msgPronto) D.cfg.msgPronto = 'Olá, {nome}! Aqui é do Lava Jato do Popô: seu carro já está pronto. Pode vir buscar quando quiser. Obrigado pela preferência!';
 if (!D.cfg.pixCidade) D.cfg.pixCidade = 'Brasília';
 if (!D.cfg.pixNome || D.cfg.pixNome === 'POPO ESTETICA AUTOMOTIVA') D.cfg.pixNome = 'DOUGLAS PEREIRA LEITE';
 if (D.cfg.pixBanco == null) D.cfg.pixBanco = 'Mercado Pago';
@@ -1915,10 +1923,12 @@ function cartao(a){
   let h = '<div class="cartao '+cls+'" onclick="A.abrir(\''+a.id+'\')">'+faixa+foto+'<div class="info"><div class="nome">'+esc(nome)+'</div>'+
     (contaDo(a)?'<div class="pequeno" style="color:#1565C0;font-weight:800">cliente de conta</div>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
     (a.lembrete?'<div class="lem">'+esc(a.lembrete)+'</div>':'')+
+    (a.avisado?'<div class="avisado">✓ Pronto · avisado '+hora(a.avisado)+'</div>':'')+
     '<div class="pe"><span class="tot">'+(a.status==='pago'?'':(tot.falta?'+ a combinar':fmt(tot.t)))+'</span><div class="mini">';
   if (a.aguardaFoto && !a.foto) h += '<button class="m-it" onclick="event.stopPropagation();A.abrirCamera(\''+a.id+'\')">Foto</button>';
   if (a.status !== 'pago') h += '<button class="m-it" onclick="event.stopPropagation();A.itensPara(\''+a.id+'\')">+ Itens</button>';
-  if (a.tel) h += '<button class="m-wa" onclick="event.stopPropagation();abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'</button>';
+  if (a.tipo === 'carro' && a.status === 'aberto' && !a.avisado) h += '<button class="m-wa m-pronto" onclick="event.stopPropagation();A.carroPronto(\''+a.id+'\')">'+IC.wa+'PRONTO</button>';
+  else if (a.tel) h += '<button class="m-wa" onclick="event.stopPropagation();abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'</button>';
   return h + '</div></div></div></div>';
 }
 
@@ -1988,6 +1998,7 @@ function folhaReceber(f){
     h += '<div class="pe-rec"><button class="b-entregue" onclick="A.entregue(\''+a.id+'\')">✓ Entregue</button></div>';
     return h;
   }
+  if (a.tipo === 'carro' && a.status === 'aberto') h += '<button class="b-pronto '+(a.avisado?'feito':'')+'" onclick="A.carroPronto(\''+a.id+'\')">'+IC.wa+(a.avisado?'Avisado às '+hora(a.avisado)+' · avisar de novo':'CARRO PRONTO · avisar no WhatsApp')+'</button>';
   if (a.status === 'areceber') h += '<div class="bloco aviso" style="margin:12px">Levou o carro em '+ddmm(a.data)+' e ainda não pagou.</div>';
   const tam = tamUsado(a), linhas = linhasServ(a);
   if (a.tipo === 'carro') {
@@ -2196,6 +2207,7 @@ function folhaAjustes(){
   h += '<div class="bloco"><h3>Negócio</h3><div class="campo"><input id="cfNome" value="'+esc(c.nome)+'" placeholder="Nome no topo"></div>'+
     '<div class="campo"><input id="cfDdd" inputmode="numeric" value="'+esc(c.ddd)+'" placeholder="DDD da cidade (para WhatsApp sem DDD)"></div>'+
     '<div class="campo"><input id="cfAlu" inputmode="decimal" value="'+String(c.aluguel).replace('.',',')+'" placeholder="Aluguel"><input id="cfAluDia" inputmode="numeric" value="'+c.aluguelDia+'" placeholder="Dia" style="max-width:90px"></div><span class="pequeno">Aluguel (R$) e dia do vencimento</span></div>';
+  h += '<div class="bloco"><h3>Mensagem de carro pronto</h3><div class="campo"><textarea id="cfMsgP" rows="4">'+esc(c.msgPronto||'')+'</textarea></div><p class="pequeno" style="margin:0">{nome} vira o primeiro nome do cliente. Sem valor e sem Pix, para não parecer golpe.</p></div>';
   h += '<div class="bloco"><h3>Pix</h3><div class="campo"><input id="cfChave" value="'+esc(c.pixChave)+'" placeholder="Chave Pix"></div>'+
     '<div class="campo"><input id="cfPNome" value="'+esc(c.pixNome)+'" placeholder="Nome do titular (como aparece no banco)"></div>'+
     '<div class="campo"><input id="cfPBanco" value="'+esc(c.pixBanco||'')+'" placeholder="Banco (ex.: Mercado Pago)"></div>'+
@@ -2212,7 +2224,7 @@ function folhaAjustes(){
   h += '<div class="bloco"><h3>Zerar</h3><div class="botoes"><button class="per" onclick="A.zerarLanc()">Apagar todos os lançamentos (mantém preços)</button></div><p class="pequeno">Use depois do treinamento, para começar do zero.</p></div>';
   const acA = estadoAcesso();
   h += '<div class="bloco"><h3>Acesso</h3><p style="margin:0 0 8px">Celular: <b>'+esc(c.aparelho)+'</b><br>Válido até: <b>'+(acA.ate?dmA(acA.ate):'—')+'</b>'+(acA.nivel==='parcial'?'<br><span style="color:var(--red)">Resumo e cobranças travados</span>':'')+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar novo código</button></div></div>';
-  h += '<p class="pequeno" style="text-align:center">Versão 1.1 · dados salvos só neste celular</p>';
+  h += '<p class="pequeno" style="text-align:center">Versão 1.2 · dados salvos só neste celular</p>';
   return h;
 }
 
@@ -2385,6 +2397,25 @@ const A = {
       '<div class="botoes"><button class="pri" onclick="A.digitarCodigo($(\'#codIn2\').value)">Usar este código</button><button onclick="A.enviarId()">Enviar o número pelo WhatsApp</button><button onclick="fecharModal()">Fechar</button></div>');
   },
   async checarAgora(){ toast('Verificando…'); await checarRemoto(); const ac = estadoAcesso(); fecharModal(); render(); toast(ac.nivel === 'ok' ? 'Acesso liberado' : 'Ainda não liberado. Fale com ' + SUPORTE); },
+
+  // --- carro pronto: abre o WhatsApp do cliente com a mensagem pronta ---
+  carroPronto(aid){
+    const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    const enviar = () => {
+      const l = linkWa(a.tel);
+      if (!l || l === 'sem-ddd') { toast('Telefone incompleto'); return; }
+      const primeiro = (a.nome || '').trim().split(/\s+/)[0];
+      let msg = (D.cfg.msgPronto || '').replace('{nome}', primeiro || '').replace(/Olá, !/, 'Olá!').replace(/\s+!/, '!');
+      window.open(l + '?text=' + encodeURIComponent(msg), '_blank');
+      a.avisado = Date.now(); salvar();
+      if (U.folhas.length) renderFolha(); render();
+    };
+    if (a.tel) { enviar(); return; }
+    pedirTexto('Telefone do cliente', 'Para mandar o aviso de carro pronto (com DDD, ou só o número se for 61).', '', t => {
+      if (!so_dig(t)) return;
+      a.tel = t; guardarCliente(a); salvar(); enviar();
+    });
+  },
 
   // --- contas de clientes ---
   naConta(aid, cid){
@@ -2576,7 +2607,7 @@ const A = {
     c.nome = $('#cfNome').value.trim() || 'POPÔ'; c.ddd = so_dig($('#cfDdd').value).slice(0,2);
     const alu = lerValor($('#cfAlu').value); if (alu != null) c.aluguel = alu;
     const dia = parseInt($('#cfAluDia').value,10); if (dia>=1 && dia<=28) c.aluguelDia = dia;
-    c.pixChave = $('#cfChave').value.trim(); c.pixNome = $('#cfPNome').value.trim(); c.pixBanco = $('#cfPBanco').value.trim(); c.pixCidade = $('#cfPCid').value.trim();
+    c.msgPronto = $('#cfMsgP').value.trim() || c.msgPronto; c.pixChave = $('#cfChave').value.trim(); c.pixNome = $('#cfPNome').value.trim(); c.pixBanco = $('#cfPBanco').value.trim(); c.pixCidade = $('#cfPCid').value.trim();
     salvar(); if (!silencio) { toast('Ajustes salvos'); render(); }
   },
   testePix(){ mostrarQR(1, null, true); },
