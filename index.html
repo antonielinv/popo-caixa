@@ -1,0 +1,2937 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E2B16">
+<title>POPÔ – Caixa</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#1E2B16; --lima:#9BD03B; --bg:#F4F7EF; --card:#fff; --line:#dbe3d0; --muted:#5d6a54;
+  --pix:#0E9488; --din:#2E7D32; --deb:#6A3FB5; --cre:#C75B12; --wa:#1B7F3B;
+  --pago:#2E9E44; --areceber:#E07B00; --red:#C62828;
+  --f:'Barlow',system-ui,sans-serif; --fc:'Barlow Condensed','Roboto Condensed','Arial Narrow',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--g);font-family:var(--f);font-size:17px}
+body{padding-bottom:84px}
+button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select,textarea{font-family:inherit;font-size:20px;color:var(--g)}
+.wrap{max-width:560px;margin:0 auto}
+/* topo */
+.top{background:var(--g);color:#fff;padding:12px 16px 14px;position:sticky;top:0;z-index:5}
+.top .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.logo{font-family:var(--fc);font-weight:800;font-size:34px;letter-spacing:1px;line-height:1;user-select:none;-webkit-user-select:none}
+.logo small{display:block;font-size:11px;letter-spacing:2.5px;color:var(--lima);font-weight:700}
+.data{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 12px;color:#fff;font-weight:700;font-size:16px;text-align:right}
+.data b{display:block;font-family:var(--fc);font-size:20px}
+.outro-dia{background:var(--areceber);color:#fff;padding:10px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.outro-dia button{background:#fff;color:var(--areceber);border-radius:10px;padding:8px 12px;font-weight:800}
+/* faixa aluguel */
+.aluguel{margin:12px 12px 0;background:var(--card);border-radius:16px;padding:12px 14px;border:2px solid var(--lima)}
+.aluguel .l1{display:flex;justify-content:space-between;font-weight:700;font-size:15px}
+.barra{height:14px;background:#e8eee0;border-radius:8px;overflow:hidden;margin-top:8px}
+.barra i{display:block;height:100%;background:var(--lima);border-radius:8px}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px}
+.num{background:var(--card);border-radius:16px;padding:12px 14px}
+.num span{font-size:14px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.num b{display:block;font-family:var(--fc);font-size:36px;line-height:1.05}
+.grandes{display:grid;grid-template-columns:1.25fr 1fr;gap:10px;margin:0 12px}
+.btn-grande{border-radius:20px;padding:18px 10px;font-family:var(--fc);font-weight:800;font-size:27px;line-height:1.05;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:118px;justify-content:center;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.btn-grande svg{width:44px;height:44px}
+.b-chegou{background:var(--lima);color:var(--g)}
+.b-venda{background:var(--g);color:#fff}
+.btn-grande:active{transform:translateY(2px);box-shadow:none}
+.sem-foto{display:block;margin:10px auto 0;color:var(--muted);font-weight:700;text-decoration:underline;padding:8px}
+h2.sec{font-family:var(--fc);font-size:24px;margin:18px 16px 8px;display:flex;justify-content:space-between;align-items:baseline}
+h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
+.vazio{margin:0 12px;padding:22px;text-align:center;color:var(--muted);background:var(--card);border-radius:16px;font-weight:600}
+/* cartões */
+.cartao{margin:0 12px 10px;background:var(--card);border-radius:18px;overflow:hidden;display:flex;position:relative;box-shadow:0 1px 0 var(--line)}
+.cartao .foto{width:108px;min-height:108px;flex:none;background:#e6ecde center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.cartao .foto svg{width:46px;height:46px;opacity:.55}
+.cartao .info{flex:1;padding:10px 12px;min-width:0}
+.cartao .nome{font-weight:800;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cartao .det{font-size:15px;color:var(--muted);margin-top:2px;line-height:1.3}
+.cartao .lem{font-size:14px;background:#fff6d8;border-radius:8px;padding:2px 6px;margin-top:4px;display:inline-block}
+.cartao .pe{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px}
+.cartao .tot{font-family:var(--fc);font-size:22px;font-weight:800;white-space:nowrap}
+.mini{display:flex;gap:6px}
+.mini button{border-radius:12px;padding:8px 10px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:4px}
+.m-wa{background:var(--wa);color:#fff}
+.m-wa svg{width:20px;height:20px}
+.m-it{background:#eef3e6}
+.faixa{position:absolute;top:0;left:0;right:0;color:#fff;font-weight:800;font-size:13px;padding:3px 10px;letter-spacing:.6px}
+.cartao.pago{outline:3px solid var(--pago)} .cartao.pago .faixa{background:var(--pago)}
+.cartao.areceber{outline:3px solid var(--areceber)} .cartao.areceber .faixa{background:var(--areceber)}
+.cartao.pago .info,.cartao.areceber .info{padding-top:24px}
+/* barra de baixo */
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;z-index:6;padding-bottom:env(safe-area-inset-bottom)}
+.nav .in{display:flex;max-width:560px;width:100%}
+.nav button{flex:1;padding:10px 0 12px;font-weight:800;font-size:15px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav button svg{width:26px;height:26px}
+.nav button.on{color:var(--g)}
+.nav button.on svg{background:var(--lima);border-radius:10px;padding:2px 10px;width:46px;box-sizing:content-box}
+/* folhas (telas por cima) */
+.folha{position:fixed;inset:0;background:var(--bg);z-index:20;overflow-y:auto;padding-bottom:40px;animation:sobe .18s ease-out}
+@keyframes sobe{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+.f-top{background:var(--g);color:#fff;padding:12px 12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:2}
+.f-top h1{font-family:var(--fc);font-size:26px;margin:0;flex:1}
+.voltar{background:rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:10px 14px;font-weight:800;font-size:16px}
+.salva{background:var(--lima);color:var(--g);font-weight:800;padding:10px 16px;font-size:17px;display:flex;justify-content:space-between}
+.bloco{background:var(--card);margin:12px;border-radius:18px;padding:14px}
+.bloco h3{margin:0 0 10px;font-family:var(--fc);font-size:21px}
+.servs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sv{border:2px solid var(--line);border-radius:14px;padding:14px 8px;font-weight:800;font-size:18px;background:#fff;min-height:58px;line-height:1.1}
+.sv.on{background:var(--g);color:#fff;border-color:var(--g)}
+.sv.on::before{content:"✓ ";color:var(--lima)}
+.sv.outro{border-style:dashed;color:var(--muted)}
+.campo{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.campo input,.campo textarea{flex:1;min-width:0;border:2px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.campo input:focus,.campo textarea:focus{outline:none;border-color:var(--lima)}
+.bq{border-radius:12px;padding:12px 12px;font-weight:800;font-size:15px;white-space:nowrap;display:flex;align-items:center;gap:6px;flex:none}
+.bq svg{width:22px;height:22px}
+.bq-wa{background:var(--wa);color:#fff}
+.bq-ct{background:#eef3e6}
+.sug{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 10px}
+.sug button{background:#eef3e6;border-radius:20px;padding:8px 12px;font-weight:700;font-size:15px}
+.mais{width:100%;text-align:left;font-weight:800;color:var(--muted);padding:10px 2px;font-size:17px}
+.tams{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tams.t3{grid-template-columns:repeat(3,1fr)}
+.tm{border:2px solid var(--line);border-radius:12px;padding:8px 2px;font-weight:800;font-size:14px;display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff}
+.tm svg{width:40px;height:26px}
+.tm.on{background:var(--g);color:#fff;border-color:var(--g)}
+.tm.palpite{border-color:var(--areceber);border-style:dashed}
+.pronto{display:block;width:calc(100% - 24px);margin:14px 12px;background:var(--lima);color:var(--g);font-family:var(--fc);font-weight:800;font-size:28px;border-radius:18px;padding:16px;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.pronto.esc{background:var(--g);color:#fff}
+.pronto:disabled{opacity:.4}
+/* receber */
+.rec-foto{width:100%;max-height:260px;object-fit:cover;display:block;background:#e6ecde}
+.linha{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #eef2e8;font-size:18px;gap:8px}
+.linha:last-child{border-bottom:0}
+.linha .x{color:var(--red);font-weight:800;padding:4px 10px;font-size:20px}
+.linha input{width:120px;border:2px solid var(--areceber);border-radius:10px;padding:8px;font-size:18px}
+.add{display:flex;gap:8px;margin-top:10px}
+.add button{flex:1;background:#eef3e6;border-radius:12px;padding:12px;font-weight:800}
+.total{text-align:center;padding:6px 0 0}
+.total span{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:14px;letter-spacing:.5px}
+.total b{display:block;font-family:var(--fc);font-size:58px;line-height:1}
+.total s{color:var(--muted);font-size:20px}
+.total em{display:block;font-style:normal;color:var(--areceber);font-weight:800}
+.outro-valor{display:block;margin:8px auto 0;font-weight:800;text-decoration:underline;color:var(--muted);padding:8px}
+.pags{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pg{border-radius:18px;padding:18px 6px;color:#fff;font-family:var(--fc);font-weight:800;font-size:28px;box-shadow:0 3px 0 rgba(0,0,0,.2);min-height:76px}
+.pg:active{transform:translateY(2px);box-shadow:none}
+.pg:disabled{opacity:.35}
+.pg-pix{background:var(--pix)} .pg-din{background:var(--din)} .pg-deb{background:var(--deb)} .pg-cre{background:var(--cre)}
+.qr-btn{width:100%;margin-top:10px;border:2px solid var(--pix);color:var(--pix);border-radius:14px;padding:13px;font-weight:800;font-size:17px;background:#fff}
+.duas{width:100%;margin-top:8px;color:var(--muted);font-weight:800;text-decoration:underline;padding:8px}
+.aviso{background:#fff4e0;border-radius:12px;padding:10px 12px;font-weight:700;margin-bottom:10px;color:#7a4300}
+.pe-rec{display:flex;gap:10px;margin:0 12px}
+.pe-rec button{flex:1;border-radius:14px;padding:14px;font-weight:800;font-size:16px}
+.b-entregue{background:var(--pago);color:#fff}
+.b-apagar{background:#fff;color:var(--red);border:2px solid #f0c9c9 !important}
+/* grade de itens */
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.it{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;min-height:112px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.it svg{width:34px;height:34px}
+.it .nm{font-weight:800;font-size:14px;line-height:1.1;text-align:center}
+.it .pr{font-family:var(--fc);font-weight:800;font-size:19px;background:#eef3e6;border-radius:10px;padding:1px 8px}
+.it .qt{position:absolute;top:-8px;right:-6px;background:var(--lima);color:var(--g);border-radius:20px;min-width:30px;height:30px;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.it.on{border-color:var(--lima)}
+.dica{color:var(--muted);font-size:14px;text-align:center;margin:8px 0 0}
+/* preços */
+.tab-pr{width:100%;border-collapse:collapse;font-size:17px}
+.tab-pr th{font-size:13px;text-transform:uppercase;color:var(--muted);text-align:right;padding:4px}
+.tab-pr th:first-child{text-align:left}
+.tab-pr td{padding:6px 4px;border-top:1px solid #eef2e8}
+.tab-pr td.v{text-align:right}
+.tab-pr td.v button{white-space:nowrap;font-weight:800;font-size:17px;background:#eef3e6;border-radius:10px;padding:8px 8px;min-width:70px;text-align:right}
+.tab-pr td.v button.vz{color:var(--muted);font-weight:600}
+.mudou{display:block;font-size:12px;color:var(--muted)}
+/* resumo */
+.abas{display:flex;gap:8px;margin:12px}
+.abas button{flex:1;border-radius:14px;padding:12px;font-family:var(--fc);font-weight:800;font-size:22px;background:#fff;border:2px solid var(--line)}
+.abas button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.per{display:flex;align-items:center;justify-content:space-between;margin:0 12px}
+.per button{background:#fff;border-radius:12px;width:54px;height:48px;font-size:26px;font-weight:800;border:2px solid var(--line)}
+.per button:disabled{opacity:.3}
+.per b{font-size:18px;text-align:center}
+.grande-num{text-align:center;margin:12px}
+.grande-num span{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:14px}
+.grande-num b{display:block;font-family:var(--fc);font-size:56px;line-height:1}
+.forma{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:18px;font-weight:700}
+.forma i{width:14px;height:14px;border-radius:4px;flex:none}
+.forma span{flex:1}
+.forma .bb{flex:1.4;height:12px;background:#eef2e8;border-radius:6px;overflow:hidden}
+.forma .bb u{display:block;height:100%}
+.duas-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 12px}
+.duas-col .num{margin:0}
+.duas-col .num b{font-size:30px}
+.lan{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #eef2e8;width:100%;text-align:left;font-size:16px}
+.lan .h{color:var(--muted);font-weight:700;width:46px;flex:none}
+.lan .d{flex:1;min-width:0}
+.lan .d small{display:block;color:var(--muted)}
+.lan .v{font-weight:800;text-align:right}
+.chip{display:inline-block;border-radius:8px;color:#fff;font-size:12px;font-weight:800;padding:1px 6px;margin-left:3px}
+.dias{display:flex;align-items:flex-end;gap:6px;height:150px;margin-top:6px}
+.dias div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:13px;font-weight:700;color:var(--muted)}
+.dias u{display:block;width:100%;background:#cfdcc0;border-radius:6px 6px 0 0;min-height:3px}
+.dias div.mel u{background:var(--lima)}
+.dias div.mel{color:var(--g)}
+.dias b{font-size:15px;color:var(--g)}
+.fechar{display:block;width:calc(100% - 24px);margin:12px;background:var(--g);color:#fff;border-radius:16px;padding:16px;font-family:var(--fc);font-size:24px;font-weight:800}
+.fechado{text-align:center;color:var(--pago);font-weight:800;margin:10px}
+/* overlays */
+.modal{position:fixed;inset:0;background:rgba(20,30,15,.55);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.modal .cx{background:#fff;width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:92vh;overflow-y:auto;animation:sobe .18s}
+.modal h3{font-family:var(--fc);font-size:26px;margin:0 0 6px}
+.modal p{margin:0 0 12px;font-size:17px}
+.botoes{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.botoes button{border-radius:14px;padding:15px;font-weight:800;font-size:18px;background:#eef3e6}
+.botoes .pri{background:var(--g);color:#fff}
+.botoes .lim{background:var(--lima);color:var(--g)}
+.botoes .per{background:#fff;color:var(--red);border:2px solid #f0c9c9}
+.ok{position:fixed;inset:0;z-index:60;background:var(--pago);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px}
+.ok .ck{width:130px;height:130px;border-radius:50%;background:#fff;color:var(--pago);display:flex;align-items:center;justify-content:center;font-size:90px;font-weight:800;line-height:1}
+.ok b{font-family:var(--fc);font-size:44px}
+.ok span{font-size:20px;font-weight:700}
+.ok .acoes{display:flex;flex-direction:column;gap:10px;margin-top:20px;width:100%;max-width:340px}
+.ok .acoes button{background:rgba(255,255,255,.2);color:#fff;border:2px solid #fff;border-radius:14px;padding:14px;font-weight:800;font-size:18px}
+.ok .acoes .fecha{background:#fff;color:var(--pago)}
+.qrbox{text-align:center}
+.qrbox canvas{width:min(78vw,320px);height:auto;image-rendering:pixelated;border:10px solid #fff;margin:6px auto;display:block}
+.qrbox b{font-family:var(--fc);font-size:42px;display:block}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--g);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;z-index:80;max-width:90vw;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.pergunta-foto{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:10px;background:#e6ecde}
+.sw{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eef2e8;font-weight:700}
+.sw input{width:24px;height:24px}
+.pequeno{font-size:14px;color:var(--muted)}
+.esconde{display:none !important}
+.bloqueio{min-height:100vh;display:flex;flex-direction:column}
+.bloqueio .top{position:static}
+.bloqueio .corpo{padding:20px 16px;max-width:560px;margin:0 auto;width:100%}
+.bloqueio h1{font-family:var(--fc);font-size:32px;margin:6px 0 8px}
+.bloqueio .id{font-family:var(--fc);font-size:34px;font-weight:800;letter-spacing:1px;background:#fff;border-radius:14px;padding:12px;text-align:center;margin:10px 0;border:2px dashed var(--line);user-select:all}
+.av-acesso{margin:12px 12px 0;border-radius:14px;padding:12px 14px;font-weight:700}
+.av-acesso.amarelo{background:#fff4e0;color:#7a4300}
+.av-acesso.vermelho{background:#fde8e8;color:#8e1b1b}
+.trava{margin:24px 12px;background:#fff;border-radius:18px;padding:24px 16px;text-align:center}
+.trava b{display:block;font-family:var(--fc);font-size:26px;margin:6px 0}
+.conta-l{margin:0 12px 10px;background:var(--card);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;width:calc(100% - 24px);text-align:left;border:2px solid transparent}
+.conta-l .d{flex:1;min-width:0}
+.conta-l .d b{display:block;font-size:19px}
+.conta-l .d small{color:var(--muted);font-size:15px}
+.conta-l .v{font-family:var(--fc);font-weight:800;font-size:24px;white-space:nowrap}
+.conta-l.cobrar{border-color:#1565C0;background:#eef4fc}
+.conta-l .tag{display:block;color:#1565C0;font-weight:800;font-size:14px}
+.pg-conta{background:#1565C0;width:100%;margin-bottom:10px;font-size:24px}
+.na-conta-link{width:100%;margin-top:4px;color:#1565C0;font-weight:800;text-decoration:underline;padding:8px}
+.mov{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eef2e8;font-size:17px;gap:8px}
+.mov b{white-space:nowrap}
+.mov.pag b{color:var(--pago)}
+.b-cobrar{background:var(--wa);color:#fff}
+.b-recebi{background:var(--lima);color:var(--g)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<input id="cam" type="file" accept="image/*" capture="environment" class="esconde">
+<input id="arqBackup" type="file" accept="application/json,.json" class="esconde">
+<script>
+/* QRCode for JavaScript - Copyright (c) 2009 Kazuhiko Arase - MIT license (via qrcode-terminal, Apache-2.0) */
+var QRLib=(function(){var M={};function require(n){return M[n.replace("./","")];}
+M["QRMode"]=(function(){var module={exports:{}};
+module.exports = {
+    MODE_NUMBER :       1 << 0,
+    MODE_ALPHA_NUM :    1 << 1,
+    MODE_8BIT_BYTE :    1 << 2,
+    MODE_KANJI :        1 << 3
+};
+
+return module.exports;})();
+M["QRErrorCorrectLevel"]=(function(){var module={exports:{}};
+module.exports = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
+
+
+return module.exports;})();
+M["QRMaskPattern"]=(function(){var module={exports:{}};
+module.exports = {
+	PATTERN000 : 0,
+	PATTERN001 : 1,
+	PATTERN010 : 2,
+	PATTERN011 : 3,
+	PATTERN100 : 4,
+	PATTERN101 : 5,
+	PATTERN110 : 6,
+	PATTERN111 : 7
+};
+
+return module.exports;})();
+M["QRMath"]=(function(){var module={exports:{}};
+var QRMath = {
+
+	glog : function(n) {
+	
+		if (n < 1) {
+			throw new Error("glog(" + n + ")");
+		}
+		
+		return QRMath.LOG_TABLE[n];
+	},
+	
+	gexp : function(n) {
+	
+		while (n < 0) {
+			n += 255;
+		}
+	
+		while (n >= 256) {
+			n -= 255;
+		}
+	
+		return QRMath.EXP_TABLE[n];
+	},
+	
+	EXP_TABLE : new Array(256),
+	
+	LOG_TABLE : new Array(256)
+
+};
+	
+for (var i = 0; i < 8; i++) {
+	QRMath.EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i++) {
+	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
+		^ QRMath.EXP_TABLE[i - 5]
+		^ QRMath.EXP_TABLE[i - 6]
+		^ QRMath.EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i++) {
+	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
+}
+
+module.exports = QRMath;
+
+return module.exports;})();
+M["QRPolynomial"]=(function(){var module={exports:{}};
+var QRMath = require('./QRMath');
+
+function QRPolynomial(num, shift) {
+	if (num.length === undefined) {
+		throw new Error(num.length + "/" + shift);
+	}
+
+	var offset = 0;
+
+	while (offset < num.length && num[offset] === 0) {
+		offset++;
+	}
+
+	this.num = new Array(num.length - offset + shift);
+	for (var i = 0; i < num.length - offset; i++) {
+		this.num[i] = num[i + offset];
+	}
+}
+
+QRPolynomial.prototype = {
+
+	get : function(index) {
+		return this.num[index];
+	},
+	
+	getLength : function() {
+		return this.num.length;
+	},
+	
+	multiply : function(e) {
+	
+		var num = new Array(this.getLength() + e.getLength() - 1);
+	
+		for (var i = 0; i < this.getLength(); i++) {
+			for (var j = 0; j < e.getLength(); j++) {
+				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
+			}
+		}
+	
+		return new QRPolynomial(num, 0);
+	},
+	
+	mod : function(e) {
+	
+		if (this.getLength() - e.getLength() < 0) {
+			return this;
+		}
+	
+		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
+	
+		var num = new Array(this.getLength() );
+		
+		for (var i = 0; i < this.getLength(); i++) {
+			num[i] = this.get(i);
+		}
+		
+		for (var x = 0; x < e.getLength(); x++) {
+			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
+		}
+	
+		// recursive call
+		return new QRPolynomial(num, 0).mod(e);
+	}
+};
+
+module.exports = QRPolynomial;
+
+return module.exports;})();
+M["QR8bitByte"]=(function(){var module={exports:{}};
+var QRMode = require('./QRMode');
+
+function QR8bitByte(data) {
+	this.mode = QRMode.MODE_8BIT_BYTE;
+	this.data = data;
+}
+
+QR8bitByte.prototype = {
+
+	getLength : function() {
+		return this.data.length;
+	},
+	
+	write : function(buffer) {
+		for (var i = 0; i < this.data.length; i++) {
+			// not JIS ...
+			buffer.put(this.data.charCodeAt(i), 8);
+		}
+	}
+};
+
+module.exports = QR8bitByte;
+
+return module.exports;})();
+M["QRBitBuffer"]=(function(){var module={exports:{}};
+function QRBitBuffer() {
+	this.buffer = [];
+	this.length = 0;
+}
+
+QRBitBuffer.prototype = {
+
+	get : function(index) {
+		var bufIndex = Math.floor(index / 8);
+		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+	},
+	
+	put : function(num, length) {
+		for (var i = 0; i < length; i++) {
+			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+		}
+	},
+	
+	getLengthInBits : function() {
+		return this.length;
+	},
+	
+	putBit : function(bit) {
+	
+		var bufIndex = Math.floor(this.length / 8);
+		if (this.buffer.length <= bufIndex) {
+			this.buffer.push(0);
+		}
+	
+		if (bit) {
+			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
+		}
+	
+		this.length++;
+	}
+};
+
+module.exports = QRBitBuffer;
+
+return module.exports;})();
+M["QRRSBlock"]=(function(){var module={exports:{}};
+var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
+
+function QRRSBlock(totalCount, dataCount) {
+	this.totalCount = totalCount;
+	this.dataCount  = dataCount;
+}
+
+QRRSBlock.RS_BLOCK_TABLE = [
+
+	// L
+	// M
+	// Q
+	// H
+
+	// 1
+	[1, 26, 19],
+	[1, 26, 16],
+	[1, 26, 13],
+	[1, 26, 9],
+	
+	// 2
+	[1, 44, 34],
+	[1, 44, 28],
+	[1, 44, 22],
+	[1, 44, 16],
+
+	// 3
+	[1, 70, 55],
+	[1, 70, 44],
+	[2, 35, 17],
+	[2, 35, 13],
+
+	// 4		
+	[1, 100, 80],
+	[2, 50, 32],
+	[2, 50, 24],
+	[4, 25, 9],
+	
+	// 5
+	[1, 134, 108],
+	[2, 67, 43],
+	[2, 33, 15, 2, 34, 16],
+	[2, 33, 11, 2, 34, 12],
+	
+	// 6
+	[2, 86, 68],
+	[4, 43, 27],
+	[4, 43, 19],
+	[4, 43, 15],
+	
+	// 7		
+	[2, 98, 78],
+	[4, 49, 31],
+	[2, 32, 14, 4, 33, 15],
+	[4, 39, 13, 1, 40, 14],
+	
+	// 8
+	[2, 121, 97],
+	[2, 60, 38, 2, 61, 39],
+	[4, 40, 18, 2, 41, 19],
+	[4, 40, 14, 2, 41, 15],
+	
+	// 9
+	[2, 146, 116],
+	[3, 58, 36, 2, 59, 37],
+	[4, 36, 16, 4, 37, 17],
+	[4, 36, 12, 4, 37, 13],
+	
+	// 10		
+	[2, 86, 68, 2, 87, 69],
+	[4, 69, 43, 1, 70, 44],
+	[6, 43, 19, 2, 44, 20],
+	[6, 43, 15, 2, 44, 16],
+
+	// 11
+	[4, 101, 81],
+	[1, 80, 50, 4, 81, 51],
+	[4, 50, 22, 4, 51, 23],
+	[3, 36, 12, 8, 37, 13],
+
+	// 12
+	[2, 116, 92, 2, 117, 93],
+	[6, 58, 36, 2, 59, 37],
+	[4, 46, 20, 6, 47, 21],
+	[7, 42, 14, 4, 43, 15],
+
+	// 13
+	[4, 133, 107],
+	[8, 59, 37, 1, 60, 38],
+	[8, 44, 20, 4, 45, 21],
+	[12, 33, 11, 4, 34, 12],
+
+	// 14
+	[3, 145, 115, 1, 146, 116],
+	[4, 64, 40, 5, 65, 41],
+	[11, 36, 16, 5, 37, 17],
+	[11, 36, 12, 5, 37, 13],
+
+	// 15
+	[5, 109, 87, 1, 110, 88],
+	[5, 65, 41, 5, 66, 42],
+	[5, 54, 24, 7, 55, 25],
+	[11, 36, 12],
+
+	// 16
+	[5, 122, 98, 1, 123, 99],
+	[7, 73, 45, 3, 74, 46],
+	[15, 43, 19, 2, 44, 20],
+	[3, 45, 15, 13, 46, 16],
+
+	// 17
+	[1, 135, 107, 5, 136, 108],
+	[10, 74, 46, 1, 75, 47],
+	[1, 50, 22, 15, 51, 23],
+	[2, 42, 14, 17, 43, 15],
+
+	// 18
+	[5, 150, 120, 1, 151, 121],
+	[9, 69, 43, 4, 70, 44],
+	[17, 50, 22, 1, 51, 23],
+	[2, 42, 14, 19, 43, 15],
+
+	// 19
+	[3, 141, 113, 4, 142, 114],
+	[3, 70, 44, 11, 71, 45],
+	[17, 47, 21, 4, 48, 22],
+	[9, 39, 13, 16, 40, 14],
+
+	// 20
+	[3, 135, 107, 5, 136, 108],
+	[3, 67, 41, 13, 68, 42],
+	[15, 54, 24, 5, 55, 25],
+	[15, 43, 15, 10, 44, 16],
+
+	// 21
+	[4, 144, 116, 4, 145, 117],
+	[17, 68, 42],
+	[17, 50, 22, 6, 51, 23],
+	[19, 46, 16, 6, 47, 17],
+
+	// 22
+	[2, 139, 111, 7, 140, 112],
+	[17, 74, 46],
+	[7, 54, 24, 16, 55, 25],
+	[34, 37, 13],
+
+	// 23
+	[4, 151, 121, 5, 152, 122],
+	[4, 75, 47, 14, 76, 48],
+	[11, 54, 24, 14, 55, 25],
+	[16, 45, 15, 14, 46, 16],
+
+	// 24
+	[6, 147, 117, 4, 148, 118],
+	[6, 73, 45, 14, 74, 46],
+	[11, 54, 24, 16, 55, 25],
+	[30, 46, 16, 2, 47, 17],
+
+	// 25
+	[8, 132, 106, 4, 133, 107],
+	[8, 75, 47, 13, 76, 48],
+	[7, 54, 24, 22, 55, 25],
+	[22, 45, 15, 13, 46, 16],
+
+	// 26
+	[10, 142, 114, 2, 143, 115],
+	[19, 74, 46, 4, 75, 47],
+	[28, 50, 22, 6, 51, 23],
+	[33, 46, 16, 4, 47, 17],
+
+	// 27
+	[8, 152, 122, 4, 153, 123],
+	[22, 73, 45, 3, 74, 46],
+	[8, 53, 23, 26, 54, 24],
+	[12, 45, 15, 28, 46, 16],
+
+	// 28
+	[3, 147, 117, 10, 148, 118],
+	[3, 73, 45, 23, 74, 46],
+	[4, 54, 24, 31, 55, 25],
+	[11, 45, 15, 31, 46, 16],
+
+	// 29
+	[7, 146, 116, 7, 147, 117],
+	[21, 73, 45, 7, 74, 46],
+	[1, 53, 23, 37, 54, 24],
+	[19, 45, 15, 26, 46, 16],
+
+	// 30
+	[5, 145, 115, 10, 146, 116],
+	[19, 75, 47, 10, 76, 48],
+	[15, 54, 24, 25, 55, 25],
+	[23, 45, 15, 25, 46, 16],
+
+	// 31
+	[13, 145, 115, 3, 146, 116],
+	[2, 74, 46, 29, 75, 47],
+	[42, 54, 24, 1, 55, 25],
+	[23, 45, 15, 28, 46, 16],
+
+	// 32
+	[17, 145, 115],
+	[10, 74, 46, 23, 75, 47],
+	[10, 54, 24, 35, 55, 25],
+	[19, 45, 15, 35, 46, 16],
+
+	// 33
+	[17, 145, 115, 1, 146, 116],
+	[14, 74, 46, 21, 75, 47],
+	[29, 54, 24, 19, 55, 25],
+	[11, 45, 15, 46, 46, 16],
+
+	// 34
+	[13, 145, 115, 6, 146, 116],
+	[14, 74, 46, 23, 75, 47],
+	[44, 54, 24, 7, 55, 25],
+	[59, 46, 16, 1, 47, 17],
+
+	// 35
+	[12, 151, 121, 7, 152, 122],
+	[12, 75, 47, 26, 76, 48],
+	[39, 54, 24, 14, 55, 25],
+	[22, 45, 15, 41, 46, 16],
+
+	// 36
+	[6, 151, 121, 14, 152, 122],
+	[6, 75, 47, 34, 76, 48],
+	[46, 54, 24, 10, 55, 25],
+	[2, 45, 15, 64, 46, 16],
+
+	// 37
+	[17, 152, 122, 4, 153, 123],
+	[29, 74, 46, 14, 75, 47],
+	[49, 54, 24, 10, 55, 25],
+	[24, 45, 15, 46, 46, 16],
+
+	// 38
+	[4, 152, 122, 18, 153, 123],
+	[13, 74, 46, 32, 75, 47],
+	[48, 54, 24, 14, 55, 25],
+	[42, 45, 15, 32, 46, 16],
+
+	// 39
+	[20, 147, 117, 4, 148, 118],
+	[40, 75, 47, 7, 76, 48],
+	[43, 54, 24, 22, 55, 25],
+	[10, 45, 15, 67, 46, 16],
+
+	// 40
+	[19, 148, 118, 6, 149, 119],
+	[18, 75, 47, 31, 76, 48],
+	[34, 54, 24, 34, 55, 25],
+	[20, 45, 15, 61, 46, 16]
+];
+
+QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+	
+	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+	
+	if (rsBlock === undefined) {
+		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
+	}
+
+	var length = rsBlock.length / 3;
+	
+	var list = [];
+	
+	for (var i = 0; i < length; i++) {
+
+		var count = rsBlock[i * 3 + 0];
+		var totalCount = rsBlock[i * 3 + 1];
+		var dataCount  = rsBlock[i * 3 + 2];
+
+		for (var j = 0; j < count; j++) {
+			list.push(new QRRSBlock(totalCount, dataCount) );	
+		}
+	}
+	
+	return list;
+};
+
+QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+
+	switch(errorCorrectLevel) {
+	case QRErrorCorrectLevel.L :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+	case QRErrorCorrectLevel.M :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+	case QRErrorCorrectLevel.Q :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+	case QRErrorCorrectLevel.H :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+	default :
+		return undefined;
+	}
+};
+
+module.exports = QRRSBlock;
+
+return module.exports;})();
+M["QRUtil"]=(function(){var module={exports:{}};
+var QRMode = require('./QRMode');
+var QRPolynomial = require('./QRPolynomial');
+var QRMath = require('./QRMath');
+var QRMaskPattern = require('./QRMaskPattern');
+
+var QRUtil = {
+
+    PATTERN_POSITION_TABLE : [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],        
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ],
+
+    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
+
+    getBCHTypeInfo : function(data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
+        }
+        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+    },
+
+    getBCHTypeNumber : function(data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
+        }
+        return (data << 12) | d;
+    },
+
+    getBCHDigit : function(data) {
+
+        var digit = 0;
+
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+
+        return digit;
+    },
+
+    getPatternPosition : function(typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+
+    getMask : function(maskPattern, i, j) {
+        
+        switch (maskPattern) {
+            
+        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
+        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
+        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
+        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
+
+        default :
+            throw new Error("bad maskPattern:" + maskPattern);
+        }
+    },
+
+    getErrorCorrectPolynomial : function(errorCorrectLength) {
+
+        var a = new QRPolynomial([1], 0);
+
+        for (var i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
+        }
+
+        return a;
+    },
+
+    getLengthInBits : function(mode, type) {
+
+        if (1 <= type && type < 10) {
+
+            // 1 - 9
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 10;
+            case QRMode.MODE_ALPHA_NUM  : return 9;
+            case QRMode.MODE_8BIT_BYTE  : return 8;
+            case QRMode.MODE_KANJI      : return 8;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 27) {
+
+            // 10 - 26
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 12;
+            case QRMode.MODE_ALPHA_NUM  : return 11;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 10;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 41) {
+
+            // 27 - 40
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 14;
+            case QRMode.MODE_ALPHA_NUM  : return 13;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 12;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else {
+            throw new Error("type:" + type);
+        }
+    },
+
+    getLostPoint : function(qrCode) {
+        
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        var row = 0; 
+        var col = 0;
+
+        
+        // LEVEL1
+        
+        for (row = 0; row < moduleCount; row++) {
+
+            for (col = 0; col < moduleCount; col++) {
+
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+
+                for (var r = -1; r <= 1; r++) {
+
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+
+                    for (var c = -1; c <= 1; c++) {
+
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+
+                        if (r === 0 && c === 0) {
+                            continue;
+                        }
+
+                        if (dark === qrCode.isDark(row + r, col + c) ) {
+                            sameCount++;
+                        }
+                    }
+                }
+
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+
+        // LEVEL2
+
+        for (row = 0; row < moduleCount - 1; row++) {
+            for (col = 0; col < moduleCount - 1; col++) {
+                var count = 0;
+                if (qrCode.isDark(row,     col    ) ) count++;
+                if (qrCode.isDark(row + 1, col    ) ) count++;
+                if (qrCode.isDark(row,     col + 1) ) count++;
+                if (qrCode.isDark(row + 1, col + 1) ) count++;
+                if (count === 0 || count === 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+
+        // LEVEL3
+
+        for (row = 0; row < moduleCount; row++) {
+            for (col = 0; col < moduleCount - 6; col++) {
+                if (qrCode.isDark(row, col) && 
+                        !qrCode.isDark(row, col + 1) && 
+                         qrCode.isDark(row, col + 2) && 
+                         qrCode.isDark(row, col + 3) && 
+                         qrCode.isDark(row, col + 4) && 
+                        !qrCode.isDark(row, col + 5) && 
+                         qrCode.isDark(row, col + 6) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount - 6; row++) {
+                if (qrCode.isDark(row, col) &&
+                        !qrCode.isDark(row + 1, col) &&
+                         qrCode.isDark(row + 2, col) &&
+                         qrCode.isDark(row + 3, col) &&
+                         qrCode.isDark(row + 4, col) &&
+                        !qrCode.isDark(row + 5, col) &&
+                         qrCode.isDark(row + 6, col) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        // LEVEL4
+        
+        var darkCount = 0;
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount; row++) {
+                if (qrCode.isDark(row, col) ) {
+                    darkCount++;
+                }
+            }
+        }
+        
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+
+        return lostPoint;       
+    }
+
+};
+
+module.exports = QRUtil;
+
+return module.exports;})();
+M["index"]=(function(){var module={exports:{}};
+//---------------------------------------------------------------------
+// QRCode for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//   http://www.opensource.org/licenses/mit-license.php
+//
+// The word "QR Code" is registered trademark of 
+// DENSO WAVE INCORPORATED
+//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+// Modified to work in node for this project (and some refactoring)
+//---------------------------------------------------------------------
+
+var QR8bitByte = require('./QR8bitByte');
+var QRUtil = require('./QRUtil');
+var QRPolynomial = require('./QRPolynomial');
+var QRRSBlock = require('./QRRSBlock');
+var QRBitBuffer = require('./QRBitBuffer');
+
+function QRCode(typeNumber, errorCorrectLevel) {
+	this.typeNumber = typeNumber;
+	this.errorCorrectLevel = errorCorrectLevel;
+	this.modules = null;
+	this.moduleCount = 0;
+	this.dataCache = null;
+	this.dataList = [];
+}
+
+QRCode.prototype = {
+	
+	addData : function(data) {
+		var newData = new QR8bitByte(data);
+		this.dataList.push(newData);
+		this.dataCache = null;
+	},
+	
+	isDark : function(row, col) {
+		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
+			throw new Error(row + "," + col);
+		}
+		return this.modules[row][col];
+	},
+
+	getModuleCount : function() {
+		return this.moduleCount;
+	},
+	
+	make : function() {
+		// Calculate automatically typeNumber if provided is < 1
+		if (this.typeNumber < 1 ){
+			var typeNumber = 1;
+			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
+				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+
+				var buffer = new QRBitBuffer();
+				var totalDataCount = 0;
+				for (var i = 0; i < rsBlocks.length; i++) {
+					totalDataCount += rsBlocks[i].dataCount;
+				}
+
+				for (var x = 0; x < this.dataList.length; x++) {
+					var data = this.dataList[x];
+					buffer.put(data.mode, 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+					data.write(buffer);
+				}
+				if (buffer.getLengthInBits() <= totalDataCount * 8)
+					break;
+			}
+			this.typeNumber = typeNumber;
+		}
+		this.makeImpl(false, this.getBestMaskPattern() );
+	},
+	
+	makeImpl : function(test, maskPattern) {
+		
+		this.moduleCount = this.typeNumber * 4 + 17;
+		this.modules = new Array(this.moduleCount);
+		
+		for (var row = 0; row < this.moduleCount; row++) {
+			
+			this.modules[row] = new Array(this.moduleCount);
+			
+			for (var col = 0; col < this.moduleCount; col++) {
+				this.modules[row][col] = null;//(col + row) % 3;
+			}
+		}
+	
+		this.setupPositionProbePattern(0, 0);
+		this.setupPositionProbePattern(this.moduleCount - 7, 0);
+		this.setupPositionProbePattern(0, this.moduleCount - 7);
+		this.setupPositionAdjustPattern();
+		this.setupTimingPattern();
+		this.setupTypeInfo(test, maskPattern);
+		
+		if (this.typeNumber >= 7) {
+			this.setupTypeNumber(test);
+		}
+	
+		if (this.dataCache === null) {
+			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+		}
+	
+		this.mapData(this.dataCache, maskPattern);
+	},
+
+	setupPositionProbePattern : function(row, col)  {
+		
+		for (var r = -1; r <= 7; r++) {
+			
+			if (row + r <= -1 || this.moduleCount <= row + r) continue;
+			
+			for (var c = -1; c <= 7; c++) {
+				
+				if (col + c <= -1 || this.moduleCount <= col + c) continue;
+				
+				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
+                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
+                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+					this.modules[row + r][col + c] = true;
+				} else {
+					this.modules[row + r][col + c] = false;
+				}
+			}		
+		}		
+	},
+	
+	getBestMaskPattern : function() {
+	
+		var minLostPoint = 0;
+		var pattern = 0;
+	
+		for (var i = 0; i < 8; i++) {
+			
+			this.makeImpl(true, i);
+	
+			var lostPoint = QRUtil.getLostPoint(this);
+	
+			if (i === 0 || minLostPoint >  lostPoint) {
+				minLostPoint = lostPoint;
+				pattern = i;
+			}
+		}
+	
+		return pattern;
+	},
+	
+	createMovieClip : function(target_mc, instance_name, depth) {
+	
+		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+		var cs = 1;
+	
+		this.make();
+
+		for (var row = 0; row < this.modules.length; row++) {
+			
+			var y = row * cs;
+			
+			for (var col = 0; col < this.modules[row].length; col++) {
+	
+				var x = col * cs;
+				var dark = this.modules[row][col];
+			
+				if (dark) {
+					qr_mc.beginFill(0, 100);
+					qr_mc.moveTo(x, y);
+					qr_mc.lineTo(x + cs, y);
+					qr_mc.lineTo(x + cs, y + cs);
+					qr_mc.lineTo(x, y + cs);
+					qr_mc.endFill();
+				}
+			}
+		}
+		
+		return qr_mc;
+	},
+
+	setupTimingPattern : function() {
+		
+		for (var r = 8; r < this.moduleCount - 8; r++) {
+			if (this.modules[r][6] !== null) {
+				continue;
+			}
+			this.modules[r][6] = (r % 2 === 0);
+		}
+	
+		for (var c = 8; c < this.moduleCount - 8; c++) {
+			if (this.modules[6][c] !== null) {
+				continue;
+			}
+			this.modules[6][c] = (c % 2 === 0);
+		}
+	},
+	
+	setupPositionAdjustPattern : function() {
+	
+		var pos = QRUtil.getPatternPosition(this.typeNumber);
+		
+		for (var i = 0; i < pos.length; i++) {
+		
+			for (var j = 0; j < pos.length; j++) {
+			
+				var row = pos[i];
+				var col = pos[j];
+				
+				if (this.modules[row][col] !== null) {
+					continue;
+				}
+				
+				for (var r = -2; r <= 2; r++) {
+				
+					for (var c = -2; c <= 2; c++) {
+					
+						if (Math.abs(r) === 2 || 
+                            Math.abs(c) === 2 ||
+                            (r === 0 && c === 0) ) {
+							this.modules[row + r][col + c] = true;
+						} else {
+							this.modules[row + r][col + c] = false;
+						}
+					}
+				}
+			}
+		}
+	},
+	
+	setupTypeNumber : function(test) {
+	
+		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        var mod;
+	
+		for (var i = 0; i < 18; i++) {
+			mod = (!test && ( (bits >> i) & 1) === 1);
+			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+		}
+	
+		for (var x = 0; x < 18; x++) {
+			mod = (!test && ( (bits >> x) & 1) === 1);
+			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
+		}
+	},
+	
+	setupTypeInfo : function(test, maskPattern) {
+	
+		var data = (this.errorCorrectLevel << 3) | maskPattern;
+		var bits = QRUtil.getBCHTypeInfo(data);
+        var mod;
+	
+		// vertical		
+		for (var v = 0; v < 15; v++) {
+	
+			mod = (!test && ( (bits >> v) & 1) === 1);
+	
+			if (v < 6) {
+				this.modules[v][8] = mod;
+			} else if (v < 8) {
+				this.modules[v + 1][8] = mod;
+			} else {
+				this.modules[this.moduleCount - 15 + v][8] = mod;
+			}
+		}
+	
+		// horizontal
+		for (var h = 0; h < 15; h++) {
+	
+			mod = (!test && ( (bits >> h) & 1) === 1);
+			
+			if (h < 8) {
+				this.modules[8][this.moduleCount - h - 1] = mod;
+			} else if (h < 9) {
+				this.modules[8][15 - h - 1 + 1] = mod;
+			} else {
+				this.modules[8][15 - h - 1] = mod;
+			}
+		}
+	
+		// fixed module
+		this.modules[this.moduleCount - 8][8] = (!test);
+	
+	},
+	
+	mapData : function(data, maskPattern) {
+		
+		var inc = -1;
+		var row = this.moduleCount - 1;
+		var bitIndex = 7;
+		var byteIndex = 0;
+		
+		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+	
+			if (col === 6) col--;
+	
+			while (true) {
+	
+				for (var c = 0; c < 2; c++) {
+					
+					if (this.modules[row][col - c] === null) {
+						
+						var dark = false;
+	
+						if (byteIndex < data.length) {
+							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
+						}
+	
+						var mask = QRUtil.getMask(maskPattern, row, col - c);
+	
+						if (mask) {
+							dark = !dark;
+						}
+						
+						this.modules[row][col - c] = dark;
+						bitIndex--;
+	
+						if (bitIndex === -1) {
+							byteIndex++;
+							bitIndex = 7;
+						}
+					}
+				}
+								
+				row += inc;
+	
+				if (row < 0 || this.moduleCount <= row) {
+					row -= inc;
+					inc = -inc;
+					break;
+				}
+			}
+		}
+		
+	}
+
+};
+
+QRCode.PAD0 = 0xEC;
+QRCode.PAD1 = 0x11;
+
+QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+	
+	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	
+	var buffer = new QRBitBuffer();
+	
+	for (var i = 0; i < dataList.length; i++) {
+		var data = dataList[i];
+		buffer.put(data.mode, 4);
+		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+		data.write(buffer);
+	}
+
+	// calc num max data.
+	var totalDataCount = 0;
+	for (var x = 0; x < rsBlocks.length; x++) {
+		totalDataCount += rsBlocks[x].dataCount;
+	}
+
+	if (buffer.getLengthInBits() > totalDataCount * 8) {
+		throw new Error("code length overflow. (" + 
+            buffer.getLengthInBits() + 
+            ">" +  
+            totalDataCount * 8 + 
+            ")");
+	}
+
+	// end code
+	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+		buffer.put(0, 4);
+	}
+
+	// padding
+	while (buffer.getLengthInBits() % 8 !== 0) {
+		buffer.putBit(false);
+	}
+
+	// padding
+	while (true) {
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD0, 8);
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD1, 8);
+	}
+
+	return QRCode.createBytes(buffer, rsBlocks);
+};
+
+QRCode.createBytes = function(buffer, rsBlocks) {
+
+	var offset = 0;
+	
+	var maxDcCount = 0;
+	var maxEcCount = 0;
+	
+	var dcdata = new Array(rsBlocks.length);
+	var ecdata = new Array(rsBlocks.length);
+	
+	for (var r = 0; r < rsBlocks.length; r++) {
+
+		var dcCount = rsBlocks[r].dataCount;
+		var ecCount = rsBlocks[r].totalCount - dcCount;
+
+		maxDcCount = Math.max(maxDcCount, dcCount);
+		maxEcCount = Math.max(maxEcCount, ecCount);
+		
+		dcdata[r] = new Array(dcCount);
+		
+		for (var i = 0; i < dcdata[r].length; i++) {
+			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+		}
+		offset += dcCount;
+		
+		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+		var modPoly = rawPoly.mod(rsPoly);
+		ecdata[r] = new Array(rsPoly.getLength() - 1);
+		for (var x = 0; x < ecdata[r].length; x++) {
+            var modIndex = x + modPoly.getLength() - ecdata[r].length;
+			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+		}
+
+	}
+	
+	var totalCodeCount = 0;
+	for (var y = 0; y < rsBlocks.length; y++) {
+		totalCodeCount += rsBlocks[y].totalCount;
+	}
+
+	var data = new Array(totalCodeCount);
+	var index = 0;
+
+	for (var z = 0; z < maxDcCount; z++) {
+		for (var s = 0; s < rsBlocks.length; s++) {
+			if (z < dcdata[s].length) {
+				data[index++] = dcdata[s][z];
+			}
+		}
+	}
+
+	for (var xx = 0; xx < maxEcCount; xx++) {
+		for (var t = 0; t < rsBlocks.length; t++) {
+			if (xx < ecdata[t].length) {
+				data[index++] = ecdata[t][xx];
+			}
+		}
+	}
+
+	return data;
+
+};
+
+module.exports = QRCode;
+
+return module.exports;})();
+return {QRCode:M["index"],L:M["QRErrorCorrectLevel"]};})();
+
+</script>
+<script>
+// ===== Código de liberação POPÔ (usado pelo app e pelo gerador) =====
+// código = AAAAMMDD (válido até) + 8 letras de assinatura, presas ao número do aparelho.
+var ACESSO = (function(){
+  var SEGREDO = 'popo-lj-61-7d2f9a4c1e8b-2026';
+  var ALFA = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';   // sem I, L, O, U (não confunde)
+  function sha256(ascii){
+    function rr(v,a){ return (v>>>a)|(v<<(32-a)); }
+    var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+    var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    var bytes=[]; for (var i=0;i<ascii.length;i++) bytes.push(ascii.charCodeAt(i) & 0xff);
+    var bitLen=bytes.length*8; bytes.push(0x80); while (bytes.length%64!==56) bytes.push(0);
+    for (i=7;i>=0;i--) bytes.push(i>3 ? 0 : (bitLen>>>(i*8)) & 0xff);
+    var w=new Array(64);
+    for (var off=0; off<bytes.length; off+=64){
+      for (i=0;i<16;i++) w[i]=(bytes[off+i*4]<<24)|(bytes[off+i*4+1]<<16)|(bytes[off+i*4+2]<<8)|bytes[off+i*4+3];
+      for (i=16;i<64;i++){ var s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3), s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10); w[i]=(w[i-16]+s0+w[i-7]+s1)|0; }
+      var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+      for (i=0;i<64;i++){
+        var S1=rr(e,6)^rr(e,11)^rr(e,25), ch=(e&f)^(~e&g), t1=(h+S1+ch+K[i]+w[i])|0;
+        var S0=rr(a,2)^rr(a,13)^rr(a,22), mj=(a&b)^(a&c)^(b&c), t2=(S0+mj)|0;
+        h=g; g=f; f=e; e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0;
+      }
+      H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0; H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+    }
+    return H.map(function(x){ return ('00000000'+(x>>>0).toString(16)).slice(-8); }).join('');
+  }
+  function limpaId(id){
+    var c = String(id||'').toUpperCase().replace(/[^0-9A-Z]/g,''), pre = '';
+    if (/^P[O0]P[O0]/.test(c)) { pre = 'POPO'; c = c.slice(4); }       // o "POPO" do começo fica como está
+    return pre + c.replace(/O/g,'0').replace(/[IL]/g,'1');              // no resto, O vira 0 e I/L viram 1
+  }
+  function assinatura(id, ate){
+    var hx = sha256(SEGREDO + '|' + limpaId(id) + '|' + ate), out = '';
+    var n = parseInt(hx.slice(0,10), 16);                // 40 bits -> 8 letras
+    for (var i=0;i<8;i++){ out = ALFA[n % 32] + out; n = Math.floor(n/32); }
+    return out;
+  }
+  function gerar(id, ateYmd){ var ate = ateYmd.replace(/-/g,''); return ate + '-' + assinatura(id, ate); }
+  // devolve 'AAAA-MM-DD' se o código for válido para o aparelho, ou null
+  function conferir(id, codigo){
+    var c = String(codigo||'').toUpperCase().replace(/[^0-9A-Z]/g,'').replace(/O/g,'0').replace(/[IL]/g,'1');
+    if (!/^\d{8}[0-9A-Z]{8}$/.test(c)) return null;
+    var ate = c.slice(0,8), sig = c.slice(8);
+    if (assinatura(id, ate) !== sig) return null;
+    return ate.slice(0,4)+'-'+ate.slice(4,6)+'-'+ate.slice(6,8);
+  }
+  function novoId(){
+    var r = '', arr = new Uint8Array(8);
+    try { crypto.getRandomValues(arr); } catch(e) { for (var i=0;i<8;i++) arr[i] = Math.floor(Math.random()*256); }
+    for (var j=0;j<8;j++) r += ALFA[arr[j] % 32];
+    return 'POPO-' + r.slice(0,4) + '-' + r.slice(4);
+  }
+  return {sha256:sha256, gerar:gerar, conferir:conferir, novoId:novoId, limpaId:limpaId};
+})();
+
+</script>
+<script>
+'use strict';
+// =====================================================================
+//  POPÔ – Estética Automotiva · App de caixa · Semana 1
+//  Tudo fica salvo no próprio celular (localStorage). Funciona sem internet.
+// =====================================================================
+const KEY = 'popo_caixa_v1';
+const FORMAS = {pix:{n:'Pix',c:'var(--pix)'}, din:{n:'Dinheiro',c:'var(--din)'}, deb:{n:'Débito',c:'var(--deb)'}, cre:{n:'Crédito',c:'var(--cre)'}};
+const TAMS_CARRO = [['P','Pequeno'],['S','SUV'],['C','Caminhonete']];
+const TAMS_MOTO = [['MP','Pequena'],['MM','Média'],['MG','Grande']];
+const TAM_NOME = {P:'Pequeno',S:'SUV',C:'Caminhonete',MP:'Moto pequena',MM:'Moto média',MG:'Moto grande'};
+const DIAS_SEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+
+// ---------- ícones ----------
+const IC = {
+  cam:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="4"/></svg>',
+  copo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l-1.5 16a1 1 0 0 1-1 .9h-7a1 1 0 0 1-1-.9z"/><path d="M6.5 9h11"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></svg>',
+  casa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
+  etiqueta:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>',
+  grafico:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  contato:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>',
+  carro:'<svg viewBox="0 0 48 28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M5 20v-5l5-1 5-6h14l7 6 7 1v5z"/><circle cx="14" cy="21" r="3.5" fill="#fff"/><circle cx="35" cy="21" r="3.5" fill="#fff"/></svg>',
+  suv:'<svg viewBox="0 0 48 28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M4 21V12l5-6h22l7 6 6 1v8z"/><circle cx="13" cy="21" r="4" fill="#fff"/><circle cx="35" cy="21" r="4" fill="#fff"/></svg>',
+  caminhonete:'<svg viewBox="0 0 48 28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M3 21v-8h22V6h9l6 7h5v8z"/><circle cx="12" cy="21" r="4" fill="#fff"/><circle cx="36" cy="21" r="4" fill="#fff"/></svg>',
+  moto:'<svg viewBox="0 0 48 28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="19" r="6"/><circle cx="38" cy="19" r="6"/><path d="M10 19l9-9h8l5 9M27 10l3-4h5M19 10l3 9h10"/></svg>',
+  cerveja:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 2h6v4l2 3v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V9l2-3z"/><path d="M7 12h10"/></svg>',
+  lata:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 4h10l1 2v14l-1 2H7l-1-2V6z"/><path d="M6 8h12M6 18h12"/></svg>',
+  garrafa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M10 2h4v3l2 3v13a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V8l2-3z"/><path d="M8 13h8"/></svg>',
+  raio:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 4h10l1 2v14l-1 2H7l-1-2V6z"/><path d="M13 8l-3 5h4l-3 5"/></svg>',
+  agua:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/></svg>',
+  pano:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M4 9h16M4 13h16M4 17h16" stroke-width="1.2"/></svg>',
+  mais:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+};
+
+// ---------- dados iniciais (tabela de preços do Popo, 23/11/2026) ----------
+function dadosIniciais(){
+  const d = '2026-11-23';
+  return {
+    v:1,
+    cfg:{ nome:'POPÔ', pixChave:'67200409000122', pixNome:'DOUGLAS PEREIRA LEITE', pixBanco:'Mercado Pago', pixCidade:'Brasília', ddd:'61',
+          aluguel:2100, aluguelDia:10, sem2:false, sem3:false },
+    servicos:[
+      {id:'lav', nome:'Lavagem', tipo:'carro', p:{P:70,S:80,C:100}, mudou:d},
+      {id:'cl',  nome:'Cera líquida', tipo:'carro', grupo:'cera', fixo:10, mudou:d},
+      {id:'cp',  nome:'Cera pasta', tipo:'carro', grupo:'cera', fixo:20, mudou:d},
+      {id:'mot', nome:'Motor', tipo:'carro', p:{P:80,S:100,C:100}, mudou:d},
+      {id:'pol', nome:'Polimento', tipo:'carro', p:{P:400,S:500,C:600}, mudou:d},
+      {id:'hig', nome:'Higienização', tipo:'carro', p:{P:400,S:500,C:600}, mudou:d},
+      {id:'vit', nome:'Vitrificação', tipo:'carro', p:{P:600,S:700,C:800}, mudou:d},
+      {id:'lmo', nome:'Lavagem de moto', tipo:'moto', p:{MP:60,MM:70,MG:80}, mudou:d},
+    ],
+    itens:[
+      {id:'r2l', nome:'Refri 2 L', venda:12, custo:null, ic:'garrafa', mudou:d},
+      {id:'rla', nome:'Refri lata', venda:5, custo:null, ic:'lata', mudou:d},
+      {id:'coc', nome:'Coca 600', venda:8, custo:null, ic:'garrafa', mudou:d},
+      {id:'cla', nome:'Cerveja lata', venda:5, custo:null, ic:'lata', mudou:d},
+      {id:'hei', nome:'Heineken', venda:10, custo:null, ic:'cerveja', mudou:d},
+      {id:'cor', nome:'Corona', venda:11, custo:null, ic:'cerveja', mudou:d},
+      {id:'mic', nome:'Michelob', venda:12, custo:null, ic:'cerveja', mudou:d},
+      {id:'rbu', nome:'Red Bull', venda:15, custo:null, ic:'raio', mudou:d},
+      {id:'mon', nome:'Monster', venda:13, custo:null, ic:'raio', mudou:d},
+      {id:'agu', nome:'Água', venda:3, custo:null, ic:'agua', mudou:d},
+      {id:'pan', nome:'Pano microfibra', venda:15, custo:null, ic:'pano', mudou:d},
+    ],
+    clientes:[], contas:[], abertos:[], lanc:[], dias:{}, perguntaFeita:''
+  };
+}
+
+// ---------- utilidades ----------
+const $ = s => document.querySelector(s);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const pad = n => String(n).padStart(2,'0');
+const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const hoje = () => ymd(new Date());
+const dt = s => { const [a,m,d] = s.split('-').map(Number); return new Date(a,m-1,d,12); };
+const addDias = (s,n) => { const d = dt(s); d.setDate(d.getDate()+n); return ymd(d); };
+const ddmm = s => s.slice(8,10)+'/'+s.slice(5,7);
+const r2 = v => Math.round(v*100)/100;
+const fmt = v => 'R$ ' + (v==null ? '—' : Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}));
+const fmt0 = v => 'R$ ' + Number(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:2});
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const so_dig = s => String(s||'').replace(/\D/g,'');
+function lerValor(s){
+  if (s==null) return null;
+  s = String(s).trim().replace(/[R$\s]/g,'');
+  if (!s) return null;
+  if (s.includes(',')) s = s.replace(/\./g,'').replace(',', '.');
+  else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g,'');   // 1.200 = mil e duzentos
+  const v = Number(s);
+  return isFinite(v) && v >= 0 ? r2(v) : null;
+}
+function hora(ts){ const d = new Date(ts); return pad(d.getHours())+':'+pad(d.getMinutes()); }
+function haQuanto(ts){
+  const m = Math.floor((Date.now()-ts)/60000);
+  if (m < 1) return 'agora';
+  if (m < 60) return 'há '+m+' min';
+  const h = Math.floor(m/60);
+  if (h < 24) return 'há '+h+'h'+(m%60? pad(m%60):'');
+  const d = Math.floor(h/24); return 'há '+d+(d>1?' dias':' dia');
+}
+function vibra(ms){ try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} }
+
+// ---------- estado ----------
+let D;
+try { D = JSON.parse(localStorage.getItem(KEY)); } catch(e) { D = null; }
+if (!D || !D.cfg) D = dadosIniciais();
+if (!D.cfg.ddd) D.cfg.ddd = '61';
+if (!D.contas) D.contas = [];
+if (!D.cfg.pixCidade) D.cfg.pixCidade = 'Brasília';
+if (!D.cfg.pixNome || D.cfg.pixNome === 'POPO ESTETICA AUTOMOTIVA') D.cfg.pixNome = 'DOUGLAS PEREIRA LEITE';
+if (D.cfg.pixBanco == null) D.cfg.pixBanco = 'Mercado Pago';
+function titularPix(){ const n = String(D.cfg.pixNome||'').toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()); return n + (D.cfg.pixBanco ? ' (' + D.cfg.pixBanco + ')' : ''); }
+function salvar(){
+  try { localStorage.setItem(KEY, JSON.stringify(D)); }
+  catch(e){ toast('Memória do celular cheia. Avise quem instalou o app.'); }
+}
+const U = { tela:'inicio', dia:hoje(), resumo:'dia', resDia:hoje(), resSem:null, folhas:[], novo:null, venda:null, rec:null };
+
+// ---------- regras de preço ----------
+const servPorId = id => D.servicos.find(s => s.id === id);
+const itemPorId = id => D.itens.find(i => i.id === id);
+function precoServ(sid, tam){
+  const s = servPorId(sid); if (!s) return null;
+  if (s.fixo != null) return s.fixo;
+  if (!s.p) return null;
+  return tam && s.p[tam] != null ? s.p[tam] : null;
+}
+function tamDoCliente(a){
+  const c = acharCliente(a.tel, a.nome);
+  if (c && c.tam && ((a.moto && c.tam[0]==='M') || (!a.moto && c.tam[0]!=='M'))) return c.tam;
+  return null;
+}
+function tamMaisComum(moto){
+  const cont = {};
+  D.lanc.forEach(l => { if (l.tam && ((l.tam[0]==='M') === !!moto)) cont[l.tam] = (cont[l.tam]||0)+1; });
+  let best = moto ? 'MM' : 'P', n = 0;
+  for (const k in cont) if (cont[k] > n) { n = cont[k]; best = k; }
+  return best;
+}
+function tamUsado(a){ return a.tam || tamDoCliente(a) || tamMaisComum(a.moto); }
+function linhasServ(a){
+  const tam = tamUsado(a);
+  return (a.servs||[]).map(s => ({...s, preco: s.manual != null ? s.manual : (s.id==='outro' ? null : precoServ(s.id, tam))}));
+}
+function totalNormal(a){
+  let t = 0, falta = false;
+  linhasServ(a).forEach(s => { if (s.preco==null) falta = true; else t += s.preco; });
+  (a.itens||[]).forEach(i => t += i.preco * i.qtd);
+  return {t:r2(t), falta};
+}
+function resumoServ(a){
+  const n = (a.servs||[]).map(s => s.nome).join(' + ');
+  const q = (a.itens||[]).reduce((x,i)=>x+i.qtd,0);
+  return [n, q ? q+(q>1?' itens':' item') : ''].filter(Boolean).join(' · ');
+}
+function usoServ(){ const c={}; D.lanc.forEach(l => (l.servs||[]).forEach(s => c[s.id]=(c[s.id]||0)+1)); return c; }
+function usoItem(){ const c={}; D.lanc.forEach(l => (l.itens||[]).forEach(i => c[i.id]=(c[i.id]||0)+i.qtd)); return c; }
+
+// ---------- clientes ----------
+function acharCliente(tel, nome){
+  const t = so_dig(tel).slice(-8);
+  if (t.length >= 8) { const c = D.clientes.find(c => so_dig(c.tel).slice(-8) === t); if (c) return c; }
+  if (nome) { const n = nome.trim().toLowerCase(); return D.clientes.find(c => (c.nome||'').trim().toLowerCase() === n) || null; }
+  return null;
+}
+function guardarCliente(a){
+  if (!a.tel && !a.nome) return;
+  let c = acharCliente(a.tel, a.nome);
+  if (!c) { c = {tel:'', nome:''}; D.clientes.push(c); }
+  if (a.tel) c.tel = a.tel;
+  if (a.nome) c.nome = a.nome;
+  if (a.tam) c.tam = a.tam;
+  c.ult = Date.now();
+}
+function linkWa(tel){
+  let n = so_dig(tel);
+  if (!n) return null;
+  if (n.startsWith('55') && n.length >= 12) return 'https://wa.me/'+n;
+  if (n.startsWith('0')) n = n.replace(/^0+/,'');
+  if (n.length <= 9) { if (!D.cfg.ddd) return 'sem-ddd'; n = so_dig(D.cfg.ddd) + n; }
+  return 'https://wa.me/55'+n;
+}
+function abrirWa(tel){
+  const l = linkWa(tel);
+  if (!l) { toast('Digite o telefone do cliente primeiro'); return; }
+  if (l === 'sem-ddd') { toast('Digite o número com DDD'); return; }
+  window.open(l, '_blank');
+}
+
+// ---------- Pix (BR Code) ----------
+function semAcento(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9 ]/g,'').toUpperCase().trim(); }
+function campo(id, v){ return id + pad(v.length) + v; }
+function crc16(s){
+  let c = 0xFFFF;
+  for (let i=0;i<s.length;i++){ c ^= s.charCodeAt(i) << 8; for (let j=0;j<8;j++) c = (c & 0x8000) ? ((c<<1) ^ 0x1021) & 0xFFFF : (c<<1) & 0xFFFF; }
+  return c.toString(16).toUpperCase().padStart(4,'0');
+}
+function chavePix(){
+  const k = String(D.cfg.pixChave||'').trim();
+  if (/^[\d.\-\/ ]+$/.test(k) && so_dig(k).length === 14) return so_dig(k);   // CNPJ
+  if (/^[\d.\-\/ ]+$/.test(k) && so_dig(k).length === 11 && !/^\(?\d{2}\)?\s?9/.test(k)) return so_dig(k); // CPF
+  return k;
+}
+function payloadPix(valor){
+  const nome = (semAcento(D.cfg.pixNome) || 'POPO').slice(0,25);
+  const cid = (semAcento(D.cfg.pixCidade) || 'BRASIL').slice(0,15);
+  let p = campo('00','01') + campo('26', campo('00','br.gov.bcb.pix') + campo('01', chavePix()))
+        + campo('52','0000') + campo('53','986');
+  if (valor > 0) p += campo('54', valor.toFixed(2));
+  p += campo('58','BR') + campo('59', nome) + campo('60', cid) + campo('62', campo('05','***')) + '6304';
+  return p + crc16(p);
+}
+function desenharQR(canvas, texto){
+  const q = new QRLib.QRCode(-1, QRLib.L.M); q.addData(texto); q.make();
+  const n = q.getModuleCount(), m = 4, esc_ = 8, tam = (n + m*2) * esc_;
+  canvas.width = tam; canvas.height = tam;
+  const g = canvas.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0,0,tam,tam); g.fillStyle = '#000';
+  for (let r=0;r<n;r++) for (let c=0;c<n;c++) if (q.isDark(r,c)) g.fillRect((c+m)*esc_, (r+m)*esc_, esc_, esc_);
+}
+
+// ---------- foto ----------
+function reduzirFoto(arquivo){
+  return new Promise((ok) => {
+    const url = URL.createObjectURL(arquivo), img = new Image();
+    img.onload = () => {
+      const max = 720, k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); ok(c.toDataURL('image/jpeg', 0.6));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); ok(null); };
+    img.src = url;
+  });
+}
+
+// ---------- avisos ----------
+let tToast;
+function toast(msg, ms){
+  let t = $('.toast'); if (!t) { t = document.createElement('div'); t.className='toast'; document.body.appendChild(t); }
+  t.textContent = msg; clearTimeout(tToast); tToast = setTimeout(() => t.remove(), ms||2600);
+}
+function modal(html, aoFechar){
+  fecharModal();
+  const m = document.createElement('div'); m.className = 'modal'; m.id = 'modal';
+  m.innerHTML = '<div class="cx">'+html+'</div>';
+  m.addEventListener('click', e => { if (e.target === m) { fecharModal(); aoFechar && aoFechar(); } });
+  document.body.appendChild(m);
+  const inp = m.querySelector('input[autofocus]'); if (inp) setTimeout(()=>inp.focus(), 60);
+  return m;
+}
+function fecharModal(){ const m = $('#modal'); if (m) m.remove(); }
+function confirmar(titulo, texto, sim, nao, fn){
+  window._conf = fn;
+  modal('<h3>'+esc(titulo)+'</h3>'+(texto?'<p>'+esc(texto)+'</p>':'')+
+    '<div class="botoes"><button class="pri" onclick="fecharModal();_conf(true)">'+esc(sim)+'</button><button onclick="fecharModal();_conf(false)">'+esc(nao)+'</button></div>');
+}
+function pedirValor(titulo, texto, valorIni, fn, extraHtml){
+  window._pv = fn;
+  modal('<h3>'+esc(titulo)+'</h3>'+(texto?'<p>'+esc(texto)+'</p>':'')+(extraHtml||'')+
+    '<div class="campo"><input id="pvIn" inputmode="decimal" placeholder="0,00" value="'+(valorIni!=null?String(valorIni).replace('.',','):'')+'" autofocus onkeydown="if(event.key===\'Enter\')_pvOk()"></div>'+
+    '<div class="botoes"><button class="pri" onclick="_pvOk()">OK</button><button onclick="fecharModal()">Cancelar</button></div>');
+  window._pvOk = () => { const v = lerValor($('#pvIn').value); if (v==null) { toast('Digite um valor'); return; } fecharModal(); _pv(v); };
+}
+function pedirTexto(titulo, texto, ini, fn){
+  window._pt = fn;
+  modal('<h3>'+esc(titulo)+'</h3>'+(texto?'<p>'+esc(texto)+'</p>':'')+
+    '<div class="campo"><input id="ptIn" value="'+esc(ini||'')+'" autofocus onkeydown="if(event.key===\'Enter\')_ptOk()"></div>'+
+    '<div class="botoes"><button class="pri" onclick="_ptOk()">OK</button><button onclick="fecharModal()">Cancelar</button></div>');
+  window._ptOk = () => { const v = $('#ptIn').value.trim(); fecharModal(); _pt(v); };
+}
+
+// =====================================================================
+//  TELAS
+// =====================================================================
+function render(){
+  const app = $('#app');
+  const ac = estadoAcesso();
+  if (ac.nivel === 'total') { app.innerHTML = telaBloqueio(ac); U.folhas = []; const f = $('#folha'); if (f) f.remove(); return; }
+  let h = topo();
+  if (U.tela === 'inicio') h += telaInicio();
+  else if (U.tela === 'precos') h += telaPrecos();
+  else if (U.tela === 'resumo') h += telaResumo();
+  h += nav();
+  app.innerHTML = h;
+  ligarLogo();
+  renderFolha();
+}
+function topo(){
+  const d = dt(U.dia);
+  const titulo = U.dia === hoje() ? 'Hoje' : DIAS_SEM[d.getDay()];
+  let h = '<div class="top"><div class="wrap row"><div class="logo" id="logo">'+esc(D.cfg.nome||'POPÔ')+'<small>ESTÉTICA AUTOMOTIVA</small></div>'+
+    '<button class="data" onclick="A.trocarDia()">'+titulo+'<b>'+d.getDate()+' '+MESES[d.getMonth()]+'</b></button></div></div>';
+  if (U.dia !== hoje()) h += '<div class="outro-dia"><span>Lançando em '+ddmm(U.dia)+'</span><button onclick="A.voltarHoje()">Voltar para hoje</button></div>';
+  return h;
+}
+function nav(){
+  const b = (id, ic, n) => '<button class="'+(U.tela===id?'on':'')+'" onclick="A.ir(\''+id+'\')">'+IC[ic]+n+'</button>';
+  return '<div class="nav"><div class="in">'+b('inicio','casa','Início')+b('precos','etiqueta','Preços')+b('resumo','grafico','Resumo')+'</div></div>';
+}
+
+// ---------- INÍCIO ----------
+function cicloAluguel(dia){
+  const d = dt(dia), dv = D.cfg.aluguelDia || 10;
+  let venc = new Date(d.getFullYear(), d.getMonth(), dv, 12);
+  if (d.getDate() > dv) venc = new Date(d.getFullYear(), d.getMonth()+1, dv, 12);
+  const ini = new Date(venc); ini.setMonth(ini.getMonth()-1); ini.setDate(ini.getDate()+1);
+  return {ini: ymd(ini), fim: ymd(venc)};
+}
+function entrouEntre(a, b){ return r2(D.lanc.filter(l => l.data >= a && l.data <= b).reduce((x,l)=>x+l.valor,0)); }
+function avisoCopia(){
+  if (!D.lanc.length) return '';
+  const primeiro = D.lanc.reduce((m,l) => l.data < m ? l.data : m, D.lanc[0].data);
+  const base = D.cfg.ultBackup || primeiro;
+  const dias = Math.round((dt(hoje()) - dt(base)) / 86400000);
+  if (dias < 30) return '';
+  return '<div class="bloco aviso" style="margin:12px;display:flex;align-items:center;gap:10px"><span style="flex:1">'+(D.cfg.ultBackup?'Faz '+dias+' dias da última cópia de segurança.':'Ainda não foi feita nenhuma cópia de segurança.')+'</span><button class="bq" style="background:var(--g);color:#fff" onclick="A.backup()">Salvar agora</button></div>';
+}
+function telaInicio(){
+  const dia = U.dia;
+  const lh = D.lanc.filter(l => l.data === dia);
+  // carros que CHEGARAM no dia: os que ainda estão na lista + os já pagos/na conta que chegaram nesse dia
+  const carros = D.abertos.filter(a => a.tipo === 'carro' && a.data === dia && a.status !== 'pago').length + D.lanc.filter(l => l.tipo === 'carro' && (l.chegada || l.data) === dia).length;
+  const entrou = r2(lh.reduce((x,l)=>x+l.valor,0));
+  const ciclo = cicloAluguel(hoje()), alu = D.cfg.aluguel || 0, ja = entrouEntre(ciclo.ini, ciclo.fim);
+  const pct = alu ? Math.min(100, Math.round(ja/alu*100)) : 0;
+  let h = '<div class="wrap">' + avisoAcesso(estadoAcesso());
+  if (alu) h += '<div class="aluguel"><div class="l1"><span>Aluguel '+fmt0(alu)+' · vence '+ddmm(ciclo.fim)+'</span><span>'+(ja>=alu?'✓ coberto':pct+'%')+'</span></div>'+
+      '<div class="barra"><i style="width:'+pct+'%"></i></div><div class="pequeno" style="margin-top:6px">Entrou desde '+ddmm(ciclo.ini)+': <b>'+fmt(ja)+'</b>'+(ja<alu?' · faltam '+fmt(alu-ja):'')+'</div></div>';
+  h += '<div class="nums"><div class="num"><span>Carros '+(dia===hoje()?'hoje':ddmm(dia))+' <small style="text-transform:none">(chegaram)</small></span><b>'+carros+'</b></div><div class="num"><span>Entrou '+(dia===hoje()?'hoje':ddmm(dia))+'</span><b style="font-size:30px;white-space:nowrap">'+fmt(entrou)+'</b></div></div>';
+  h += '<div class="grandes"><button class="btn-grande b-chegou" onclick="A.chegouCarro()">'+IC.cam+'CHEGOU CARRO</button>'+
+       '<button class="btn-grande b-venda" onclick="A.novaVenda()">'+IC.copo+'VENDA</button></div>';
+  h += '<button class="sem-foto" onclick="A.semFoto()">Lançar sem foto</button>';
+  h += avisoCopia();
+  const ab = D.abertos.slice().sort((a,b)=>{ const o = {areceber:0, aberto:1, pago:2}; return (o[a.status]-o[b.status]) || a.criado-b.criado; });
+  h += '<h2 class="sec">Em aberto <small>'+(ab.length? ab.length+(ab.length>1?' na lista':' na lista'):'')+'</small></h2>';
+  if (!ab.length) h += '<div class="vazio">Nenhum carro ou conta em aberto.</div>';
+  ab.forEach(a => h += cartao(a));
+  h += blocoContas();
+  return h + '</div>';
+}
+function cartao(a){
+  const tot = totalNormal(a);
+  const cls = a.status === 'pago' ? 'pago' : a.status === 'areceber' ? 'areceber' : '';
+  let faixa = '';
+  if (a.status === 'pago') faixa = '<div class="faixa">PAGO · '+esc(FORMAS[a.pagoForma]?FORMAS[a.pagoForma].n:'')+' · '+fmt(a.pagoValor)+'</div>';
+  if (a.status === 'areceber') faixa = '<div class="faixa">A RECEBER · desde '+ddmm(a.data)+'</div>';
+  const foto = a.foto ? '<div class="foto" style="background-image:url('+a.foto+')"></div>' : '<div class="foto">'+(a.tipo==='conta'?IC.copo:IC.carro)+'</div>';
+  const nome = a.nome || (a.tipo==='conta' ? 'Conta de bebida' : (a.tel ? a.tel : 'Sem nome'));
+  let h = '<div class="cartao '+cls+'" onclick="A.abrir(\''+a.id+'\')">'+faixa+foto+'<div class="info"><div class="nome">'+esc(nome)+'</div>'+
+    (contaDo(a)?'<div class="pequeno" style="color:#1565C0;font-weight:800">cliente de conta</div>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
+    (a.lembrete?'<div class="lem">'+esc(a.lembrete)+'</div>':'')+
+    '<div class="pe"><span class="tot">'+(a.status==='pago'?'':(tot.falta?'+ a combinar':fmt(tot.t)))+'</span><div class="mini">';
+  if (a.aguardaFoto && !a.foto) h += '<button class="m-it" onclick="event.stopPropagation();A.abrirCamera(\''+a.id+'\')">Foto</button>';
+  if (a.status !== 'pago') h += '<button class="m-it" onclick="event.stopPropagation();A.itensPara(\''+a.id+'\')">+ Itens</button>';
+  if (a.tel) h += '<button class="m-wa" onclick="event.stopPropagation();abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'</button>';
+  return h + '</div></div></div></div>';
+}
+
+// ---------- folhas (telas por cima) ----------
+function abrirFolha(f){ U.folhas.push(f); renderFolha(); window.scrollTo(0,0); }
+function limparTemp(){ D.abertos = D.abertos.filter(a => !a.temp); }
+function fecharFolha(){ const f = U.folhas.pop(); if (f && f.t === 'receber') { limparTemp(); salvar(); } render(); }
+function fecharTodas(){ U.folhas = []; U.novo = null; U.venda = null; limparTemp(); salvar(); render(); }
+function renderFolha(){
+  let el = $('#folha');
+  const f = U.folhas[U.folhas.length-1];
+  if (!f) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.id = 'folha'; el.className = 'folha'; document.body.appendChild(el); }
+  const st = el.scrollTop;
+  el.innerHTML = '<div class="wrap">' + ({novo:folhaNovo, receber:folhaReceber, itens:folhaItens, addserv:folhaAddServ, ajustes:folhaAjustes, conta:folhaConta}[f.t])(f) + '</div>';
+  el.scrollTop = st;
+}
+
+// ---------- CARRO NOVO ----------
+function servsVisiveis(moto){
+  // ordem fixa (a da tabela de preços): os botões nunca mudam de lugar
+  return D.servicos.filter(s => moto ? s.tipo === 'moto' : s.tipo !== 'moto');
+}
+function folhaNovo(f){
+  const a = D.abertos.find(x => x.id === f.id); if (!a) return '';
+  const marcados = new Set(a.servs.map(s => s.id));
+  let h = '<div class="f-top"><button class="voltar" onclick="A.prontoNovo()">‹</button><h1>'+(a.foto||a.aguardaFoto?'Carro novo':'Lançar sem foto')+'</h1></div>';
+  h += '<div class="salva"><span>✓ ENTRADA SALVA</span><span>'+hora(a.criado)+'</span></div>';
+  if (a.foto) h += '<img class="rec-foto" src="'+a.foto+'" alt="">';
+  else if (a.aguardaFoto) h += '<div class="bloco aviso" style="margin:12px">O carro já está salvo, mas a foto não voltou.<button class="pronto" style="width:100%;margin:10px 0 0" onclick="A.abrirCamera(\''+a.id+'\')">'+'TIRAR FOTO DE NOVO</button></div>';
+  h += '<div class="bloco"><h3>Serviço</h3><div class="servs">';
+  servsVisiveis(a.moto).forEach(s => h += '<button class="sv '+(marcados.has(s.id)?'on':'')+'" onclick="A.marcarServ(\''+a.id+'\',\''+s.id+'\')">'+(s.grupo==='cera'?'+ ':'')+esc(s.nome)+'</button>');
+  a.servs.filter(s => s.id === 'outro').forEach((s,i) => h += '<button class="sv on" onclick="A.tirarOutro(\''+a.id+'\','+i+')">'+esc(s.nome)+'</button>');
+  h += '<button class="sv outro" onclick="A.outroServ(\''+a.id+'\')">+ Outro serviço</button></div></div>';
+  h += '<div class="bloco"><h3>Cliente</h3>'+
+    '<div class="campo"><input id="nTel" type="tel" inputmode="tel" placeholder="Telefone" value="'+esc(a.tel)+'" oninput="A.digitouTel(\''+a.id+'\',this.value)">'+
+    ('contacts' in navigator && 'select' in (navigator.contacts||{}) ? '<button class="bq bq-ct" onclick="A.contatos(\''+a.id+'\')">'+IC.contato+'Contatos</button>' : '')+
+    '<button class="bq bq-wa" onclick="abrirWa($(\'#nTel\').value)">'+IC.wa+'</button></div>'+
+    '<div class="campo"><input id="nNome" placeholder="Nome ou apelido" value="'+esc(a.nome)+'" oninput="A.digitouNome(\''+a.id+'\',this.value)" autocomplete="off"></div>'+
+    '<div id="sugCli" class="sug"></div>';
+  const aberto = f.mais || a.tam || a.lembrete;
+  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Menos detalhes':'+ Mais detalhes (tamanho, lembrete)')+'</button>';
+  if (aberto) {
+    h += '<div style="font-weight:800;margin:4px 0 6px">Tamanho</div><div class="tams">';
+    [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
+    h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
+    if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
+    h += '<div style="font-weight:800;margin:14px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
+  }
+  h += '</div>';
+  if (f.semFoto) h += '<button class="pronto" onclick="A.receberAgora(\''+a.id+'\')">RECEBER AGORA</button><button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>';
+  else h += '<button class="pronto" onclick="A.prontoNovo()">PRONTO</button>';
+  return h;
+}
+
+// ---------- RECEBER ----------
+function folhaReceber(f){
+  const a = D.abertos.find(x => x.id === f.id); if (!a) return '';
+  const R = f;  // estado da tela: outro (valor combinado), duas (modo 2 formas)
+  const nome = a.nome || (a.tipo==='conta' ? 'Conta de bebida' : 'Cliente sem nome');
+  let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>'+esc(nome)+'</h1>'+
+    (a.tel?'<button class="bq bq-wa" onclick="abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'WhatsApp</button>':'')+'</div>';
+  if (a.foto) h += '<img class="rec-foto" src="'+a.foto+'" alt="">';
+  if (a.status === 'pago') {
+    h += '<div class="bloco" style="text-align:center"><div class="faixa" style="position:static;background:var(--pago);border-radius:10px;padding:8px;font-size:16px">PAGO · '+esc(FORMAS[a.pagoForma]?FORMAS[a.pagoForma].n:'')+' · '+fmt(a.pagoValor)+'</div>'+
+      '<p style="margin:12px 0 0">'+esc(resumoServ(a))+'</p><p class="pequeno">Já foi pago. Quando o cliente buscar, toque em Entregue.</p></div>';
+    h += '<div class="pe-rec"><button class="b-entregue" onclick="A.entregue(\''+a.id+'\')">✓ Entregue</button></div>';
+    return h;
+  }
+  if (a.status === 'areceber') h += '<div class="bloco aviso" style="margin:12px">Levou o carro em '+ddmm(a.data)+' e ainda não pagou.</div>';
+  const tam = tamUsado(a), linhas = linhasServ(a);
+  if (a.tipo === 'carro') {
+    const caro = linhas.some(s => ['pol','hig','vit'].includes(s.id));
+    h += '<div class="bloco"><h3>Tamanho'+(!a.tam?' <span class="pequeno" style="color:var(--areceber)">(confira)</span>':'')+'</h3>';
+    if (!a.tam && caro) h += '<div class="aviso">Tamanho não foi marcado. O preço muda bastante: confira antes de receber.</div>';
+    const lista = a.moto ? TAMS_MOTO : TAMS_CARRO;
+    h += '<div class="tams '+(a.moto?'t3':'t3')+'">';
+    lista.forEach(t => h += '<button class="tm '+(tam===t[0]?(a.tam?'on':'on palpite'):'')+'" onclick="A.tamRec(\''+a.id+'\',\''+t[0]+'\')">'+(a.moto?IC.moto:IC[{P:'carro',S:'suv',C:'caminhonete'}[t[0]]])+t[1]+'</button>');
+    h += '</div></div>';
+  }
+  h += '<div class="bloco"><h3>Conta</h3>';
+  if (!linhas.length && !(a.itens||[]).length) h += '<div class="pequeno" style="padding:6px 0">Nada marcado ainda. Toque em + Serviço ou + Itens.</div>';
+  linhas.forEach((s,i) => {
+    h += '<div class="linha"><span>'+esc(s.nome)+'</span><span style="display:flex;align-items:center;gap:4px">'+
+      (s.preco==null ? '<input inputmode="decimal" placeholder="valor" onchange="A.valorServ(\''+a.id+'\','+i+',this.value)">' : '<b>'+fmt(s.preco)+'</b>')+
+      '<button class="x" onclick="A.tirarServ(\''+a.id+'\','+i+')">×</button></span></div>';
+  });
+  (a.itens||[]).forEach((it,i) => {
+    h += '<div class="linha"><span>'+it.qtd+'× '+esc(it.nome)+'</span><span style="display:flex;align-items:center;gap:4px"><b>'+fmt(it.preco*it.qtd)+'</b>'+
+      '<button class="x" onclick="A.tirarItem(\''+a.id+'\','+i+')">−</button></span></div>';
+  });
+  h += '<div class="add">'+(a.tipo==='carro'?'<button onclick="A.addServ(\''+a.id+'\')">+ Serviço</button>':'')+'<button onclick="A.itensPara(\''+a.id+'\')">+ Itens</button></div></div>';
+  const tot = totalNormal(a);
+  const cobrar = R.outro != null ? R.outro : tot.t;
+  h += '<div class="bloco"><div class="total"><span>Total</span>';
+  if (tot.falta) h += '<b style="font-size:30px">Falta o valor</b><em>Digite o valor do serviço acima</em>';
+  else if (R.outro != null && R.outro !== tot.t) h += '<b>'+fmt(R.outro)+'</b><s>'+fmt(tot.t)+'</s><em>'+(R.outro<tot.t?'desconto de '+fmt(tot.t-R.outro):'acréscimo de '+fmt(R.outro-tot.t))+'</em>';
+  else h += '<b>'+fmt(tot.t)+'</b>';
+  h += '</div>'+(!tot.falta?'<button class="outro-valor" onclick="A.outroValor(\''+a.id+'\')">'+(R.outro!=null?'Voltar ao preço normal':'Cobrar outro valor')+'</button>':'')+'</div>';
+  const pode = !tot.falta && cobrar > 0;
+  h += '<div class="bloco">';
+  if (R.duas) {
+    if (R.duas.primeira == null) h += '<div class="aviso">Pagou em 2 formas: digite quanto foi na 1ª forma e toque nela.</div><div class="campo"><input id="v1" inputmode="decimal" placeholder="Valor da 1ª forma" value="'+(R.duas.v1!=null?String(R.duas.v1).replace('.',','):'')+'" autofocus></div>';
+    else h += '<div class="aviso">1ª forma: '+FORMAS[R.duas.primeira].n+' '+fmt(R.duas.v1)+'. Falta <b>'+fmt(r2(cobrar-R.duas.v1))+'</b>: toque na 2ª forma.</div>';
+  }
+  const cc = contaDo(a);
+  if (cc && !R.duas) h += '<button class="pg pg-conta" '+(pode?'':'disabled')+' onclick="A.naConta(\''+a.id+'\',\''+cc.id+'\')">NA CONTA · '+esc(cc.nome)+'</button>';
+  h += '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" '+(pode?'':'disabled')+' onclick="A.pagar(\''+a.id+'\',\''+k+'\')">'+FORMAS[k].n.toUpperCase()+'</button>').join('')+'</div>';
+  if (!R.duas) h += '<button class="qr-btn" '+(pode?'':'disabled')+' onclick="A.mostrarQR(\''+a.id+'\')">Mostrar QR do Pix (cliente aqui)</button>';
+  if (R.duas) h += '<button class="duas" onclick="A.duasFormas(\''+a.id+'\')">Cancelar 2 formas</button>';
+  else if (!R.mais) h += '<button class="duas" onclick="A.outrasOpcoes()">Outras opções ▾</button>';
+  else h += '<div class="botoes" style="margin-top:12px"><button onclick="A.duasFormas(\''+a.id+'\')">Pagou em 2 formas</button>'+
+    (!cc ? '<button style="color:#1565C0" '+(pode?'':'disabled')+' onclick="A.escolherConta(\''+a.id+'\')">Lançar na conta de um cliente</button>' : '')+
+    '<button style="background:#fff;color:var(--muted)" onclick="A.outrasOpcoes()">Fechar opções ▴</button></div>';
+  h += '</div>';
+  h += '<div class="pe-rec"><button class="b-apagar" onclick="A.apagar(\''+a.id+'\')">Apagar</button></div>';
+  return h;
+}
+
+// ---------- GRADE DE ITENS (venda e + Itens) ----------
+function itensOrdenados(){ return D.itens.slice(); }   // ordem fixa
+function folhaItens(f){
+  const c = f.carrinho;
+  const alvo = f.alvo ? D.abertos.find(x => x.id === f.alvo) : null;
+  let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>'+(alvo?'+ Itens · '+esc(alvo.nome||(alvo.tipo==='conta'?'Conta':'Carro')):'Venda')+'</h1></div>';
+  h += '<div class="bloco"><div class="grade">';
+  itensOrdenados().forEach(it => {
+    const q = c[it.id] ? c[it.id].qtd : 0, pr = c[it.id] && c[it.id].preco != null ? c[it.id].preco : it.venda;
+    h += '<div class="it '+(q?'on':'')+'" data-item="'+it.id+'">'+(q?'<span class="qt">'+q+'</span>':'')+(IC[it.ic]||IC.copo)+'<span class="nm">'+esc(it.nome)+'</span><span class="pr" data-preco="'+it.id+'">'+fmt0(pr)+'</span></div>';
+  });
+  h += '<div class="it" data-item="__outro">'+IC.mais+'<span class="nm">Outro</span><span class="pr">valor</span></div>';
+  (f.outros||[]).forEach((o,i) => h += '<div class="it on" data-outro="'+i+'"><span class="qt">'+o.qtd+'</span>'+IC.copo+'<span class="nm">'+esc(o.nome)+'</span><span class="pr">'+fmt0(o.preco)+'</span></div>');
+  h += '</div><p class="dica">'+(alvo?'':'Conte o que foi consumido: ')+'toque soma 1 · segure o dedo para tirar 1 · toque no preço para trocar</p></div>';
+  const tot = totalCarrinho(f);
+  h += '<div class="bloco"><div class="total"><span>'+(alvo?'Somar à conta':'Total')+'</span><b>'+fmt(tot)+'</b></div></div>';
+  if (alvo) h += '<button class="pronto" '+(tot?'':'disabled')+' onclick="A.confirmarItens()">ADICIONAR</button>';
+  else h += '<button class="pronto" '+(tot?'':'disabled')+' onclick="A.pagarAgora()">RECEBER</button>';
+  return h;
+}
+function totalCarrinho(f){
+  let t = 0;
+  for (const id in f.carrinho) { const it = itemPorId(id), c = f.carrinho[id]; if (it) t += (c.preco!=null?c.preco:it.venda) * c.qtd; }
+  (f.outros||[]).forEach(o => t += o.preco*o.qtd);
+  return r2(t);
+}
+function linhasCarrinho(f){
+  const out = [];
+  for (const id in f.carrinho) { const it = itemPorId(id), c = f.carrinho[id]; if (it && c.qtd) out.push({id, nome:it.nome, preco:c.preco!=null?c.preco:it.venda, custo:it.custo, qtd:c.qtd}); }
+  (f.outros||[]).forEach(o => out.push({id:'outro', nome:o.nome, preco:o.preco, custo:null, qtd:o.qtd}));
+  return out;
+}
+function somarItens(a, linhas){
+  a.itens = a.itens || [];
+  linhas.forEach(l => {
+    const ex = a.itens.find(i => i.id === l.id && i.preco === l.preco && i.nome === l.nome);
+    if (ex) ex.qtd += l.qtd; else a.itens.push({...l});
+  });
+}
+
+// ---------- adicionar serviço depois ----------
+function folhaAddServ(f){
+  const a = D.abertos.find(x => x.id === f.id); if (!a) return '';
+  const marcados = new Set(a.servs.map(s=>s.id));
+  let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>+ Serviço</h1></div><div class="bloco"><div class="servs">';
+  servsVisiveis(a.moto).forEach(s => h += '<button class="sv '+(marcados.has(s.id)?'on':'')+'" onclick="A.marcarServ(\''+a.id+'\',\''+s.id+'\')">'+(s.grupo==='cera'?'+ ':'')+esc(s.nome)+'</button>');
+  h += '<button class="sv outro" onclick="A.outroServ(\''+a.id+'\')">+ Outro serviço</button></div></div><button class="pronto" onclick="fecharFolha()">PRONTO</button>';
+  return h;
+}
+
+// ---------- PREÇOS ----------
+function telaPrecos(){
+  let h = '<div class="wrap"><h2 class="sec">Serviços de carro</h2><div class="bloco" style="margin-top:0"><table class="tab-pr"><tr><th>Serviço</th><th>Pequeno</th><th>SUV</th><th>Camin.</th></tr>';
+  D.servicos.filter(s => s.tipo==='carro' && !s.fixo && s.fixo!==0).forEach(s => {
+    h += '<tr><td><b>'+esc(s.nome)+'</b><span class="mudou">mudou em '+ddmm(s.mudou)+'</span></td>'+['P','S','C'].map(t => '<td class="v"><button class="'+(s.p[t]==null?'vz':'')+'" onclick="A.precoServ(\''+s.id+'\',\''+t+'\')">'+(s.p[t]==null?'—':s.p[t].toLocaleString('pt-BR'))+'</button></td>').join('')+'</tr>';
+  });
+  h += '</table></div><h2 class="sec">Cera <small>qualquer carro</small></h2><div class="bloco" style="margin-top:0"><table class="tab-pr">';
+  D.servicos.filter(s => s.fixo!=null).forEach(s => h += '<tr><td><b>'+esc(s.nome)+'</b><span class="mudou">mudou em '+ddmm(s.mudou)+'</span></td><td class="v"><button onclick="A.precoServ(\''+s.id+'\',\'fixo\')">+ '+fmt0(s.fixo)+'</button></td></tr>');
+  h += '</table></div><h2 class="sec">Moto</h2><div class="bloco" style="margin-top:0"><table class="tab-pr"><tr><th>Serviço</th><th>Peq.</th><th>Média</th><th>Grande</th></tr>';
+  D.servicos.filter(s => s.tipo==='moto').forEach(s => {
+    h += '<tr><td><b>'+esc(s.nome)+'</b><span class="mudou">mudou em '+ddmm(s.mudou)+'</span></td>'+['MP','MM','MG'].map(t => '<td class="v"><button onclick="A.precoServ(\''+s.id+'\',\''+t+'\')">'+(s.p[t]==null?'—':s.p[t].toLocaleString('pt-BR'))+'</button></td>').join('')+'</tr>';
+  });
+  h += '</table></div><h2 class="sec">Bebidas e itens</h2><div class="bloco" style="margin-top:0"><table class="tab-pr"><tr><th>Item</th><th>Vende por</th><th>Paga por</th></tr>';
+  D.itens.forEach(it => {
+    h += '<tr><td><b>'+esc(it.nome)+'</b><span class="mudou">mudou em '+ddmm(it.mudou)+'</span></td><td class="v"><button onclick="A.precoItem(\''+it.id+'\',\'venda\')">'+fmt0(it.venda)+'</button></td>'+
+      '<td class="v"><button class="'+(it.custo==null?'vz':'')+'" onclick="A.precoItem(\''+it.id+'\',\'custo\')">'+(it.custo==null?'—':fmt(it.custo))+'</button></td></tr>';
+  });
+  h += '</table><p class="pequeno" style="margin:10px 0 0">"Paga por" é o preço de compra. Pode ficar vazio por enquanto. Mudar um preço não altera o que já foi vendido.</p></div></div>';
+  return h;
+}
+
+// ---------- RESUMO ----------
+function inicioSemana(dia){ const d = dt(dia); const w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return ymd(d); }
+function calcular(a, b){
+  const L = D.lanc.filter(l => l.data >= a && l.data <= b);
+  const r = {total:0, formas:{pix:0,din:0,deb:0,cre:0}, carros:0, bebidas:0, lav:0, beb:0, contas:0, nContas:0, recContas:0, tam:{}, serv:{}, item:{}, L};
+  L.forEach(l => {
+    r.total += l.valor;
+    if (l.conta) { r.contas += l.conta.valor; r.nContas++; }
+    if (l.tipo === 'conta') r.recContas += l.valor;
+    l.pag.forEach(p => r.formas[p.forma] += p.valor);
+    if (l.tipo === 'carro') { r.carros++; if (l.tam) r.tam[l.tam] = (r.tam[l.tam]||0)+1; }
+    let vs = 0, vi = 0;
+    (l.servs||[]).forEach(s => { vs += s.preco||0; r.serv[s.nome] = (r.serv[s.nome]||0)+1; });
+    (l.itens||[]).forEach(i => { vi += i.preco*i.qtd; r.bebidas += i.qtd; r.item[i.nome] = (r.item[i.nome]||0)+i.qtd; });
+    const n = vs+vi, k = n ? l.valor/n : 0;
+    if (l.tipo === 'conta') r.lav += l.valor;
+    else if (n) { r.lav += vs*k; r.beb += vi*k; } else r.lav += l.valor;
+  });
+  ['total','lav','beb','contas','recContas'].forEach(k => r[k] = r2(r[k])); for (const k in r.formas) r.formas[k] = r2(r.formas[k]);
+  return r;
+}
+function blocoFormas(r){
+  const max = Math.max(1, ...Object.values(r.formas));
+  return '<div class="bloco">'+Object.keys(FORMAS).map(k => '<div class="forma"><i style="background:'+FORMAS[k].c+'"></i><span>'+FORMAS[k].n+'</span><div class="bb"><u style="width:'+Math.round(r.formas[k]/max*100)+'%;background:'+FORMAS[k].c+'"></u></div><b style="min-width:110px;text-align:right">'+fmt(r.formas[k])+'</b></div>').join('')+'</div>';
+}
+function linhaContas(r){
+  if (!r.contas && !r.recContas) return '';
+  return '<div class="bloco" style="border:2px solid #cfe0f5">'+(r.contas?'<div class="linha"><span>Lançado em contas<br><span class="pequeno">'+r.nContas+' lançamento'+(r.nContas>1?'s':'')+' · ainda não entrou</span></span><b style="color:#1565C0">'+fmt(r.contas)+'</b></div>':'')+
+    (r.recContas?'<div class="linha"><span>Contas recebidas<br><span class="pequeno">já está no total acima</span></span><b>'+fmt(r.recContas)+'</b></div>':'')+'</div>';
+}
+// quanto está para receber agora (contas de clientes + carros A RECEBER)
+function blocoAReceber(){
+  const linhas = [];
+  D.contas.forEach(c => { const v = saldoConta(c); if (v > 0) linhas.push([c.nome, v, 'conta']); });
+  D.abertos.filter(a => a.status === 'areceber').forEach(a => { const t = totalNormal(a); if (t.t > 0) linhas.push([(a.nome||'Carro sem nome')+' · desde '+ddmm(a.data), t.t, 'carro']); });
+  if (!linhas.length) return '';
+  const tot = r2(linhas.reduce((x,l)=>x+l[1],0));
+  return '<div class="bloco" style="border:2px solid var(--areceber)"><h3 style="display:flex;justify-content:space-between">A receber hoje <span style="color:var(--areceber)">'+fmt(tot)+'</span></h3>'+
+    linhas.map(l => '<div class="linha"><span>'+esc(l[0])+'<br><span class="pequeno">'+(l[2]==='conta'?'cliente de conta':'levou e não pagou')+'</span></span><b>'+fmt(l[1])+'</b></div>').join('')+
+    '<p class="pequeno" style="margin:6px 0 0">Ainda não entrou. Entra no total do dia em que for pago.</p></div>';
+}
+function maisFreq(o){ let k=null,n=0; for (const x in o) if (o[x]>n){n=o[x];k=x;} return k ? k+' ('+n+')' : '—'; }
+function telaResumo(){
+  if (estadoAcesso().nivel === 'parcial') return '<div class="wrap">' + telaTravada() + '</div>';
+  let h = '<div class="wrap"><div class="abas"><button class="'+(U.resumo==='dia'?'on':'')+'" onclick="A.aba(\'dia\')">Dia</button><button class="'+(U.resumo==='semana'?'on':'')+'" onclick="A.aba(\'semana\')">Semana</button></div>';
+  if (U.resumo === 'dia') {
+    const d = U.resDia, r = calcular(d, d), dd = dt(d);
+    h += '<div class="per"><button onclick="A.resDia(-1)">‹</button><b>'+(d===hoje()?'Hoje, ':DIAS_SEM[dd.getDay()]+', ')+dd.getDate()+' '+MESES[dd.getMonth()]+'</b><button '+(d>=hoje()?'disabled':'')+' onclick="A.resDia(1)">›</button></div>';
+    h += '<div class="grande-num"><span>Entrou no dia</span><b>'+fmt(r.total)+'</b></div>';
+    h += blocoFormas(r) + linhaContas(r) + (d === hoje() ? blocoAReceber() : '');
+    h += '<div class="duas-col"><div class="num"><span>Carros recebidos</span><b>'+r.carros+'</b></div><div class="num"><span>Bebidas/itens</span><b>'+r.bebidas+'</b></div></div>';
+    h += '<div class="bloco"><h3>Dinheiro recebido: '+fmt(r.formas.din)+'</h3><span class="pequeno">É o que deve ter entrado na gaveta hoje.</span></div>';
+    h += '<h2 class="sec">Lançamentos <small>toque para corrigir</small></h2><div class="bloco" style="margin-top:0">';
+    if (!r.L.length) h += '<div class="pequeno">Nada lançado neste dia.</div>';
+    r.L.slice().sort((a,b)=>b.ts-a.ts).forEach(l => {
+      h += '<button class="lan" onclick="A.editarLanc(\''+l.id+'\')"><span class="h">'+hora(l.ts)+'</span><span class="d">'+esc(l.cliente || (l.tipo==='carro'?'Carro':'Venda'))+'<small>'+esc([(l.servs||[]).map(s=>s.nome).join(' + '), (l.itens||[]).map(i=>i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · '))+'</small></span>'+
+        '<span class="v">'+(l.conta?fmt(l.conta.valor):fmt(l.valor))+'<br>'+(l.conta?'<span class="chip" style="background:#1565C0">Na conta</span>':'')+l.pag.map(p=>'<span class="chip" style="background:'+FORMAS[p.forma].c+'">'+FORMAS[p.forma].n+'</span>').join('')+'</span></button>';
+    });
+    h += '</div>';
+    if (D.dias[d] && D.dias[d].fechado) h += '<div class="fechado">✓ Dia fechado às '+hora(D.dias[d].fechado)+'</div>';
+    h += '<button class="fechar" onclick="A.fecharDia()">'+(D.dias[d]&&D.dias[d].fechado?'Fechar dia de novo':'FECHAR DIA')+'</button>';
+  } else {
+    const ini = U.resSem || inicioSemana(hoje()), fim = addDias(ini, 6), r = calcular(ini, fim);
+    h += '<div class="per"><button onclick="A.resSem(-1)">‹</button><b>'+ddmm(ini)+' a '+ddmm(fim)+(ini===inicioSemana(hoje())?'<br><span class="pequeno">esta semana</span>':'')+'</b><button '+(ini>=inicioSemana(hoje())?'disabled':'')+' onclick="A.resSem(1)">›</button></div>';
+    h += '<div class="grande-num"><span>Entrou na semana</span><b>'+fmt(r.total)+'</b></div>';
+    const ant = calcular(addDias(ini,-7), addDias(ini,-1));
+    if (ant.L.length) { const dif = r2(r.total-ant.total); h += '<p style="text-align:center;margin:-6px 0 8px;font-weight:700;color:'+(dif>=0?'var(--pago)':'var(--red)')+'">'+(dif>=0?'▲ ':'▼ ')+fmt(Math.abs(dif))+' em relação à semana anterior</p>'; }
+    h += blocoFormas(r) + linhaContas(r) + (ini === inicioSemana(hoje()) ? blocoAReceber() : '');
+    h += '<div class="duas-col"><div class="num"><span>Lavagens</span><b>'+fmt(r.lav)+'</b></div><div class="num"><span>Bebidas/itens</span><b>'+fmt(r.beb)+'</b></div></div>';
+    const porDia = [...Array(7)].map((_,i) => { const d = addDias(ini,i); return {d, n:D.lanc.filter(l => l.data===d && l.tipo==='carro').length}; });
+    const mx = Math.max(...porDia.map(x=>x.n));
+    h += '<div class="bloco"><h3>Carros por dia · total '+r.carros+'</h3><div class="dias">'+porDia.map(x => '<div class="'+(mx&&x.n===mx?'mel':'')+'"><b>'+x.n+'</b><u style="height:'+(mx?Math.round(x.n/mx*100):0)+'%"></u>'+DIAS_SEM[dt(x.d).getDay()]+'</div>').join('')+'</div>'+
+      (mx?'<p class="pequeno" style="margin:8px 0 0">Melhor dia: <b>'+porDia.filter(x=>x.n===mx).map(x=>DIAS_SEM[dt(x.d).getDay()]).join(', ')+'</b></p>':'')+'</div>';
+    h += '<div class="bloco"><h3>Carros por tamanho</h3>'+(Object.keys(r.tam).length? Object.keys(TAM_NOME).filter(k=>r.tam[k]).map(k => '<div class="linha"><span>'+TAM_NOME[k]+'</span><b>'+r.tam[k]+'</b></div>').join('') : '<span class="pequeno">Sem tamanho marcado ainda.</span>')+'</div>';
+    h += '<div class="bloco"><div class="linha"><span>Serviço que mais saiu</span><b>'+esc(maisFreq(r.serv))+'</b></div><div class="linha"><span>Item que mais vendeu</span><b>'+esc(maisFreq(r.item))+'</b></div><div class="linha"><span>Bebidas/itens vendidos</span><b>'+r.bebidas+'</b></div></div>';
+  }
+  return h + '</div>';
+}
+
+// ---------- AJUSTES (escondido: segurar o dedo no nome POPÔ) ----------
+function folhaAjustes(){
+  const c = D.cfg;
+  const ok = !!(c.pixChave && c.pixNome);
+  let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>Ajustes</h1></div>';
+  h += '<div class="bloco"><h3>Negócio</h3><div class="campo"><input id="cfNome" value="'+esc(c.nome)+'" placeholder="Nome no topo"></div>'+
+    '<div class="campo"><input id="cfDdd" inputmode="numeric" value="'+esc(c.ddd)+'" placeholder="DDD da cidade (para WhatsApp sem DDD)"></div>'+
+    '<div class="campo"><input id="cfAlu" inputmode="decimal" value="'+String(c.aluguel).replace('.',',')+'" placeholder="Aluguel"><input id="cfAluDia" inputmode="numeric" value="'+c.aluguelDia+'" placeholder="Dia" style="max-width:90px"></div><span class="pequeno">Aluguel (R$) e dia do vencimento</span></div>';
+  h += '<div class="bloco"><h3>Pix</h3><div class="campo"><input id="cfChave" value="'+esc(c.pixChave)+'" placeholder="Chave Pix"></div>'+
+    '<div class="campo"><input id="cfPNome" value="'+esc(c.pixNome)+'" placeholder="Nome do titular (como aparece no banco)"></div>'+
+    '<div class="campo"><input id="cfPBanco" value="'+esc(c.pixBanco||'')+'" placeholder="Banco (ex.: Mercado Pago)"></div>'+
+    '<div class="campo"><input id="cfPCid" value="'+esc(c.pixCidade)+'" placeholder="Cidade"></div>'+
+    '<div class="botoes"><button class="pri" onclick="A.salvarAjustes()">Salvar ajustes</button><button class="lim" '+(ok?'':'disabled')+' onclick="A.salvarAjustes(true);A.testePix()">Testar Pix com R$ 1,00</button></div></div>';
+  h += '<div class="bloco"><h3>Clientes de conta</h3><p class="pequeno" style="margin-top:0">Pagam a soma das lavagens. A conta acumula até o RECEBI e então zera. A cobrança pelo WhatsApp pode ser mandada quando quiser; no sábado o app lembra. O Popo também cadastra pelo Início.</p><div class="botoes">'+
+    D.contas.map(x => '<button onclick="A.editarConta(\''+x.id+'\')">'+esc(x.nome)+' · '+esc(x.tel||'sem telefone')+'</button>').join('')+
+    '<button class="pri" onclick="A.novaConta()">+ Novo cliente de conta</button></div></div>';
+  h += '<div class="bloco"><h3>Serviços e itens</h3><div class="botoes"><button onclick="A.novoItem()">+ Novo item de venda</button><button onclick="A.removerItem()">Remover item de venda</button><button onclick="A.novoServico()">+ Novo serviço de carro</button><button onclick="A.removerServico()">Remover serviço</button></div><p class="pequeno">Os preços se mudam na aba Preços.</p></div>';
+  h += '<div class="bloco"><h3>Cópia de segurança</h3><p class="pequeno" style="margin-top:0">Guarda todos os lançamentos, preços e clientes num arquivo (sem as fotos). Último: '+(c.ultBackup?ddmm(c.ultBackup):'nunca')+'</p><div class="botoes"><button class="pri" onclick="A.backup()">Salvar cópia</button><button onclick="$(\'#arqBackup\').click()">Recuperar de uma cópia</button></div></div>';
+  h += '<div class="bloco"><h3>Funções por semana</h3><div class="sw"><span>Semana 1 – entradas</span><b style="color:var(--pago)">ligada</b></div>'+
+    '<div class="sw"><span>Semana 2 – gastos, ajudante, carro pronto<br><span class="pequeno">ainda em construção</span></span><input type="checkbox" disabled></div>'+
+    '<div class="sw"><span>Semana 3 – mês, ano e lucro<br><span class="pequeno">ainda em construção</span></span><input type="checkbox" disabled></div></div>';
+  h += '<div class="bloco"><h3>Zerar</h3><div class="botoes"><button class="per" onclick="A.zerarLanc()">Apagar todos os lançamentos (mantém preços)</button></div><p class="pequeno">Use depois do treinamento, para começar do zero.</p></div>';
+  const acA = estadoAcesso();
+  h += '<div class="bloco"><h3>Acesso</h3><p style="margin:0 0 8px">Celular: <b>'+esc(c.aparelho)+'</b><br>Válido até: <b>'+(acA.ate?dmA(acA.ate):'—')+'</b>'+(acA.nivel==='parcial'?'<br><span style="color:var(--red)">Resumo e cobranças travados</span>':'')+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar novo código</button></div></div>';
+  h += '<p class="pequeno" style="text-align:center">Versão 1.1 · dados salvos só neste celular</p>';
+  return h;
+}
+
+// =====================================================================
+//  AÇÕES
+// =====================================================================
+const A = {
+  ir(t){ U.tela = t; if (t==='resumo') { U.resDia = U.dia; } window.scrollTo(0,0); render(); },
+  trocarDia(){
+    modal('<h3>Lançar em outro dia</h3><p>Para lançar algo que ficou esquecido.</p><div class="campo"><input id="dIn" type="date" max="'+hoje()+'" value="'+U.dia+'"></div>'+
+      '<div class="botoes"><button class="pri" onclick="A.okDia()">Usar este dia</button><button onclick="fecharModal();A.voltarHoje()">Hoje</button></div>');
+  },
+  okDia(){ const v = $('#dIn').value; fecharModal(); if (v && v <= hoje()) { U.dia = v; render(); } },
+  voltarHoje(){ U.dia = hoje(); render(); },
+
+  // --- carro chega ---
+  // o carro é salvo ANTES de a câmera abrir: se o celular fechar o app durante a foto, o carro não se perde
+  chegouCarro(){
+    const ts = U.dia === hoje() ? Date.now() : dt(U.dia).getTime();
+    const a = {id:uid(), tipo:'carro', criado:ts, data:U.dia, foto:null, aguardaFoto:true, tel:'', nome:'', tam:null, moto:false, servs:[], itens:[], lembrete:'', status:'aberto'};
+    D.abertos.push(a); salvar(); vibra(40);
+    A.abrirCamera(a.id);
+  },
+  abrirCamera(aid){ U.fotoAlvo = aid; const c = $('#cam'); c.value = ''; c.click(); },
+  async fotoEscolhida(arq){
+    if (!arq) return;
+    const foto = await reduzirFoto(arq);
+    let a = U.fotoAlvo ? D.abertos.find(x => x.id === U.fotoAlvo) : null;
+    U.fotoAlvo = null;
+    if (!a) { A.criarCarro(foto, false); return; }
+    a.foto = foto; delete a.aguardaFoto; salvar();
+    const f = U.folhas[U.folhas.length-1];
+    if (f && f.t === 'novo' && f.id === a.id) renderFolha(); else abrirFolha({t:'novo', id:a.id});
+  },
+  // tocou em CHEGOU CARRO e desistiu da câmera: o cartão vazio sai
+  fotoCancelada(){
+    const a = U.fotoAlvo ? D.abertos.find(x => x.id === U.fotoAlvo) : null;
+    U.fotoAlvo = null;
+    if (a && a.aguardaFoto && !a.foto && !a.servs.length && !a.nome && !a.tel) { D.abertos = D.abertos.filter(x => x.id !== a.id); salvar(); render(); }
+  },
+  criarCarro(foto, semFoto){
+    const ts = U.dia === hoje() ? Date.now() : dt(U.dia).getTime();
+    const a = {id:uid(), tipo:'carro', criado:ts, data:U.dia, foto, tel:'', nome:'', tam:null, moto:false, servs:[], itens:[], lembrete:'', status:'aberto'};
+    D.abertos.push(a); salvar(); vibra(40);
+    abrirFolha({t:'novo', id:a.id, semFoto});
+  },
+  semFoto(){ A.criarCarro(null, true); },
+  marcarServ(aid, sid){
+    const a = D.abertos.find(x => x.id === aid), s = servPorId(sid); if (!a || !s) return;
+    const i = a.servs.findIndex(x => x.id === sid);
+    if (i >= 0) a.servs.splice(i,1);
+    else {
+      if (s.grupo) a.servs = a.servs.filter(x => { const o = servPorId(x.id); return !(o && o.grupo === s.grupo); });
+      a.servs.push({id:sid, nome:s.nome});
+    }
+    salvar(); renderFolha();
+  },
+  outroServ(aid){
+    pedirTexto('Outro serviço', 'Nome do serviço (pode deixar em branco). O valor é pedido na hora de receber.', '', nome => {
+      const a = D.abertos.find(x => x.id === aid); if (!a) return;
+      a.servs.push({id:'outro', nome: nome || 'Outro serviço', manual:null}); salvar(); renderFolha();
+    });
+  },
+  tirarOutro(aid, k){ const a = D.abertos.find(x => x.id === aid); let n=-1; a.servs = a.servs.filter(s => !(s.id==='outro' && ++n===k)); salvar(); renderFolha(); },
+  digitouTel(aid, v){ const a = D.abertos.find(x => x.id === aid); if (!a) return; a.tel = v.trim(); salvar(); A.sugerir(a, 'tel'); },
+  digitouNome(aid, v){ const a = D.abertos.find(x => x.id === aid); if (!a) return; a.nome = v.trim(); salvar(); A.sugerir(a, 'nome'); },
+  sugerir(a, por){
+    const el = $('#sugCli'); if (!el) return;
+    let lista = [];
+    if (por === 'tel') { const t = so_dig(a.tel); if (t.length >= 3) lista = D.clientes.filter(c => so_dig(c.tel).includes(t)); }
+    else { const n = (a.nome||'').toLowerCase(); if (n.length >= 2) lista = D.clientes.filter(c => (c.nome||'').toLowerCase().includes(n)); }
+    lista = lista.sort((x,y)=>(y.ult||0)-(x.ult||0)).slice(0,4);
+    el.innerHTML = lista.map((c,i) => '<button onclick="A.usarCliente(\''+a.id+'\','+D.clientes.indexOf(c)+')">'+esc(c.nome||'')+' '+esc(c.tel||'')+'</button>').join('');
+  },
+  usarCliente(aid, ci){
+    const a = D.abertos.find(x => x.id === aid), c = D.clientes[ci]; if (!a || !c) return;
+    a.tel = c.tel || a.tel; a.nome = c.nome || a.nome; salvar(); renderFolha();
+  },
+  async contatos(aid){
+    try {
+      const r = await navigator.contacts.select(['name','tel'], {multiple:false});
+      if (!r || !r.length) return;
+      const a = D.abertos.find(x => x.id === aid); if (!a) return;
+      a.nome = (r[0].name && r[0].name[0]) || a.nome; a.tel = (r[0].tel && r[0].tel[0]) || a.tel;
+      salvar(); renderFolha();
+    } catch(e) { toast('Não deu para abrir os contatos'); }
+  },
+  maisDet(){ const f = U.folhas[U.folhas.length-1]; f.mais = !f.mais; renderFolha(); },
+  tam(aid, t){
+    const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    a.tam = a.tam === t ? null : t;
+    if (t[0] !== 'M' && a.moto) { a.moto = false; a.servs = a.servs.filter(s => s.id==='outro' || (servPorId(s.id)||{}).tipo !== 'moto'); }
+    salvar(); renderFolha();
+  },
+  moto(aid){
+    const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    a.moto = !a.moto; a.tam = null;
+    a.servs = a.servs.filter(s => s.id === 'outro' || ((servPorId(s.id)||{}).tipo === 'moto') === a.moto);
+    if (a.moto && !a.servs.length) a.servs.push({id:'lmo', nome:servPorId('lmo').nome});
+    salvar(); renderFolha();
+  },
+  lembrete(aid, v){ const a = D.abertos.find(x => x.id === aid); if (a) { a.lembrete = v; salvar(); } },
+  prontoNovo(){
+    const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === f.id);
+    if (a) guardarCliente(a); salvar(); voltarHojeSeOutroDia(); fecharTodas();
+  },
+  receberAgora(aid){ const a = D.abertos.find(x => x.id === aid); if (a) guardarCliente(a); salvar(); U.folhas = []; abrirFolha({t:'receber', id:aid}); },
+
+  // --- receber ---
+  abrir(aid){ abrirFolha({t:'receber', id:aid}); },
+  tamRec(aid, t){ const a = D.abertos.find(x => x.id === aid); if (!a) return; a.tam = t; salvar(); renderFolha(); },
+  tirarServ(aid, i){ const a = D.abertos.find(x => x.id === aid); a.servs.splice(i,1); salvar(); U.folhas[U.folhas.length-1].outro = null; renderFolha(); },
+  tirarItem(aid, i){ const a = D.abertos.find(x => x.id === aid); const it = a.itens[i]; it.qtd--; if (it.qtd <= 0) a.itens.splice(i,1); salvar(); U.folhas[U.folhas.length-1].outro = null; renderFolha(); },
+  valorServ(aid, i, v){ const a = D.abertos.find(x => x.id === aid); const val = lerValor(v); if (val==null) return; a.servs[i].manual = val; salvar(); renderFolha(); },
+  addServ(aid){ abrirFolha({t:'addserv', id:aid}); },
+  itensPara(aid){ abrirFolha({t:'itens', alvo:aid, carrinho:{}, outros:[]}); },
+  outroValor(aid){
+    const f = U.folhas[U.folhas.length-1];
+    if (f.outro != null) { f.outro = null; renderFolha(); return; }
+    pedirValor('Cobrar outro valor', 'Quanto você combinou com o cliente?', null, v => { f.outro = v; renderFolha(); });
+  },
+  duasFormas(){ const f = U.folhas[U.folhas.length-1]; f.duas = f.duas ? null : {primeira:null, v1:null}; f.mais = false; renderFolha(); },
+  outrasOpcoes(){ const f = U.folhas[U.folhas.length-1]; f.mais = !f.mais; renderFolha(); },
+  pagar(aid, forma){
+    const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    const tot = totalNormal(a); if (tot.falta) return;
+    const cobrar = f.outro != null ? f.outro : tot.t;
+    if (f.duas) {
+      if (f.duas.primeira == null) {
+        const v1 = lerValor(($('#v1')||{}).value);
+        if (v1 == null || v1 <= 0 || v1 >= cobrar) { toast('Digite quanto foi na 1ª forma (menos que '+fmt(cobrar)+')'); return; }
+        f.duas.primeira = forma; f.duas.v1 = v1; renderFolha(); return;
+      }
+      if (forma === f.duas.primeira) { toast('Toque na 2ª forma (diferente da 1ª)'); return; }
+      fecharPagamento(a, [{forma:f.duas.primeira, valor:f.duas.v1}, {forma, valor:r2(cobrar - f.duas.v1)}], cobrar, tot.t);
+      return;
+    }
+    fecharPagamento(a, [{forma, valor:cobrar}], cobrar, tot.t);
+  },
+  mostrarQR(aid){
+    const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === aid);
+    const tot = totalNormal(a), cobrar = f.outro != null ? f.outro : tot.t;
+    mostrarQR(cobrar, () => fecharPagamento(a, [{forma:'pix', valor:cobrar}], cobrar, tot.t));
+  },
+  entregue(aid){
+    const i = D.abertos.findIndex(x => x.id === aid); if (i < 0) return;
+    const guard = D.abertos[i]; D.abertos.splice(i,1); salvar(); fecharTodas();
+    desfazivel('Entregue', () => { D.abertos.push(guard); salvar(); render(); });
+  },
+  apagar(aid){
+    const a = D.abertos.find(x => x.id === aid);
+    confirmar(a.tipo==='conta'?'Apagar esta conta?':'Apagar este carro?', 'Use quando o cliente desistiu ou a foto saiu errada.', 'Sim, apagar', 'Não', s => {
+      if (!s) return; D.abertos = D.abertos.filter(x => x.id !== aid); salvar(); fecharTodas(); toast('Apagado');
+    });
+  },
+
+  // --- acesso ---
+  enviarId(){ window.open('https://wa.me/?text=' + encodeURIComponent('Número do meu app POPÔ: ' + D.cfg.aparelho), '_blank'); },
+  digitarCodigo(v){
+    const ate = ACESSO.conferir(D.cfg.aparelho, v);
+    if (!ate) { toast('Esse código não confere com este celular'); return; }
+    if (ate < hoje()) { toast('Esse código já venceu em ' + dmA(ate)); return; }
+    D.cfg.codigo = String(v).trim().toUpperCase(); salvar(); fecharModal(); render();
+    toast('Liberado até ' + dmA(ate), 3500); checarRemoto();
+  },
+  abrirAcesso(){
+    const ac = estadoAcesso();
+    modal('<h3>Acesso do app</h3><p>Número deste celular:<br><b style="font-size:22px">'+esc(D.cfg.aparelho)+'</b></p><p>'+(ac.ate?'Válido até <b>'+dmA(ac.ate)+'</b>':'Ainda não ativado')+'</p>'+
+      '<div class="campo"><input id="codIn2" placeholder="Novo código de liberação" autocapitalize="characters" autocomplete="off"></div>'+
+      '<div class="botoes"><button class="pri" onclick="A.digitarCodigo($(\'#codIn2\').value)">Usar este código</button><button onclick="A.enviarId()">Enviar o número pelo WhatsApp</button><button onclick="fecharModal()">Fechar</button></div>');
+  },
+  async checarAgora(){ toast('Verificando…'); await checarRemoto(); const ac = estadoAcesso(); fecharModal(); render(); toast(ac.nivel === 'ok' ? 'Acesso liberado' : 'Ainda não liberado. Fale com ' + SUPORTE); },
+
+  // --- contas de clientes ---
+  naConta(aid, cid){
+    const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === aid), c = contaPorId(cid); if (!a || !c) return;
+    const tot = totalNormal(a); if (tot.falta) return;
+    lancarNaConta(a, c, f.outro != null ? f.outro : tot.t, tot.t);
+  },
+  escolherConta(aid){
+    const a = D.abertos.find(x => x.id === aid);
+    window._ec = cid => { fecharModal(); A.naConta(aid, cid); };
+    window._ecNovo = () => { fecharModal(); A.novaConta(c => A.naConta(aid, c.id), a); };
+    modal('<h3>Na conta de quem?</h3><div class="botoes">'+D.contas.map(c => '<button onclick="_ec(\''+c.id+'\')">'+esc(c.nome)+' · deve '+fmt(saldoConta(c))+'</button>').join('')+'<button class="lim" onclick="_ecNovo()">+ Novo cliente de conta</button><button onclick="fecharModal()">Cancelar</button></div>');
+  },
+  abrirConta(cid){ if (estadoAcesso().nivel === 'parcial') { modal(telaTravada()); return; } abrirFolha({t:'conta', id:cid}); },
+  cobrar(cid){
+    if (estadoAcesso().nivel === 'parcial') { modal(telaTravada()); return; }
+    const c = contaPorId(cid); if (!c) return;
+    const msg = mensagemCobranca(c);
+    window._ultimaMsg = msg;
+    window._cb = () => {
+      const l = linkWa(c.tel);
+      if (!l || l === 'sem-ddd') { toast('Telefone do cliente incompleto'); return; }
+      window.open(l + '?text=' + encodeURIComponent(msg), '_blank');
+      c.cobrancas = c.cobrancas || []; if (!c.cobrancas.includes(hoje())) c.cobrancas.push(hoje());
+      salvar(); fecharModal(); render();
+    };
+    modal('<h3>Cobrança para '+esc(c.nome)+'</h3><pre style="white-space:pre-wrap;font-family:var(--f);font-size:16px;background:#f3f7ee;border-radius:12px;padding:12px;margin:0">'+esc(msg)+'</pre>'+
+      '<div class="botoes"><button class="pri" style="background:var(--wa)" onclick="_cb()">Abrir no WhatsApp</button><button onclick="fecharModal()">Voltar</button></div>');
+  },
+  recebiConta(cid){
+    const c = contaPorId(cid); if (!c) return;
+    const sd = saldoConta(c);
+    window._rc = forma => {
+      const v = lerValor($('#rcV').value);
+      if (v == null || v <= 0) { toast('Digite o valor recebido'); return; }
+      if (v > sd + 0.001) { toast('Valor maior que a conta ('+fmt(sd)+')'); return; }
+      const ts = U.dia === hoje() ? Date.now() : dt(U.dia).getTime() + (Date.now() % 3600000);
+      const l = {id:uid(), ts, data:U.dia, tipo:'conta', cliente:'Conta – '+c.nome, tel:c.tel, tam:null, servs:[], itens:[], normal:v, valor:v, pag:[{forma, valor:v}], desconto:0, contaPag:c.id};
+      const m = {id:uid(), tipo:'pag', data:U.dia, ts, forma, valor:v, lanc:l.id};
+      D.lanc.push(l); c.movs.push(m); salvar(); fecharModal(); vibra([60,40,60]); voltarHojeSeOutroDia(); render();
+      const resto = saldoConta(c);
+      modal('<h3>Recebido ✓</h3><p style="font-size:20px">'+fmt(v)+' de '+esc(c.nome)+' em '+FORMAS[forma].n+'.<br>'+(resto>0?'Ficou devendo <b>'+fmt(resto)+'</b>. Continua na conta.':'Conta zerada. A contagem recomeça do zero.')+'</p><div class="botoes"><button class="pri" onclick="fecharModal()">OK</button></div>');
+    };
+    modal('<h3>Recebi de '+esc(c.nome)+'</h3><p>A conta é '+fmt(sd)+'. Pagou tudo? Toque na forma. Se pagou só uma parte, troque o valor antes.</p><div class="campo"><input id="rcV" inputmode="decimal" value="'+String(sd).replace('.',',')+'"></div>'+
+      '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" style="font-size:22px;min-height:60px" onclick="_rc(\''+k+'\')">'+FORMAS[k].n+'</button>').join('')+'</div><div class="botoes"><button onclick="fecharModal()">Cancelar</button></div>');
+  },
+  novaConta(depois, a){
+    pedirTexto('Novo cliente de conta', 'Nome do cliente. Ele paga a soma das lavagens quando você cobrar.', a ? a.nome : '', nome => {
+      if (!nome) return;
+      pedirTexto('Telefone de '+nome, 'Para mandar a cobrança no WhatsApp', a ? a.tel : '', tel => {
+        const c = {id:uid(), nome, tel, movs:[], cobrancas:[]};
+        D.contas.push(c);
+        if (!acharCliente(tel, nome)) D.clientes.push({nome, tel, ult:Date.now()});
+        salvar(); render(); toast('Cliente de conta criado');
+        if (typeof depois === 'function') depois(c);
+      });
+    });
+  },
+  editarConta(cid){
+    const c = contaPorId(cid);
+    window._ac = op => {
+      fecharModal();
+      if (op === 'tel') pedirTexto('Telefone de '+c.nome, 'Com DDD', c.tel, t => { c.tel = t; salvar(); render(); });
+      if (op === 'nome') pedirTexto('Nome', '', c.nome, n => { if (n) { c.nome = n; salvar(); render(); } });
+      if (op === 'tirar') {
+        const sd = saldoConta(c);
+        confirmar('Tirar '+c.nome+' das contas?', sd>0 ? 'Ele ainda deve '+fmt(sd)+'. Esse valor some da lista de contas.' : 'A conta está zerada.', 'Tirar', 'Não', s => { if (s) { D.contas = D.contas.filter(x => x.id !== c.id); salvar(); U.folhas = U.folhas.filter(f => !(f.t === 'conta' && f.id === c.id)); render(); toast('Removido'); } });
+      }
+    };
+    modal('<h3>'+esc(c.nome)+'</h3><p>Telefone: '+esc(c.tel||'—')+' · deve '+fmt(saldoConta(c))+'</p><div class="botoes"><button onclick="_ac(\'nome\')">Mudar nome</button><button onclick="_ac(\'tel\')">Mudar telefone</button><button class="per" onclick="_ac(\'tirar\')">Tirar das contas</button><button class="pri" onclick="fecharModal()">Fechar</button></div>');
+  },
+
+  // --- venda / itens ---
+  novaVenda(){ abrirFolha({t:'itens', alvo:null, carrinho:{}, outros:[]}); },
+  toqueItem(id){
+    const f = U.folhas[U.folhas.length-1];
+    if (id === '__outro') {
+      pedirValor('Outro item', 'Valor do item', null, v => {
+        pedirTexto('Nome do item', 'Pode deixar em branco', '', n => { f.outros.push({nome:n||'Outro', preco:v, qtd:1}); renderFolha(); });
+      });
+      return;
+    }
+    f.carrinho[id] = f.carrinho[id] || {qtd:0, preco:null}; f.carrinho[id].qtd++; vibra(15); renderFolha();
+  },
+  segurarItem(id){
+    const f = U.folhas[U.folhas.length-1];
+    if (f.carrinho[id] && f.carrinho[id].qtd > 0) { f.carrinho[id].qtd--; if (!f.carrinho[id].qtd && f.carrinho[id].preco==null) delete f.carrinho[id]; vibra(30); renderFolha(); }
+  },
+  segurarOutro(i){ const f = U.folhas[U.folhas.length-1]; f.outros[i].qtd--; if (f.outros[i].qtd<=0) f.outros.splice(i,1); vibra(30); renderFolha(); },
+  toqueOutro(i){ const f = U.folhas[U.folhas.length-1]; f.outros[i].qtd++; renderFolha(); },
+  trocarPrecoItem(id){
+    const f = U.folhas[U.folhas.length-1]; const it = itemPorId(id);
+    pedirValor('Preço de '+it.nome, 'Novo preço de venda', it.venda, v => {
+      window._tp = s => {
+        if (s === 'sempre') { it.venda = v; it.mudou = hoje(); if (f.carrinho[id]) f.carrinho[id].preco = null; salvar(); }
+        else { f.carrinho[id] = f.carrinho[id] || {qtd:0, preco:null}; f.carrinho[id].preco = v; }
+        fecharModal(); renderFolha();
+      };
+      modal('<h3>Usar '+fmt(v)+' daqui pra frente?</h3><div class="botoes"><button class="pri" onclick="_tp(\'sempre\')">Sim</button><button onclick="_tp(\'agora\')">Só agora</button></div>');
+    });
+  },
+  confirmarItens(){
+    const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === f.alvo); if (!a) return;
+    somarItens(a, linhasCarrinho(f)); salvar(); fecharFolha(); toast('Itens somados');
+  },
+  pagarAgora(){
+    const f = U.folhas[U.folhas.length-1];
+    const a = {id:uid(), tipo:'conta', criado:Date.now(), data:U.dia, foto:null, tel:'', nome:'', servs:[], itens:[], status:'aberto', temp:true};
+    somarItens(a, linhasCarrinho(f)); D.abertos.push(a); salvar();
+    U.folhas.pop(); abrirFolha({t:'receber', id:a.id});
+  },
+  pagaDepois(){
+    const f = U.folhas[U.folhas.length-1];
+    pedirTexto('Paga depois', 'Apelido de quem está bebendo (pode deixar em branco)', '', apelido => {
+      const a = {id:uid(), tipo:'conta', criado:Date.now(), data:U.dia, foto:null, tel:'', nome:apelido, servs:[], itens:[], status:'aberto'};
+      somarItens(a, linhasCarrinho(f)); D.abertos.push(a); salvar(); fecharTodas(); toast('Conta aberta na lista');
+    });
+  },
+
+  // --- preços ---
+  precoServ(sid, t){
+    const s = servPorId(sid);
+    const atual = t === 'fixo' ? s.fixo : s.p[t];
+    pedirValor(s.nome + (t==='fixo'?'':' · '+TAM_NOME[t]), 'Novo preço', atual, v => {
+      if (t === 'fixo') s.fixo = v; else s.p[t] = v;
+      s.mudou = hoje(); salvar(); render(); toast('Preço salvo');
+    });
+  },
+  precoItem(id, campo_){
+    const it = itemPorId(id);
+    pedirValor(it.nome, campo_==='venda' ? 'Preço de venda (Vende por)' : 'Preço de compra por unidade (Paga por). Se comprou fardo, divida pelo número de unidades.', it[campo_], v => {
+      it[campo_] = v; it.mudou = hoje(); salvar(); render(); toast('Preço salvo');
+    });
+  },
+
+  // --- resumo ---
+  aba(x){ U.resumo = x; render(); },
+  resDia(n){ U.resDia = addDias(U.resDia, n); if (U.resDia > hoje()) U.resDia = hoje(); render(); },
+  resSem(n){ U.resSem = addDias(U.resSem || inicioSemana(hoje()), 7*n); render(); },
+  editarLanc(id){
+    const l = D.lanc.find(x => x.id === id); if (!l) return;
+    window._el = l;
+    if (l.conta || l.contaPag) {
+      const cl = contaPorId(l.conta ? l.conta.id : l.contaPag);
+      window._elc = () => confirmar('Apagar este lançamento?', l.conta ? fmt(l.conta.valor)+' sai da conta de '+(cl?cl.nome:'')+'.' : 'O pagamento de '+fmt(l.valor)+' sai do dia e a conta volta a dever esse valor.', 'Sim, apagar', 'Não', s => {
+        if (!s) return; D.lanc = D.lanc.filter(x => x.id !== l.id); if (cl) cl.movs = cl.movs.filter(m => m.lanc !== l.id); salvar(); render(); toast('Lançamento apagado');
+      });
+      modal('<h3>'+esc(l.cliente)+' · '+hora(l.ts)+'</h3><p>'+(l.conta ? 'Lançado na conta: <b>'+fmt(l.conta.valor)+'</b>' : 'Pagamento de conta: <b>'+fmt(l.valor)+'</b> em '+FORMAS[l.pag[0].forma].n)+'</p><p class="pequeno">Para mudar o valor, apague e lance de novo.</p><div class="botoes"><button class="per" onclick="fecharModal();_elc()">Apagar lançamento</button><button class="pri" onclick="fecharModal()">Fechar</button></div>');
+      return;
+    }
+    let h = '<h3>'+esc(l.cliente || (l.tipo==='carro'?'Carro':'Venda'))+' · '+hora(l.ts)+'</h3><p>'+esc([(l.servs||[]).map(s=>s.nome+' '+fmt(s.preco)).join(', '), (l.itens||[]).map(i=>i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · '))+'</p>';
+    h += '<p>Recebido: <b>'+fmt(l.valor)+'</b>'+(l.normal!==l.valor?' (preço normal '+fmt(l.normal)+')':'')+'</p>';
+    if (l.pag.length === 1) h += '<p style="margin-bottom:4px">Trocar forma de pagamento:</p><div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" style="font-size:20px;min-height:54px;padding:10px;'+(l.pag[0].forma===k?'outline:4px solid var(--lima)':'')+'" onclick="A.formaLanc(\''+k+'\')">'+FORMAS[k].n+'</button>').join('')+'</div>';
+    h += '<div class="botoes"><button onclick="A.valorLanc()">Corrigir valor</button><button class="per" onclick="A.apagarLanc()">Apagar lançamento</button><button class="pri" onclick="fecharModal()">Fechar</button></div>';
+    modal(h);
+  },
+  formaLanc(k){ const l = _el; l.pag = [{forma:k, valor:l.valor}]; salvar(); fecharModal(); render(); toast('Forma corrigida'); },
+  valorLanc(){
+    const l = _el;
+    pedirValor('Corrigir valor', 'Valor que realmente entrou', l.valor, v => {
+      if (l.pag.length === 1) l.pag[0].valor = v;
+      else { const dif = r2(v - l.valor); l.pag[l.pag.length-1].valor = r2(l.pag[l.pag.length-1].valor + dif); if (l.pag[l.pag.length-1].valor < 0) { l.pag = [{forma:l.pag[0].forma, valor:v}]; } }
+      l.valor = v; salvar(); render(); toast('Valor corrigido');
+    });
+  },
+  apagarLanc(){
+    const l = _el;
+    confirmar('Apagar este lançamento?', fmt(l.valor)+' sai do total do dia.', 'Sim, apagar', 'Não', s => { if (!s) return; D.lanc = D.lanc.filter(x => x.id !== l.id); salvar(); render(); toast('Lançamento apagado'); });
+  },
+  fecharDia(){
+    const d = U.resDia;
+    const abertos = D.abertos.filter(a => a.status !== 'pago');
+    const fazer = () => {
+      D.dias[d] = {fechado:Date.now()};
+      if (d === hoje()) D.abertos = D.abertos.filter(a => a.status !== 'pago');
+      salvar(); render();
+      const r = calcular(d,d);
+      modal('<h3>Dia fechado ✓</h3><p style="font-size:20px">Entrou <b>'+fmt(r.total)+'</b><br>'+r.carros+' carro'+(r.carros!==1?'s':'')+' · '+r.bebidas+' bebida'+(r.bebidas!==1?'s':'')+'/itens<br>Dinheiro: <b>'+fmt(r.formas.din)+'</b></p><div class="botoes"><button class="pri" onclick="fecharModal()">OK</button></div>');
+    };
+    if (abertos.length && d === hoje()) {
+      const nc = abertos.filter(a=>a.tipo==='carro').length, nb = abertos.length - nc;
+      confirmar('Ainda tem coisa em aberto', [nc? nc+' carro'+(nc>1?'s':''):'', nb? nb+' conta'+(nb>1?'s':'')+' de bebida':''].filter(Boolean).join(' e ')+' sem pagar. Eles continuam na lista. Fechar o dia mesmo assim?', 'Fechar mesmo assim', 'Voltar', s => s && fazer());
+    } else fazer();
+  },
+
+  // --- ajustes ---
+  salvarAjustes(silencio){
+    const c = D.cfg;
+    c.nome = $('#cfNome').value.trim() || 'POPÔ'; c.ddd = so_dig($('#cfDdd').value).slice(0,2);
+    const alu = lerValor($('#cfAlu').value); if (alu != null) c.aluguel = alu;
+    const dia = parseInt($('#cfAluDia').value,10); if (dia>=1 && dia<=28) c.aluguelDia = dia;
+    c.pixChave = $('#cfChave').value.trim(); c.pixNome = $('#cfPNome').value.trim(); c.pixBanco = $('#cfPBanco').value.trim(); c.pixCidade = $('#cfPCid').value.trim();
+    salvar(); if (!silencio) { toast('Ajustes salvos'); render(); }
+  },
+  testePix(){ mostrarQR(1, null, true); },
+  novoItem(){
+    pedirTexto('Novo item', 'Nome do item (curto)', '', nome => {
+      if (!nome) return;
+      pedirValor(nome, 'Preço de venda', null, v => { D.itens.push({id:uid(), nome, venda:v, custo:null, ic:'copo', mudou:hoje()}); salvar(); toast('Item criado'); renderFolha(); });
+    });
+  },
+  removerItem(){
+    window._ri = id => { confirmar('Remover '+itemPorId(id).nome+'?', 'As vendas antigas continuam no resumo.', 'Remover', 'Não', s => { if (s) { D.itens = D.itens.filter(i => i.id !== id); salvar(); toast('Removido'); } }); };
+    modal('<h3>Remover qual item?</h3><div class="botoes">'+D.itens.map(i => '<button onclick="_ri(\''+i.id+'\')">'+esc(i.nome)+'</button>').join('')+'<button class="pri" onclick="fecharModal()">Cancelar</button></div>');
+  },
+  novoServico(){
+    pedirTexto('Novo serviço de carro', 'Nome do serviço', '', nome => {
+      if (!nome) return;
+      pedirValor(nome+' · Pequeno', 'Preço para carro pequeno', null, p => pedirValor(nome+' · SUV', 'Preço para SUV', p, s => pedirValor(nome+' · Caminhonete', 'Preço para caminhonete', s, c => {
+        D.servicos.splice(D.servicos.findIndex(x=>x.tipo==='moto'), 0, {id:uid(), nome, tipo:'carro', p:{P:p,S:s,C:c}, mudou:hoje()}); salvar(); toast('Serviço criado');
+      })));
+    });
+  },
+  removerServico(){
+    window._rs = id => { confirmar('Remover '+servPorId(id).nome+'?', 'Os lançamentos antigos continuam no resumo.', 'Remover', 'Não', s => { if (s) { D.servicos = D.servicos.filter(x => x.id !== id); salvar(); toast('Removido'); } }); };
+    modal('<h3>Remover qual serviço?</h3><div class="botoes">'+D.servicos.filter(s=>s.id!=='lmo').map(s => '<button onclick="_rs(\''+s.id+'\')">'+esc(s.nome)+'</button>').join('')+'<button class="pri" onclick="fecharModal()">Cancelar</button></div>');
+  },
+  backup(){
+    const copia = JSON.parse(JSON.stringify(D)); copia.abertos.forEach(a => a.foto = null);
+    const blob = new Blob([JSON.stringify(copia)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'popo-copia-'+hoje()+'.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    D.cfg.ultBackup = hoje(); salvar(); render(); toast('Cópia salva em Downloads');
+  },
+  async recuperar(arq){
+    if (!arq) return;
+    try {
+      const novo = JSON.parse(await arq.text());
+      if (!novo.cfg || !Array.isArray(novo.lanc)) throw 0;
+      confirmar('Recuperar esta cópia?', 'Tudo o que está no app agora será trocado pela cópia ('+novo.lanc.length+' lançamentos).', 'Recuperar', 'Cancelar', s => { if (s) { D = novo; salvar(); fecharTodas(); toast('Cópia recuperada'); } });
+    } catch(e) { toast('Esse arquivo não é uma cópia do app'); }
+  },
+  zerarLanc(){
+    confirmar('Apagar todos os lançamentos?', 'Preços, Pix e clientes ficam. Os carros em aberto e os lançamentos somem. Não dá para desfazer.', 'Apagar tudo', 'Não', s => {
+      if (!s) return; D.lanc = []; D.abertos = []; D.dias = {}; salvar(); fecharTodas(); toast('Lançamentos apagados');
+    });
+  },
+};
+
+// ---------- fechar pagamento ----------
+function voltarHojeSeOutroDia(){
+  if (U.dia !== hoje()) { const d = U.dia; U.dia = hoje(); setTimeout(() => toast('Lançado em '+ddmm(d)+'. Voltei para hoje.', 3500), 50); }
+}
+function fecharPagamento(a, pag, valor, normal){
+  const diaLanc = U.dia;
+  const ts = U.dia === hoje() ? Date.now() : dt(U.dia).getTime() + (Date.now() % 3600000);
+  const tam = a.tipo === 'carro' ? tamUsado(a) : null;
+  const l = {id:uid(), ts, data:U.dia, tipo:a.tipo === 'carro' ? 'carro' : 'venda', chegada:a.data, cliente:a.nome || '', tel:a.tel || '', tam,
+    servs: linhasServ(a).map(s => ({id:s.id, nome:s.nome, preco:s.preco})), itens:(a.itens||[]).map(i => ({...i})),
+    normal, valor:r2(valor), pag:pag.map(p => ({forma:p.forma, valor:r2(p.valor)})), desconto:r2(normal - valor)};
+  D.lanc.push(l);
+  if (a.tipo === 'carro') { a.tam = tam; guardarCliente(a); }
+  const idx = D.abertos.findIndex(x => x.id === a.id), guard = JSON.parse(JSON.stringify(a));
+  D.abertos.splice(idx, 1);
+  salvar(); vibra([60,40,60]);
+  U.folhas = []; voltarHojeSeOutroDia(); render();
+  const formaTxt = pag.map(p => FORMAS[p.forma].n + (pag.length>1?' '+fmt(p.valor):'')).join(' + ');
+  const el = document.createElement('div'); el.className = 'ok'; el.id = 'ok';
+  el.innerHTML = '<div class="ck">✓</div><b>'+fmt(valor)+'</b><span>'+esc(formaTxt)+'</span><div class="acoes">'+
+    (a.tipo === 'carro' ? '<button id="okFica">Pagou, mas o carro ainda está aqui</button>' : '')+
+    '<button id="okDesf">Desfazer</button><button class="fecha" id="okFecha">OK</button></div>';
+  document.body.appendChild(el);
+  let tmr = setTimeout(fechar, 6000);
+  function fechar(){ clearTimeout(tmr); el.remove(); }
+  el.querySelector('#okFecha').onclick = fechar;
+  el.querySelector('#okDesf').onclick = () => {
+    D.lanc = D.lanc.filter(x => x.id !== l.id);
+    const atual = D.abertos.findIndex(x => x.id === guard.id); if (atual >= 0) D.abertos.splice(atual,1);
+    if (!guard.temp) D.abertos.push(guard); salvar(); fechar(); render(); toast('Pagamento desfeito');
+  };
+  const fica = el.querySelector('#okFica');
+  if (fica) fica.onclick = () => {
+    const g = JSON.parse(JSON.stringify(guard)); g.status = 'pago'; g.pagoForma = pag[0].forma; g.pagoValor = valor; g.pagoLanc = l.id; g.pagoEm = diaLanc;
+    D.abertos.push(g); salvar(); fechar(); render(); toast('Fica na lista como PAGO até o cliente buscar');
+  };
+}
+function desfazivel(msg, fn){
+  const t = document.createElement('div'); t.className = 'toast'; t.style.display='flex'; t.style.gap='14px'; t.style.alignItems='center';
+  t.innerHTML = '<span>'+esc(msg)+'</span><button style="background:var(--lima);color:var(--g);border-radius:10px;padding:8px 12px;font-weight:800">Desfazer</button>';
+  document.body.appendChild(t);
+  const tm = setTimeout(() => t.remove(), 5000);
+  t.querySelector('button').onclick = () => { clearTimeout(tm); t.remove(); fn(); };
+}
+function mostrarQR(valor, aoReceber, teste){
+  if (!D.cfg.pixChave) { toast('Chave Pix não configurada'); return; }
+  const payload = payloadPix(valor);
+  window._qrOk = () => { fecharModal(); aoReceber && aoReceber(); };
+  window._qrCopia = () => { try { navigator.clipboard.writeText(payload); toast('Código copiado'); } catch(e) {} };
+  modal('<div class="qrbox"><h3>'+(teste?'Teste do Pix':'Pix')+'</h3><b>'+fmt(valor)+'</b><canvas id="qrc"></canvas><p class="pequeno">No banco do cliente aparece:<br><b>'+esc(titularPix())+'</b></p>'+
+    (teste?'<p>Pague com outro celular e confira se o dinheiro caiu na conta certa.</p>':'<p>Confira a mensagem do banco antes de tocar em Recebido.</p>')+
+    '<div class="botoes">'+(aoReceber?'<button class="pri" onclick="_qrOk()">Recebido</button>':'')+'<button onclick="_qrCopia()">Copiar código Pix</button><button onclick="fecharModal()">Voltar</button></div></div>');
+  desenharQR($('#qrc'), payload);
+  window._ultimoPix = payload;
+}
+
+// ---------- controle de acesso (código com validade + lista de bloqueio no site) ----------
+const SUPORTE = 'quem instalou o app';
+const TOLERANCIA = 3;   // dias depois de vencer, antes de travar
+if (!D.cfg.aparelho) { D.cfg.aparelho = ACESSO.novoId(); salvar(); }
+function comSuporte(m){ m = String(m||'').trim(); return /fale com/i.test(m) ? m : (m ? m + ' ' : '') + 'Fale com ' + SUPORTE + '.'; }
+function diasEntre(a, b){ return Math.round((dt(b) - dt(a)) / 86400000); }
+function estadoAcesso(){
+  const hj = hoje();
+  if (!D.cfg.maiorData || hj > D.cfg.maiorData) { D.cfg.maiorData = hj; salvar(); }
+  const ref = D.cfg.maiorData > hj ? D.cfg.maiorData : hj;          // se a data do celular voltar, vale a maior já vista
+  const ate = D.cfg.codigo ? ACESSO.conferir(D.cfg.aparelho, D.cfg.codigo) : null;
+  const rem = D.cfg.remoto && D.cfg.remoto.status;
+  const msgRem = (D.cfg.remoto && D.cfg.remoto.msg) || '';
+  if (!ate) return {nivel:'total', motivo:'ativar'};
+  if (rem === 'total') return {nivel:'total', motivo:'remoto', msg:msgRem, ate};
+  const resta = diasEntre(ref, ate);
+  if (resta < -TOLERANCIA) return {nivel:'parcial', motivo:'vencido', ate};
+  if (rem === 'parcial') return {nivel:'parcial', motivo:'remoto', msg:msgRem, ate};
+  if (resta < 0) return {nivel:'ok', aviso:'tolerancia', resta: TOLERANCIA + resta + 1, ate};
+  if (resta <= 7) return {nivel:'ok', aviso:'vence', resta, ate};
+  return {nivel:'ok', ate};
+}
+const dmA = s_ => s_.slice(8,10)+'/'+s_.slice(5,7)+'/'+s_.slice(0,4);
+function avisoAcesso(ac){
+  if (ac.nivel === 'parcial') return '<div class="av-acesso vermelho">'+(ac.motivo==='vencido' ? 'Acesso vencido em '+dmA(ac.ate)+'.' : esc(ac.msg || 'Acesso suspenso.'))+'<br>Resumo e cobranças estão travados. Os carros continuam sendo lançados normalmente.'+(ac.motivo==='vencido' || !/fale com/i.test(ac.msg||'') ? ' Fale com '+SUPORTE+'.' : '')+'</div>';
+  if (ac.aviso === 'vence') return '<div class="av-acesso amarelo">Seu acesso vence '+(ac.resta===0?'hoje':'em '+ac.resta+' dia'+(ac.resta>1?'s':''))+' ('+dmA(ac.ate)+'). Fale com '+SUPORTE+' para renovar.</div>';
+  if (ac.aviso === 'tolerancia') return '<div class="av-acesso vermelho">Seu acesso venceu em '+dmA(ac.ate)+'. Em '+ac.resta+' dia'+(ac.resta>1?'s':'')+' o Resumo e as cobranças serão travados. Fale com '+SUPORTE+'.</div>';
+  return '';
+}
+function telaBloqueio(ac){
+  const ativar = ac.motivo === 'ativar';
+  return '<div class="bloqueio"><div class="top"><div class="wrap row"><div class="logo">'+esc(D.cfg.nome||'POPÔ')+'<small>ESTÉTICA AUTOMOTIVA</small></div></div></div><div class="corpo">'+
+    '<h1>'+(ativar ? 'Ativar o app' : 'Acesso suspenso')+'</h1>'+
+    '<p>'+(ativar ? 'Mande este número para '+SUPORTE+' e digite abaixo o código que receber.' : esc(comSuporte(ac.msg || 'O acesso a este app está suspenso.'))+' Nada foi apagado: quando liberar, está tudo aqui.')+'</p>'+
+    '<div class="pequeno">Número deste celular</div><div class="id">'+esc(D.cfg.aparelho)+'</div>'+
+    '<div class="botoes"><button onclick="A.enviarId()" style="background:var(--wa);color:#fff">Enviar o número pelo WhatsApp</button></div>'+
+    '<div class="campo" style="margin-top:18px"><input id="codIn" placeholder="Código de liberação" autocapitalize="characters" autocomplete="off"></div>'+
+    '<div class="botoes"><button class="pri" onclick="A.digitarCodigo($(\'#codIn\').value)">Liberar</button>'+(ativar?'':'<button onclick="A.checarAgora()">Já paguei: verificar de novo</button>')+'</div>'+
+    '</div></div>';
+}
+function telaTravada(){
+  return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
+}
+function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
+async function checarRemoto(){
+  try {
+    const r = await fetch('acesso.json?t=' + Date.now(), {cache:'no-store'});
+    if (!r.ok) return;
+    const j = await r.json();
+    const meu = ACESSO.limpaId(D.cfg.aparelho);
+    let st = null;
+    for (const k in (j.bloqueados || {})) if (ACESSO.limpaId(k) === meu) st = String(j.bloqueados[k]).toLowerCase().includes('total') ? 'total' : 'parcial';
+    const antes = JSON.stringify(D.cfg.remoto || {});
+    D.cfg.remoto = {status:st, msg:j.mensagem || '', em:Date.now()};
+    if (JSON.stringify(D.cfg.remoto) !== antes) { salvar(); render(); }
+  } catch(e) { /* sem internet: vale a última situação conhecida */ }
+}
+
+// ---------- clientes de conta (fecham no sábado; o que não for pago acumula) ----------
+const contaPorId = id => D.contas.find(c => c.id === id);
+function contaDo(a){
+  if (!D.contas.length || !a) return null;
+  const t = so_dig(a.tel).slice(-8);
+  if (t.length >= 8) { const c = D.contas.find(c => so_dig(c.tel).slice(-8) === t); if (c) return c; }
+  const n = (a.nome||'').trim().toLowerCase();
+  return n ? (D.contas.find(c => c.nome.trim().toLowerCase() === n) || null) : null;
+}
+function saldoConta(c, ate){
+  return r2(c.movs.filter(m => !ate || m.data <= ate).reduce((x,m) => x + (m.tipo==='lav' ? m.valor : -m.valor), 0));
+}
+// ciclo em aberto: movimentos depois da última vez em que a conta zerou
+function cicloAberto(c){
+  const ms = c.movs.slice().sort((a,b)=>a.ts-b.ts);
+  let run = 0, ini = 0;
+  ms.forEach((m,i) => { run = r2(run + (m.tipo==='lav' ? m.valor : -m.valor)); if (run <= 0.001) ini = i+1; });
+  return ms.slice(ini);
+}
+// semana da conta: domingo a sábado
+function inicioSemConta(dia){ const d = dt(dia); d.setDate(d.getDate() - d.getDay()); return ymd(d); }
+function ultimoSabado(dia){ const d = dt(dia); d.setDate(d.getDate() - ((d.getDay()+1)%7)); return ymd(d); }
+// lembrete leve: só no sábado, se ainda deve e não mandou cobrança hoje
+function contaPrecisaCobrar(c){
+  return dt(hoje()).getDay() === 6 && saldoConta(c) > 0 && !(c.cobrancas||[]).includes(hoje());
+}
+function fmtCnpj(k){ const d = so_dig(k); return d.length===14 ? d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5') : k; }
+function mensagemCobranca(c){
+  const ab = cicloAberto(c);
+  let t = 'Popô Estética Automotiva\nConta de ' + c.nome + (ab.length ? ' – desde ' + ddmm(ab[0].data) : '') + '\n\n';
+  ab.forEach(m => t += ddmm(m.data) + ' ' + (m.tipo==='lav' ? m.desc + ' – ' + fmt(m.valor) : 'Pagamento recebido – ' + fmt(m.valor)) + '\n');
+  const deb = saldoConta(c);
+  t += '\n*Valor do débito: ' + fmt(deb) + '*\n';
+  if (D.cfg.pixChave) {
+    t += '\nPix (' + (so_dig(D.cfg.pixChave).length===14?'CNPJ':'chave') + '): ' + fmtCnpj(D.cfg.pixChave) + '\n';
+    if (D.cfg.pixNome) t += 'No banco aparece: ' + titularPix() + '\n';
+    t += 'Ou Pix copia e cola, já com o valor de ' + fmt(deb) + ':\n' + payloadPix(deb) + '\n';
+  }
+  t += '\nObrigado pela preferência!';
+  return t;
+}
+function lancarNaConta(a, c, valor, normal, silencioso, diaLanc){
+  const dia = diaLanc || U.dia;
+  const ts = dia === hoje() ? Date.now() : dt(dia).getTime() + (Date.now() % 3600000);
+  const tam = a.tipo === 'carro' ? tamUsado(a) : null;
+  const linhas = linhasServ(a);
+  const desc = [linhas.map(s => s.nome).join(' + '), (a.itens||[]).map(i => i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · ') + (tam ? ' (' + TAM_NOME[tam] + ')' : '');
+  const l = {id:uid(), ts, data:dia, tipo:a.tipo === 'carro' ? 'carro' : 'venda', chegada:a.data, cliente:c.nome, tel:c.tel, tam,
+    servs:linhas.map(s => ({id:s.id, nome:s.nome, preco:s.preco})), itens:(a.itens||[]).map(i => ({...i})),
+    normal, valor:0, pag:[], desconto:r2(normal - valor), conta:{id:c.id, valor:r2(valor)}};
+  const m = {id:uid(), tipo:'lav', data:dia, ts, desc: desc || 'Serviço', valor:r2(valor), lanc:l.id};
+  D.lanc.push(l); c.movs.push(m);
+  if (a.tipo === 'carro') { a.tam = tam; if (!a.nome) a.nome = c.nome; if (!a.tel) a.tel = c.tel; guardarCliente(a); }
+  const guard = JSON.parse(JSON.stringify(a));
+  D.abertos = D.abertos.filter(x => x.id !== a.id);
+  salvar();
+  if (silencioso) return;
+  vibra([60,40,60]); U.folhas = []; voltarHojeSeOutroDia(); render();
+  const el = document.createElement('div'); el.className = 'ok'; el.id = 'ok'; el.style.background = '#1565C0';
+  el.innerHTML = '<div class="ck" style="color:#1565C0">✓</div><b>'+fmt(valor)+'</b><span>Na conta de '+esc(c.nome)+'<br>Conta agora: '+fmt(saldoConta(c))+'</span><div class="acoes"><button id="okDesf">Desfazer</button><button class="fecha" id="okFecha" style="color:#1565C0">OK</button></div>';
+  document.body.appendChild(el);
+  const tm = setTimeout(fechar, 6000);
+  function fechar(){ clearTimeout(tm); el.remove(); }
+  el.querySelector('#okFecha').onclick = fechar;
+  el.querySelector('#okDesf').onclick = () => {
+    D.lanc = D.lanc.filter(x => x.id !== l.id); c.movs = c.movs.filter(x => x.id !== m.id);
+    if (!guard.temp) D.abertos.push(guard); salvar(); fechar(); render(); toast('Desfeito');
+  };
+}
+function blocoContas(){
+  let h = '<h2 class="sec">Contas de clientes <small>acumula até receber</small></h2>';
+  const ini = inicioSemConta(hoje());
+  D.contas.forEach(c => {
+    const sd = saldoConta(c), cob = contaPrecisaCobrar(c);
+    const ab = cicloAberto(c), nLav = ab.filter(m => m.tipo==='lav').length;
+    h += '<button class="conta-l '+(cob?'cobrar':'')+'" onclick="A.abrirConta(\''+c.id+'\')"><span class="d"><b>'+esc(c.nome)+'</b>'+
+      (cob ? '<span class="tag">Hoje é sábado: enviar cobrança</span>' : '<small>'+(sd>0 ? nLav+' lavage'+(nLav===1?'m':'ns')+' desde '+ddmm(ab[0].data) : 'Conta zerada')+'</small>')+
+      '</span><span class="v">'+fmt(sd)+'</span></button>';
+  });
+  h += '<button class="sem-foto" style="margin-top:0" onclick="A.novaConta()">+ Novo cliente de conta</button>';
+  return h;
+}
+function folhaConta(f){
+  const c = contaPorId(f.id); if (!c) return '';
+  const sd = saldoConta(c);
+  let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>'+esc(c.nome)+'</h1><button class="voltar" onclick="A.editarConta(\''+c.id+'\')">Editar</button>'+(c.tel?'<button class="bq bq-wa" onclick="abrirWa(\''+esc(c.tel)+'\')">'+IC.wa+'</button>':'')+'</div>';
+  h += '<div class="bloco"><div class="total"><span>Deve hoje</span><b style="color:'+(sd>0?'var(--g)':'var(--pago)')+'">'+fmt(sd)+'</b>'+
+    ((c.cobrancas||[]).length ? '<em style="color:var(--muted)">Última cobrança enviada em '+ddmm(c.cobrancas[c.cobrancas.length-1])+'</em>' : '')+'</div></div>';
+  h += '<div class="pe-rec" style="margin-bottom:4px"><button class="b-cobrar" '+(c.tel&&sd>0?'':'disabled style="opacity:.4"')+' onclick="A.cobrar(\''+c.id+'\')">Enviar cobrança no WhatsApp</button></div>';
+  h += '<div class="pe-rec" style="margin-top:10px"><button class="b-recebi" '+(sd>0?'':'disabled style="opacity:.4"')+' onclick="A.recebiConta(\''+c.id+'\')">RECEBI</button></div>';
+  if (!c.tel) h += '<p class="pequeno" style="margin:8px 16px">Sem telefone: toque em Editar para colocar e poder mandar a cobrança.</p>';
+  h += '<h2 class="sec">Extrato</h2><div class="bloco" style="margin-top:0">';
+  const abertos = new Set(cicloAberto(c).map(m => m.id));
+  const movs = c.movs.slice().sort((a,b)=>b.ts-a.ts).slice(0,60);
+  if (!movs.length) h += '<span class="pequeno">Nada lançado ainda.</span>';
+  let grupo = null;
+  movs.forEach(m => {
+    const g = abertos.has(m.id) ? 'Em aberto' : 'Já pago';
+    if (g !== grupo) { h += '<div class="pequeno" style="font-weight:800;margin-top:8px;color:'+(g==='Em aberto'?'#1565C0':'var(--muted)')+'">'+g+'</div>'; grupo = g; }
+    h += '<div class="mov '+(m.tipo==='pag'?'pag':'')+'"><span>'+ddmm(m.data)+' · '+esc(m.tipo==='lav'?m.desc:'Pagamento ('+(FORMAS[m.forma]?FORMAS[m.forma].n:'')+')')+'</span><b>'+(m.tipo==='pag'?'− ':'')+fmt(m.valor)+'</b></div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+// ---------- pergunta da manhã: carros de dias anteriores ----------
+function perguntaManha(){
+  const h = hoje();
+  if (D.perguntaFeita === h) return;
+  // carros pagos que ficaram de ontem saem sozinhos
+  const antes = D.abertos.length;
+  D.abertos = D.abertos.filter(a => !(a.status === 'pago' && (a.pagoEm || a.data) < h));
+  if (D.abertos.length !== antes) salvar();
+  const fila = D.abertos.filter(a => a.tipo === 'carro' && a.status === 'aberto' && a.data < h);
+  if (!fila.length) { D.perguntaFeita = h; salvar(); return; }
+  perguntarCarro(fila, 0);
+}
+function perguntarCarro(fila, i){
+  if (i >= fila.length) { D.perguntaFeita = hoje(); salvar(); fecharModal(); render(); return; }
+  const a = fila[i], tot = totalNormal(a);
+  window._pc = (r) => {
+    if (r === 'aqui') { /* continua aberto */ }
+    else if (r === 'conta') { lancarNaConta(a, contaDo(a), tot.t, tot.t, true, a.data); }
+    else if (r === 'nao') { a.status = 'areceber'; }
+    else {
+      const l = {id:uid(), ts:dt(a.data).getTime()+6*3600000, data:a.data, chegada:a.data, tipo:'carro', cliente:a.nome||'', tel:a.tel||'', tam:tamUsado(a),
+        servs:linhasServ(a).map(s=>({id:s.id,nome:s.nome,preco:s.preco})), itens:(a.itens||[]).map(x=>({...x})), normal:tot.t, valor:tot.t, pag:[{forma:r, valor:tot.t}], desconto:0};
+      if (tot.falta) { toast('Esse carro tem serviço sem valor. Abra o cartão para receber.'); }
+      else { D.lanc.push(l); a.tam = l.tam; guardarCliente(a); D.abertos = D.abertos.filter(x => x.id !== a.id); }
+    }
+    salvar(); perguntarCarro(fila, i+1);
+  };
+  modal('<h3>Carro de '+ddmm(a.data)+' ('+(i+1)+' de '+fila.length+')</h3>'+(a.foto?'<img class="pergunta-foto" src="'+a.foto+'">':'')+
+    '<p><b>'+esc(a.nome||'Sem nome')+'</b> · '+esc(resumoServ(a)||'sem serviço')+(tot.falta?'':' · '+fmt(tot.t))+'</p><p>Este carro já foi pago?</p>'+
+    '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" style="font-size:22px;min-height:60px" '+(tot.falta||!tot.t?'disabled':'')+' onclick="_pc(\''+k+'\')">'+FORMAS[k].n+'</button>').join('')+'</div>'+
+    (contaDo(a)&&!tot.falta?'<button class="pg pg-conta" style="margin-top:10px;font-size:20px" onclick="_pc(\'conta\')">Na conta de '+esc(contaDo(a).nome)+'</button>':'')+
+    '<div class="botoes"><button class="pri" onclick="_pc(\'aqui\')">Ainda está aqui</button><button onclick="_pc(\'nao\')" style="background:#fff1de;color:#8a4a00">Levou e ainda não pagou</button></div>');
+}
+
+// ---------- eventos gerais ----------
+$('#cam').addEventListener('change', e => A.fotoEscolhida(e.target.files[0]));
+$('#cam').addEventListener('cancel', () => A.fotoCancelada());
+$('#arqBackup').addEventListener('change', e => A.recuperar(e.target.files[0]));
+function ligarLogo(){
+  const l = $('#logo'); if (!l) return;
+  let t;
+  const ini = () => { t = setTimeout(() => { vibra(80); abrirFolha({t:'ajustes'}); }, 1500); };
+  const fim = () => clearTimeout(t);
+  l.addEventListener('pointerdown', ini); l.addEventListener('pointerup', fim); l.addEventListener('pointerleave', fim); l.addEventListener('pointercancel', fim);
+  l.addEventListener('contextmenu', e => e.preventDefault());
+}
+// toque e segurar na grade de itens
+(function(){
+  let tm = null, segurou = false, alvo = null, x0 = 0, y0 = 0;
+  document.addEventListener('pointerdown', e => {
+    const pr = e.target.closest('[data-preco]');
+    const it = e.target.closest('[data-item],[data-outro]');
+    if (!it || pr) return;
+    alvo = it; segurou = false; x0 = e.clientX; y0 = e.clientY;
+    tm = setTimeout(() => { segurou = true; if (alvo.dataset.item && alvo.dataset.item !== '__outro') A.segurarItem(alvo.dataset.item); else if (alvo.dataset.outro) A.segurarOutro(+alvo.dataset.outro); }, 500);
+  });
+  document.addEventListener('pointermove', e => { if (alvo && (Math.abs(e.clientX-x0)>12 || Math.abs(e.clientY-y0)>12)) { clearTimeout(tm); alvo = null; } });
+  document.addEventListener('pointerup', e => {
+    clearTimeout(tm);
+    const pr = e.target.closest('[data-preco]');
+    if (pr && !alvo) { A.trocarPrecoItem(pr.dataset.preco); return; }
+    if (alvo && !segurou) { if (alvo.dataset.item) A.toqueItem(alvo.dataset.item); else A.toqueOutro(+alvo.dataset.outro); }
+    alvo = null;
+  });
+  document.addEventListener('pointercancel', () => { clearTimeout(tm); alvo = null; });
+  document.addEventListener('contextmenu', e => { if (e.target.closest('[data-item],[data-outro]')) e.preventDefault(); });
+})();
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { checarRemoto(); if (U.dia < hoje() && !U.folhas.length) U.dia = hoje(); render(); perguntaManha(); } });
+window.addEventListener('popstate', () => { if ($('#modal')) { fecharModal(); history.pushState(null,''); } else if (U.folhas.length) { fecharFolha(); history.pushState(null,''); } });
+history.pushState(null,'');
+// atualiza "há x min" dos cartões
+setInterval(() => { if (U.tela === 'inicio' && !U.folhas.length && !$('#modal') && !$('#ok')) render(); }, 60000);
+
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e) {}
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(()=>{});
+render();
+checarRemoto();
+setInterval(checarRemoto, 30*60000);
+(function(){
+  if (estadoAcesso().nivel === 'total') return;
+  const p = D.abertos.find(a => a.aguardaFoto && !a.foto && Date.now() - a.criado < 15*60000);
+  if (p) { abrirFolha({t:'novo', id:p.id}); return; }
+  perguntaManha();
+})();
+// atalho do ícone (segurar o ícone > Chegou carro): o navegador só abre a câmera depois de um toque
+if (new URLSearchParams(location.search).get('acao') === 'carro') {
+  history.replaceState(null, '', location.pathname);
+  modal('<h3>Chegou carro</h3><div class="botoes"><button class="lim" style="font-size:26px;padding:26px" onclick="fecharModal();A.chegouCarro()">TIRAR FOTO</button><button onclick="fecharModal()">Voltar</button></div>');
+}
+</script>
+</body>
+</html>
