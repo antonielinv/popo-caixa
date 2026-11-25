@@ -66,6 +66,26 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .b-pronto{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 24px);margin:12px;background:var(--wa);color:#fff;border-radius:16px;padding:16px;font-family:var(--fc);font-size:24px;font-weight:800;box-shadow:0 3px 0 rgba(0,0,0,.18)}
 .b-pronto svg{width:28px;height:28px}
 .b-pronto.feito{background:#e5f3e8;color:var(--wa);box-shadow:none;font-size:19px}
+/* v1.5: PRONTO separado do WhatsApp; cliente de conta marcado na chegada */
+.acoes-c{display:flex;gap:6px;margin-top:8px}
+.acoes-c button{border-radius:12px;padding:10px 8px;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;gap:4px;min-height:46px}
+.acoes-c .c-pronto{flex:1;background:var(--lima);color:var(--g);font-family:var(--fc);font-size:21px;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.acoes-c .c-receber{flex:1;background:var(--g);color:#fff;font-family:var(--fc);font-size:21px}
+.acoes-c .c-conta{flex:1;background:#1565C0;color:#fff;font-family:var(--fc);font-size:18px}
+.acoes-c .m-wa{padding:10px 12px}
+.acoes-c .m-wa svg{width:22px;height:22px}
+.tag-conta{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:#1565C0;border-radius:8px;padding:2px 7px;margin-top:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duo{display:flex;gap:10px;margin:12px}
+.duo button{border-radius:16px;padding:16px;font-family:var(--fc);font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.duo .d-pronto{flex:1;background:var(--lima);color:var(--g)}
+.duo .d-wa{flex:none;background:var(--wa);color:#fff;font-size:18px}
+.duo .d-wa svg{width:26px;height:26px}
+.duo .d-feito{flex:1;background:#e5f3e8;color:var(--wa);box-shadow:none;font-size:18px;line-height:1.2;text-align:left;justify-content:flex-start}
+.contas-ch{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.contas-ch button{background:#eaf1fb;color:#1565C0;border-radius:20px;padding:10px 14px;font-weight:800;font-size:16px;border:2px solid #cfe0f5}
+.contas-ch button.on{background:#1565C0;color:#fff;border-color:#1565C0}
+.contas-ch button.novo{background:#fff;border-style:dashed}
+.b-lavconta{display:block;width:calc(100% - 24px);margin:10px 12px 0;background:#1565C0;color:#fff;border-radius:14px;padding:14px;font-weight:800;font-size:17px}
 .cartao .lem{font-size:14px;background:#fff6d8;border-radius:8px;padding:2px 6px;margin-top:4px;display:inline-block}
 .cartao .pe{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px}
 .cartao .tot{font-family:var(--fc);font-size:22px;font-weight:800;white-space:nowrap}
@@ -1907,15 +1927,20 @@ function telaInicio(){
        '<button class="btn-grande b-venda" onclick="A.novaVenda()">'+IC.copo+'VENDA</button></div>';
   h += '<button class="sem-foto" onclick="A.semFoto()">Lançar sem foto</button>';
   h += avisoCopia();
-  const ab = D.abertos.slice().sort((a,b)=>{ const o = {areceber:0, aberto:1, pago:2}; return (o[a.status]-o[b.status]) || a.criado-b.criado; });
+  // ordem: a receber · prontos (próximos a sair) · em serviço · pagos esperando o dono
+  const ordem = a => a.status === 'areceber' ? 0 : a.status === 'pago' ? 3 : (a.tipo === 'carro' && prontoEm(a) ? 1 : 2);
+  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || a.criado-b.criado);
   h += '<h2 class="sec">Em aberto <small>'+(ab.length? ab.length+(ab.length>1?' na lista':' na lista'):'')+'</small></h2>';
   if (!ab.length) h += '<div class="vazio">Nenhum carro ou conta em aberto.</div>';
   ab.forEach(a => h += cartao(a));
   h += blocoContas();
   return h + '</div>';
 }
+function prontoEm(a){ return a.pronto || a.avisado || null; }
 function cartao(a){
   const tot = totalNormal(a);
+  const cc = contaDo(a), pr = a.tipo === 'carro' ? prontoEm(a) : null;
+  const emServico = a.tipo === 'carro' && a.status === 'aberto';
   const cls = a.status === 'pago' ? 'pago' : a.status === 'areceber' ? 'areceber' : '';
   let faixa = '';
   if (a.status === 'pago') faixa = '<div class="faixa">PAGO · '+esc(FORMAS[a.pagoForma]?FORMAS[a.pagoForma].n:'')+' · '+fmt(a.pagoValor)+'</div>';
@@ -1923,15 +1948,23 @@ function cartao(a){
   const foto = a.foto ? '<div class="foto" style="background-image:url('+a.foto+')"></div>' : '<div class="foto">'+(a.tipo==='conta'?IC.copo:IC.carro)+'</div>';
   const nome = a.nome || (a.tipo==='conta' ? 'Conta de bebida' : (a.tel ? a.tel : 'Sem nome'));
   let h = '<div class="cartao '+cls+'" onclick="A.abrir(\''+a.id+'\')">'+faixa+foto+'<div class="info"><div class="nome">'+esc(nome)+'</div>'+
-    (contaDo(a)?'<div class="pequeno" style="color:#1565C0;font-weight:800">cliente de conta</div>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
+    (cc?'<div class="tag-conta">CONTA'+((a.nome||'').trim().toLowerCase()===cc.nome.trim().toLowerCase()?'':' · '+esc(cc.nome))+'</div><br>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
     (a.lembrete?'<div class="lem">'+esc(a.lembrete)+'</div>':'')+
-    (a.avisado?'<div class="avisado">✓ Pronto · avisado '+hora(a.avisado)+'</div>':'')+
+    (pr?'<div class="avisado">✓ Pronto '+hora(pr)+(a.avisado?' · avisado '+hora(a.avisado):'')+'</div>':'')+
     '<div class="pe"><span class="tot">'+(a.status==='pago'?'':(tot.falta?'+ a combinar':fmt(tot.t)))+'</span><div class="mini">';
   if (a.aguardaFoto && !a.foto) h += '<button class="m-it" onclick="event.stopPropagation();A.abrirCamera(\''+a.id+'\')">Foto</button>';
   if (a.status !== 'pago') h += '<button class="m-it" onclick="event.stopPropagation();A.itensPara(\''+a.id+'\')">+ Itens</button>';
-  if (a.tipo === 'carro' && a.status === 'aberto' && !a.avisado) h += '<button class="m-wa m-pronto" onclick="event.stopPropagation();A.carroPronto(\''+a.id+'\')">'+IC.wa+'PRONTO</button>';
-  else if (a.tel) h += '<button class="m-wa" onclick="event.stopPropagation();abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'</button>';
-  return h + '</div></div></div></div>';
+  if (!emServico && a.tel) h += '<button class="m-wa" onclick="event.stopPropagation();abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'</button>';
+  h += '</div></div>';
+  // carro em serviço: PRONTO (só marca) · WhatsApp (avisa) · depois do pronto vira RECEBER / NA CONTA
+  if (emServico) {
+    h += '<div class="acoes-c">';
+    if (!pr) h += '<button class="c-pronto" onclick="event.stopPropagation();A.marcarPronto(\''+a.id+'\')">PRONTO</button>';
+    else if (cc) h += '<button class="c-conta" onclick="event.stopPropagation();A.abrir(\''+a.id+'\')">NA CONTA</button>';
+    else h += '<button class="c-receber" onclick="event.stopPropagation();A.abrir(\''+a.id+'\')">RECEBER</button>';
+    h += '<button class="m-wa" aria-label="Avisar no WhatsApp" onclick="event.stopPropagation();A.carroPronto(\''+a.id+'\')">'+IC.wa+'</button></div>';
+  }
+  return h + '</div></div>';
 }
 
 // ---------- folhas (telas por cima) ----------
@@ -1957,8 +1990,8 @@ function servsVisiveis(moto){
 function folhaNovo(f){
   const a = D.abertos.find(x => x.id === f.id); if (!a) return '';
   const marcados = new Set(a.servs.map(s => s.id));
-  let h = '<div class="f-top"><button class="voltar" onclick="A.prontoNovo()">‹</button><h1>'+(a.foto||a.aguardaFoto?'Carro novo':'Lançar sem foto')+'</h1></div>';
-  h += '<div class="salva"><span>✓ ENTRADA SALVA</span><span>'+hora(a.criado)+'</span></div>';
+  let h = '<div class="f-top"><button class="voltar" onclick="A.prontoNovo()">‹</button><h1>'+(f.daConta?'Lavagem na conta':a.foto||a.aguardaFoto?'Carro novo':'Lançar sem foto')+'</h1></div>';
+  if (!f.daConta) h += '<div class="salva"><span>✓ ENTRADA SALVA</span><span>'+hora(a.criado)+'</span></div>';
   if (a.foto) h += '<img class="rec-foto" src="'+a.foto+'" alt="">';
   else if (a.aguardaFoto) h += '<div class="bloco aviso" style="margin:12px">O carro já está salvo, mas a foto não voltou.<button class="pronto" style="width:100%;margin:10px 0 0" onclick="A.abrirCamera(\''+a.id+'\')">'+'TIRAR FOTO DE NOVO</button></div>';
   h += '<div class="bloco"><h3>Serviço</h3><div class="servs">';
@@ -1971,6 +2004,11 @@ function folhaNovo(f){
     '<button class="bq bq-wa" onclick="abrirWa($(\'#nTel\').value)">'+IC.wa+'</button></div>'+
     '<div class="campo"><input id="nNome" placeholder="Nome ou apelido" value="'+esc(a.nome)+'" oninput="A.digitouNome(\''+a.id+'\',this.value)" autocomplete="off"></div>'+
     '<div id="sugCli" class="sug"></div>';
+  // v1.5: cliente de conta escolhido aqui, com um toque (não depende de digitar o nome igual)
+  const ccN = contaDo(a);
+  h += '<div style="font-weight:800;margin:6px 0 2px;color:#1565C0">É cliente de conta? <span class="pequeno" style="font-weight:600">(paga depois)</span></div><div class="contas-ch">'+
+    D.contas.map(c => '<button class="'+(ccN===c?'on':'')+'" onclick="A.contaNoCarro(\''+a.id+'\',\''+c.id+'\')">'+(ccN===c?'✓ ':'')+esc(c.nome)+'</button>').join('')+
+    '<button class="novo" onclick="A.novaContaNoCarro(\''+a.id+'\')">+ Novo cliente de conta</button></div>';
   const aberto = f.mais || a.tam || a.lembrete;
   h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Menos detalhes':'+ Mais detalhes (tamanho, lembrete)')+'</button>';
   if (aberto) {
@@ -1981,8 +2019,8 @@ function folhaNovo(f){
     h += '<div style="font-weight:800;margin:14px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
   }
   h += '</div>';
-  if (f.semFoto) h += '<button class="pronto" onclick="A.receberAgora(\''+a.id+'\')">RECEBER AGORA</button><button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>';
-  else h += '<button class="pronto" onclick="A.prontoNovo()">PRONTO</button>';
+  if (f.semFoto) h += '<button class="pronto" '+(ccN?'style="background:#1565C0;color:#fff" ':'')+'onclick="A.receberAgora(\''+a.id+'\')">'+(ccN?'LANÇAR NA CONTA AGORA':'RECEBER AGORA')+'</button>'+(f.daConta?'':'<button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>');
+  else h += '<button class="pronto" onclick="A.prontoNovo()">SALVAR</button>';
   return h;
 }
 
@@ -2000,7 +2038,13 @@ function folhaReceber(f){
     h += '<div class="pe-rec"><button class="b-entregue" onclick="A.entregue(\''+a.id+'\')">✓ Entregue</button></div>';
     return h;
   }
-  if (a.tipo === 'carro' && a.status === 'aberto') h += '<button class="b-pronto '+(a.avisado?'feito':'')+'" onclick="A.carroPronto(\''+a.id+'\')">'+IC.wa+(a.avisado?'Avisado às '+hora(a.avisado)+' · avisar de novo':'CARRO PRONTO · avisar no WhatsApp')+'</button>';
+  if (a.tipo === 'carro' && a.status === 'aberto' && !a.temp) {
+    const pr = prontoEm(a);
+    h += '<div class="duo">'+(pr
+      ? '<button class="d-feito" onclick="A.desmarcarPronto(\''+a.id+'\')">✓ Pronto '+hora(pr)+(a.avisado?'<br>avisado '+hora(a.avisado):'<br><small style="font-family:var(--f);font-weight:700">toque para desmarcar</small>')+'</button>'
+      : '<button class="d-pronto" onclick="A.marcarPronto(\''+a.id+'\')">CARRO PRONTO</button>')+
+      '<button class="d-wa" onclick="A.carroPronto(\''+a.id+'\')">'+IC.wa+(a.avisado?'De novo':'Avisar')+'</button></div>';
+  }
   if (a.status === 'areceber') h += '<div class="bloco aviso" style="margin:12px">Levou o carro em '+ddmm(a.data)+' e ainda não pagou.</div>';
   const tam = tamUsado(a), linhas = linhasServ(a);
   if (a.tipo === 'carro') {
@@ -2038,7 +2082,8 @@ function folhaReceber(f){
     else h += '<div class="aviso">1ª forma: '+FORMAS[R.duas.primeira].n+' '+fmt(R.duas.v1)+'. Falta <b>'+fmt(r2(cobrar-R.duas.v1))+'</b>: toque na 2ª forma.</div>';
   }
   const cc = contaDo(a);
-  if (cc && !R.duas) h += '<button class="pg pg-conta" '+(pode?'':'disabled')+' onclick="A.naConta(\''+a.id+'\',\''+cc.id+'\')">NA CONTA · '+esc(cc.nome)+'</button>';
+  if (cc && !R.duas) h += '<button class="pg pg-conta" '+(pode?'':'disabled')+' onclick="A.naConta(\''+a.id+'\',\''+cc.id+'\')">LANÇAR NA CONTA · '+esc(cc.nome)+'</button>'+
+    '<div class="pequeno" style="text-align:center;margin:2px 0 8px">Se ele pagou agora, toque na forma:</div>';
   h += '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" '+(pode?'':'disabled')+' onclick="A.pagar(\''+a.id+'\',\''+k+'\')">'+FORMAS[k].n.toUpperCase()+'</button>').join('')+'</div>';
   if (!R.duas) h += '<button class="qr-btn" '+(pode?'':'disabled')+' onclick="A.mostrarQR(\''+a.id+'\')">Mostrar QR do Pix (cliente aqui)</button>';
   if (R.duas) h += '<button class="duas" onclick="A.duasFormas(\''+a.id+'\')">Cancelar 2 formas</button>';
@@ -2400,6 +2445,40 @@ const A = {
   },
   async checarAgora(){ toast('Verificando…'); await checarRemoto(); const ac = estadoAcesso(); fecharModal(); render(); toast(ac.nivel === 'ok' ? 'Acesso liberado' : 'Ainda não liberado. Fale com ' + SUPORTE); },
 
+  // --- v1.5: PRONTO só marca (cliente pode estar esperando no local) ---
+  marcarPronto(aid){
+    const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    a.pronto = Date.now(); salvar(); vibra(40);
+    if (U.folhas.length) renderFolha(); render();
+    desfazivel('Pronto às ' + hora(a.pronto), () => { delete a.pronto; salvar(); if (U.folhas.length) renderFolha(); render(); });
+  },
+  desmarcarPronto(aid){
+    const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    confirmar('Voltar para "em serviço"?', 'O carro deixa de aparecer como pronto.', 'Sim, desmarcar', 'Não', s => {
+      if (!s) return; delete a.pronto; delete a.avisado; salvar(); if (U.folhas.length) renderFolha(); render();
+    });
+  },
+  // --- v1.5: cliente de conta escolhido na chegada do carro ---
+  contaNoCarro(aid, cid){
+    const a = D.abertos.find(x => x.id === aid), c = contaPorId(cid); if (!a || !c) return;
+    if (contaDo(a) === c) { a.contaId = 'nao'; salvar(); renderFolha(); return; }
+    a.contaId = c.id; a.nome = c.nome; if (c.tel) a.tel = c.tel; salvar(); renderFolha();
+  },
+  novaContaNoCarro(aid){
+    const a = D.abertos.find(x => x.id === aid);
+    A.novaConta(c => { const b = D.abertos.find(x => x.id === aid); if (b) { b.contaId = c.id; b.nome = c.nome; if (c.tel) b.tel = c.tel; salvar(); } renderFolha(); }, a && a.nome ? a : null);
+  },
+  // tela da conta: lançar uma lavagem direto (esqueceu de marcar na chegada ou lavou sem passar pela lista)
+  lavagemConta(cid){
+    const c = contaPorId(cid); if (!c) return;
+    U.folhas = [];
+    const ts = U.dia === hoje() ? Date.now() : dt(U.dia).getTime();
+    const a = {id:uid(), tipo:'carro', criado:ts, data:U.dia, foto:null, tel:c.tel||'', nome:c.nome, contaId:c.id, tam:null, moto:false, servs:[], itens:[], lembrete:'', status:'aberto', pronto:ts, temp:true};
+    const ult = acharCliente(c.tel, c.nome); if (ult && ult.tam) a.tam = ult.tam;
+    D.abertos.push(a); salvar();
+    abrirFolha({t:'novo', id:a.id, semFoto:true, daConta:true});
+  },
+
   // --- carro pronto: abre o WhatsApp do cliente com a mensagem pronta ---
   carroPronto(aid){
     const a = D.abertos.find(x => x.id === aid); if (!a) return;
@@ -2409,7 +2488,7 @@ const A = {
       const primeiro = (a.nome || '').trim().split(/\s+/)[0];
       let msg = (D.cfg.msgPronto || '').replace('{nome}', primeiro || '').replace(/Olá, !/, 'Olá!').replace(/\s+!/, '!');
       window.open(l + '?text=' + encodeURIComponent(msg), '_blank');
-      a.avisado = Date.now(); salvar();
+      a.avisado = Date.now(); if (!a.pronto) a.pronto = a.avisado; salvar();
       if (U.folhas.length) renderFolha(); render();
     };
     if (a.tel) { enviar(); return; }
@@ -2768,7 +2847,7 @@ function telaTravada(){
   return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
 }
 function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
-const VERSAO_APP = '1.4';
+const VERSAO_APP = '1.5';
 async function checarVersao(){
   try {
     const t = await (await fetch('sw.js?t=' + Date.now(), {cache:'no-store'})).text();
@@ -2796,6 +2875,9 @@ async function checarRemoto(){
 const contaPorId = id => D.contas.find(c => c.id === id);
 function contaDo(a){
   if (!D.contas.length || !a) return null;
+  // v1.5: cliente de conta escolhido na chegada vale primeiro; 'nao' = o Popo desmarcou
+  if (a.contaId === 'nao') return null;
+  if (a.contaId) { const c = contaPorId(a.contaId); if (c) return c; }
   const t = so_dig(a.tel).slice(-8);
   if (t.length >= 8) { const c = D.contas.find(c => so_dig(c.tel).slice(-8) === t); if (c) return c; }
   const n = (a.nome||'').trim().toLowerCase();
@@ -2882,6 +2964,7 @@ function folhaConta(f){
     ((c.cobrancas||[]).length ? '<em style="color:var(--muted)">Última cobrança enviada em '+ddmm(c.cobrancas[c.cobrancas.length-1])+'</em>' : '')+'</div></div>';
   h += '<div class="pe-rec" style="margin-bottom:4px"><button class="b-cobrar" '+(c.tel&&sd>0?'':'disabled style="opacity:.4"')+' onclick="A.cobrar(\''+c.id+'\')">Enviar cobrança no WhatsApp</button></div>';
   h += '<div class="pe-rec" style="margin-top:10px"><button class="b-recebi" '+(sd>0?'':'disabled style="opacity:.4"')+' onclick="A.recebiConta(\''+c.id+'\')">RECEBI</button></div>';
+  h += '<button class="b-lavconta" onclick="A.lavagemConta(\''+c.id+'\')">+ Lançar lavagem nesta conta</button>';
   if (!c.tel) h += '<p class="pequeno" style="margin:8px 16px">Sem telefone: toque em Editar para colocar e poder mandar a cobrança.</p>';
   h += '<h2 class="sec">Extrato</h2><div class="bloco" style="margin-top:0">';
   const abertos = new Set(cicloAberto(c).map(m => m.id));
