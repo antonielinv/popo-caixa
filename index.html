@@ -86,6 +86,12 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .contas-ch button.on{background:#1565C0;color:#fff;border-color:#1565C0}
 .contas-ch button.novo{background:#fff;border-style:dashed}
 .b-lavconta{display:block;width:calc(100% - 24px);margin:10px 12px 0;background:#1565C0;color:#fff;border-radius:14px;padding:14px;font-weight:800;font-size:17px}
+.entr{display:inline-block;font-size:14px;font-weight:800;color:#1b3a00;background:#eef7d6;border-radius:8px;padding:2px 6px;margin-top:4px}
+.entr.perto{background:#ffe7c2;color:#8a4500}
+.entr.atrasado{background:var(--red);color:#fff}
+.campo.entrega label{font-weight:800;white-space:nowrap}
+.campo.entrega input{max-width:150px;font-size:18px;font-weight:700}
+.tipo-carro.falta{border:2px solid var(--areceber)}
 .cartao .lem{font-size:14px;background:#fff6d8;border-radius:8px;padding:2px 6px;margin-top:4px;display:inline-block}
 .cartao .pe{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px}
 .cartao .tot{font-family:var(--fc);font-size:22px;font-weight:800;white-space:nowrap}
@@ -1929,7 +1935,9 @@ function telaInicio(){
   h += avisoCopia();
   // ordem: a receber · prontos (próximos a sair) · em serviço · pagos esperando o dono
   const ordem = a => a.status === 'areceber' ? 0 : a.status === 'pago' ? 3 : (a.tipo === 'carro' && prontoEm(a) ? 1 : 2);
-  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || a.criado-b.criado);
+  // em serviço: quem tem horário de entrega mais cedo vem primeiro; sem horário, por chegada
+  const ent = a => (ordem(a) === 2 && a.entrega) ? a.entrega : '99:99';
+  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || ent(a).localeCompare(ent(b)) || a.criado-b.criado);
   h += '<h2 class="sec">Em aberto <small>'+(ab.length? ab.length+(ab.length>1?' na lista':' na lista'):'')+'</small></h2>';
   if (!ab.length) h += '<div class="vazio">Nenhum carro ou conta em aberto.</div>';
   ab.forEach(a => h += cartao(a));
@@ -1937,6 +1945,16 @@ function telaInicio(){
   return h + '</div>';
 }
 function prontoEm(a){ return a.pronto || a.avisado || null; }
+// v1.6: horário de entrega no cartão – laranja faltando 30 min, vermelho se passou e não está pronto
+function etiquetaEntrega(a, pr){
+  let cls = '';
+  if (!pr && a.data === hoje()) {
+    const [hh, mm] = a.entrega.split(':').map(Number), d = new Date();
+    const falta = hh*60 + mm - (d.getHours()*60 + d.getMinutes());
+    cls = falta < 0 ? ' atrasado' : falta <= 30 ? ' perto' : '';
+  }
+  return '<div class="entr'+cls+'">'+(cls===' atrasado'?'ATRASADO · ':'')+'Entregar às '+esc(a.entrega)+'</div><br>';
+}
 function cartao(a){
   const tot = totalNormal(a);
   const cc = contaDo(a), pr = a.tipo === 'carro' ? prontoEm(a) : null;
@@ -1949,6 +1967,7 @@ function cartao(a){
   const nome = a.nome || (a.tipo==='conta' ? 'Conta de bebida' : (a.tel ? a.tel : 'Sem nome'));
   let h = '<div class="cartao '+cls+'" onclick="A.abrir(\''+a.id+'\')">'+faixa+foto+'<div class="info"><div class="nome">'+esc(nome)+'</div>'+
     (cc?'<div class="tag-conta">CONTA'+((a.nome||'').trim().toLowerCase()===cc.nome.trim().toLowerCase()?'':' · '+esc(cc.nome))+'</div><br>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
+    (a.entrega && a.tipo==='carro' && a.status!=='pago' ? etiquetaEntrega(a, pr) : '')+
     (a.lembrete?'<div class="lem">'+esc(a.lembrete)+'</div>':'')+
     (pr?'<div class="avisado">✓ Pronto '+hora(pr)+(a.avisado?' · avisado '+hora(a.avisado):'')+'</div>':'')+
     '<div class="pe"><span class="tot">'+(a.status==='pago'?'':(tot.falta?'+ a combinar':fmt(tot.t)))+'</span><div class="mini">';
@@ -1998,10 +2017,19 @@ function folhaNovo(f){
   servsVisiveis(a.moto).forEach(s => h += '<button class="sv '+(marcados.has(s.id)?'on':'')+'" onclick="A.marcarServ(\''+a.id+'\',\''+s.id+'\')">'+(s.grupo==='cera'?'+ ':'')+esc(s.nome)+'</button>');
   a.servs.filter(s => s.id === 'outro').forEach((s,i) => h += '<button class="sv on" onclick="A.tirarOutro(\''+a.id+'\','+i+')">'+esc(s.nome)+'</button>');
   h += '<button class="sv outro" onclick="A.outroServ(\''+a.id+'\')">+ Outro serviço</button></div></div>';
+  // v1.6: tipo do carro sempre à vista, antes do cliente (muda o preço)
+  h += '<div class="bloco tipo-carro'+(a.tam||a.moto?'':' falta')+'"><h3>Tipo do carro'+(a.tam||a.moto?'':' <span class="pequeno" style="color:var(--areceber)">· marque, muda o preço</span>')+'</h3><div class="tams">';
+  [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
+  h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
+  if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
+  h += '</div>';
   h += '<div class="bloco"><h3>Cliente</h3>'+
     '<div class="campo"><input id="nTel" type="tel" inputmode="tel" placeholder="Telefone" value="'+esc(a.tel)+'" oninput="A.digitouTel(\''+a.id+'\',this.value)">'+
     ('contacts' in navigator && 'select' in (navigator.contacts||{}) ? '<button class="bq bq-ct" onclick="A.contatos(\''+a.id+'\')">'+IC.contato+'Contatos</button>' : '')+
     '<button class="bq bq-wa" onclick="abrirWa($(\'#nTel\').value)">'+IC.wa+'</button></div>'+
+    // v1.6: horário combinado para entregar o carro (logo depois do telefone)
+    '<div class="campo entrega"><label for="nEnt">Entregar às</label><input id="nEnt" type="time" value="'+esc(a.entrega||'')+'" onchange="A.entrega(\''+a.id+'\',this.value)">'+
+    (a.entrega?'<button class="bq" onclick="A.entrega(\''+a.id+'\',\'\',true)">Limpar</button>':'')+'</div>'+
     '<div class="campo"><input id="nNome" placeholder="Nome ou apelido" value="'+esc(a.nome)+'" oninput="A.digitouNome(\''+a.id+'\',this.value)" autocomplete="off"></div>'+
     '<div id="sugCli" class="sug"></div>';
   // v1.5: cliente de conta escolhido aqui, com um toque (não depende de digitar o nome igual)
@@ -2009,14 +2037,10 @@ function folhaNovo(f){
   h += '<div style="font-weight:800;margin:6px 0 2px;color:#1565C0">É cliente de conta? <span class="pequeno" style="font-weight:600">(paga depois)</span></div><div class="contas-ch">'+
     D.contas.map(c => '<button class="'+(ccN===c?'on':'')+'" onclick="A.contaNoCarro(\''+a.id+'\',\''+c.id+'\')">'+(ccN===c?'✓ ':'')+esc(c.nome)+'</button>').join('')+
     '<button class="novo" onclick="A.novaContaNoCarro(\''+a.id+'\')">+ Novo cliente de conta</button></div>';
-  const aberto = f.mais || a.tam || a.lembrete;
-  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Menos detalhes':'+ Mais detalhes (tamanho, lembrete)')+'</button>';
+  const aberto = f.mais || a.lembrete;
+  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Esconder lembrete':'+ Lembrete')+'</button>';
   if (aberto) {
-    h += '<div style="font-weight:800;margin:4px 0 6px">Tamanho</div><div class="tams">';
-    [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
-    h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
-    if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
-    h += '<div style="font-weight:800;margin:14px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
+    h += '<div style="font-weight:800;margin:4px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
   }
   h += '</div>';
   if (f.semFoto) h += '<button class="pronto" '+(ccN?'style="background:#1565C0;color:#fff" ':'')+'onclick="A.receberAgora(\''+a.id+'\')">'+(ccN?'LANÇAR NA CONTA AGORA':'RECEBER AGORA')+'</button>'+(f.daConta?'':'<button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>');
@@ -2374,6 +2398,7 @@ const A = {
     salvar(); renderFolha();
   },
   lembrete(aid, v){ const a = D.abertos.find(x => x.id === aid); if (a) { a.lembrete = v; salvar(); } },
+  entrega(aid, v, redesenha){ const a = D.abertos.find(x => x.id === aid); if (!a) return; const tinha = !!a.entrega; a.entrega = /^\d\d:\d\d$/.test(v) ? v : ''; salvar(); if (redesenha || tinha !== !!a.entrega) renderFolha(); },
   prontoNovo(){
     const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === f.id);
     if (a) guardarCliente(a); salvar(); voltarHojeSeOutroDia(); fecharTodas();
@@ -2847,7 +2872,7 @@ function telaTravada(){
   return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
 }
 function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
-const VERSAO_APP = '1.5';
+const VERSAO_APP = '1.6';
 async function checarVersao(){
   try {
     const t = await (await fetch('sw.js?t=' + Date.now(), {cache:'no-store'})).text();
