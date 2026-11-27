@@ -86,12 +86,6 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .contas-ch button.on{background:#1565C0;color:#fff;border-color:#1565C0}
 .contas-ch button.novo{background:#fff;border-style:dashed}
 .b-lavconta{display:block;width:calc(100% - 24px);margin:10px 12px 0;background:#1565C0;color:#fff;border-radius:14px;padding:14px;font-weight:800;font-size:17px}
-.entr{display:inline-block;font-size:14px;font-weight:800;color:#1b3a00;background:#eef7d6;border-radius:8px;padding:2px 6px;margin-top:4px}
-.entr.perto{background:#ffe7c2;color:#8a4500}
-.entr.atrasado{background:var(--red);color:#fff}
-.campo.entrega label{font-weight:800;white-space:nowrap}
-.campo.entrega input{max-width:150px;font-size:18px;font-weight:700}
-.tipo-carro.falta{border:2px solid var(--areceber)}
 .cartao .lem{font-size:14px;background:#fff6d8;border-radius:8px;padding:2px 6px;margin-top:4px;display:inline-block}
 .cartao .pe{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:6px}
 .cartao .tot{font-family:var(--fc);font-size:22px;font-weight:800;white-space:nowrap}
@@ -102,8 +96,7 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .m-it{background:#eef3e6}
 .faixa{position:absolute;top:0;left:0;right:0;color:#fff;font-weight:800;font-size:13px;padding:3px 10px;letter-spacing:.6px}
 .cartao.pago{outline:3px solid var(--pago)} .cartao.pago .faixa{background:var(--pago)}
-.cartao.areceber{outline:3px solid var(--areceber)} .cartao.areceber .faixa{background:var(--areceber)}
-.cartao.pago .info,.cartao.areceber .info{padding-top:24px}
+.cartao.pago .info{padding-top:24px}
 /* barra de baixo */
 .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;z-index:6;padding-bottom:env(safe-area-inset-bottom)}
 .nav .in{display:flex;max-width:560px;width:100%}
@@ -190,7 +183,16 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .mudou{display:block;font-size:12px;color:var(--muted)}
 /* resumo */
 .abas{display:flex;gap:8px;margin:12px}
-.abas button{flex:1;border-radius:14px;padding:12px;font-family:var(--fc);font-weight:800;font-size:22px;background:#fff;border:2px solid var(--line)}
+.abas button{flex:1;min-width:0;border-radius:14px;padding:12px 4px;font-family:var(--fc);font-weight:800;font-size:19px;background:#fff;border:2px solid var(--line)}
+.filtro{margin:0 12px 6px;background:var(--card);border-radius:16px;padding:12px}
+.filtro .datas{display:flex;gap:8px;align-items:center}
+.filtro .datas label{flex:1;font-weight:800;font-size:13px;color:var(--muted);text-transform:uppercase}
+.filtro .datas input{display:block;width:100%;margin-top:3px;border:2px solid var(--line);border-radius:10px;padding:9px 6px;font-size:16px;font-family:inherit}
+.filtro .atalhos{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.filtro .atalhos button{background:#eef3e6;border-radius:20px;padding:8px 12px;font-weight:800;font-size:14px}
+.filtro .atalhos button.on{background:var(--g);color:#fff}
+.linha b{white-space:nowrap}
+.dias.muitos{gap:3px}.dias.muitos div{font-size:11px}.dias.muitos b{font-size:12px}
 .abas button.on{background:var(--g);color:#fff;border-color:var(--g)}
 .per{display:flex;align-items:center;justify-content:space-between;margin:0 12px}
 .per button{background:#fff;border-radius:12px;width:54px;height:48px;font-size:26px;font-weight:800;border:2px solid var(--line)}
@@ -271,6 +273,54 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .mov.pag b{color:var(--pago)}
 .b-cobrar{background:var(--wa);color:#fff}
 .b-recebi{background:var(--lima);color:var(--g)}
+/* v1.6: saída do carro (pagou agora · cliente de conta · vai pagar depois) e devedores */
+.acoes-c .c-depois{flex:1;min-width:0;background:#fff1de;color:#8a4a00;font-size:13px;line-height:1.1;padding:6px 4px;border:2px solid #f3cf9c}
+.acoes-c .c-receber:has(+ .c-depois){font-size:18px;min-width:0}
+.nao-pagou{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.nao-pagou button{border-radius:18px;padding:14px 6px;font-family:var(--fc);font-weight:800;font-size:21px;line-height:1.1;min-height:72px;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.nao-pagou button small{display:block;font-family:var(--f);font-size:13px;font-weight:700;opacity:.9;margin-top:3px}
+.nao-pagou button:disabled{opacity:.35}
+.b-ncont{background:#1565C0;color:#fff}
+.b-depois{background:var(--areceber);color:#fff}
+.sub-pg{font-weight:800;color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px}
+.conta-l.dev{border-color:#f3cf9c;background:#fff8ee}
+.conta-l.dev .v{color:#8a4a00}
+.conta-l.velho{border-color:var(--red)}
+.conta-l.dev.velho{border-color:var(--red);background:#fdeeee}
+.conta-l .tagd{display:block;color:#8a4a00;font-weight:800;font-size:14px}
+.conta-l.velho .tagd{color:var(--red)}
+.aviso-dev{background:#fff1de;border:2px solid #f3cf9c;color:#8a4a00;border-radius:12px;padding:10px 12px;font-weight:800;margin:12px}
+.np{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid #eef2e8}
+.np:last-child{border-bottom:0}
+.np .d{flex:1;min-width:0}
+.np .d b{display:block;font-size:17px}
+.np .d small{display:block;color:var(--muted);font-size:14px}
+.np .v{text-align:right;white-space:nowrap;font-weight:800}
+.chip-st{display:inline-block;font-size:12px;font-weight:800;border-radius:8px;padding:2px 6px;margin-top:3px}
+.st-ok{background:#e5f3e8;color:var(--pago)} .st-deve{background:#fde8e8;color:var(--red)} .st-parte{background:#fff1de;color:#8a4a00}
+.tp-conta{background:#1565C0;color:#fff} .tp-dev{background:var(--areceber);color:#fff} .tp-patio{background:#eee;color:#555}
+.busca-ct{width:100%;border:2px solid var(--line);border-radius:12px;padding:12px;font-size:18px;margin-bottom:8px}
+.rel-entrou{margin:12px;background:var(--g);color:#fff;border-radius:20px;padding:16px;text-align:center}
+.rel-entrou>span{font-weight:800;font-size:15px;letter-spacing:.5px;opacity:.85}
+.rel-entrou>b{display:block;font-family:var(--fc);font-size:52px;line-height:1.05;margin:2px 0 10px}
+.rel-entrou .gb{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rel-entrou .gb div{background:rgba(255,255,255,.12);border-radius:12px;padding:8px}
+.rel-entrou .gb small{display:block;font-size:13px;opacity:.85}
+.rel-entrou .gb strong{font-family:var(--fc);font-size:22px}
+.rel-entrou .nota{margin:10px 0 0;font-size:15px;font-weight:700}
+.rel-entrou .nota[style]{background:#fff;border-radius:10px;padding:6px}
+.num .sub{display:block;color:var(--muted);font-size:15px;font-weight:700;margin-top:2px}
+.duas-col .num b{white-space:nowrap;font-size:clamp(20px,6.6vw,28px)}
+.duas-col .num{min-width:0;overflow:hidden}
+.num.fiado{background:#fff1de}.num.fiado b{color:#8a4a00}
+.fiado-b{border:2px solid var(--areceber)}
+.b-clientes{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 24px);margin:4px 12px 12px;background:#eaf1fb;color:#1565C0;border:2px solid #cfe0f5;border-radius:14px;padding:13px;font-weight:800;font-size:17px}
+.b-clientes svg{width:22px;height:22px}
+.cli-l{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:11px 0;border-bottom:1px solid #eef2e8}
+.cli-l span{flex:1;min-width:0}.cli-l b{display:block;font-size:18px}.cli-l small{display:block;color:var(--muted);font-size:14px}
+.cli-l em{font-style:normal;font-weight:800;white-space:nowrap;color:var(--muted)}
+.ver-mais{display:block;width:calc(100% - 24px);margin:14px 12px 4px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:13px;font-weight:800;font-size:17px;color:var(--g)}
+.dias .snp{display:block;font-size:11px;font-weight:800;color:var(--areceber);min-height:14px}
 </style>
 </head>
 <body>
@@ -1710,12 +1760,26 @@ if (!D.cfg.msgPronto) D.cfg.msgPronto = 'Olá, {nome}! Aqui é do Lava Jato do P
 if (!D.cfg.pixCidade) D.cfg.pixCidade = 'Brasília';
 if (!D.cfg.pixNome || D.cfg.pixNome === 'POPO ESTETICA AUTOMOTIVA') D.cfg.pixNome = 'DOUGLAS PEREIRA LEITE';
 if (D.cfg.pixBanco == null) D.cfg.pixBanco = 'Mercado Pago';
+// v1.6: clientes de conta (semanal, cadastrados nos Ajustes) e devedores (avulso, criados ao sair sem pagar)
+function migrar(){
+  if (!D.contas) D.contas = [];
+  D.contas.forEach(c => { if (!c.tipo) c.tipo = 'semanal'; if (c.ativo == null) c.ativo = true; if (!c.movs) c.movs = []; if (!c.cobrancas) c.cobrancas = []; });
+  D.lanc.forEach(l => { if (l.conta && !l.conta.tipo) { const c = D.contas.find(x => x.id === l.conta.id); l.conta.tipo = c ? c.tipo : 'semanal'; } });
+  // carros que estavam "A RECEBER" na v1.5 viram devedores, lançados no dia em que saíram
+  const ar = D.abertos.filter(a => a.status === 'areceber');
+  ar.forEach(a => {
+    const tot = totalNormal(a); if (tot.falta || !tot.t) { a.status = 'aberto'; return; }
+    const c = devedorPara(a.nome || ('Sem nome ' + ddmm(a.data)), a.tel || '');
+    lancarNaConta(a, c, tot.t, tot.t, true, a.data);
+  });
+  if (ar.length) salvar();
+}
 function titularPix(){ const n = String(D.cfg.pixNome||'').toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()); return n + (D.cfg.pixBanco ? ' (' + D.cfg.pixBanco + ')' : ''); }
 function salvar(){
   try { localStorage.setItem(KEY, JSON.stringify(D)); }
   catch(e){ toast('Memória do celular cheia. Avise quem instalou o app.'); }
 }
-const U = { tela:'inicio', dia:hoje(), resumo:'dia', resDia:hoje(), resSem:null, folhas:[], novo:null, venda:null, rec:null };
+const U = { verMais:false, tela:'inicio', dia:hoje(), resumo:'dia', resDia:hoje(), resSem:null, resMes:null, perIni:null, perFim:null, perAtalho:'30', folhas:[], novo:null, venda:null, rec:null };
 
 // ---------- regras de preço ----------
 const servPorId = id => D.servicos.find(s => s.id === id);
@@ -1754,8 +1818,6 @@ function resumoServ(a){
   const q = (a.itens||[]).reduce((x,i)=>x+i.qtd,0);
   return [n, q ? q+(q>1?' itens':' item') : ''].filter(Boolean).join(' · ');
 }
-function usoServ(){ const c={}; D.lanc.forEach(l => (l.servs||[]).forEach(s => c[s.id]=(c[s.id]||0)+1)); return c; }
-function usoItem(){ const c={}; D.lanc.forEach(l => (l.itens||[]).forEach(i => c[i.id]=(c[i.id]||0)+i.qtd)); return c; }
 
 // ---------- clientes ----------
 function acharCliente(tel, nome){
@@ -1933,41 +1995,28 @@ function telaInicio(){
        '<button class="btn-grande b-venda" onclick="A.novaVenda()">'+IC.copo+'VENDA</button></div>';
   h += '<button class="sem-foto" onclick="A.semFoto()">Lançar sem foto</button>';
   h += avisoCopia();
-  // ordem: a receber · prontos (próximos a sair) · em serviço · pagos esperando o dono
-  const ordem = a => a.status === 'areceber' ? 0 : a.status === 'pago' ? 3 : (a.tipo === 'carro' && prontoEm(a) ? 1 : 2);
-  // em serviço: quem tem horário de entrega mais cedo vem primeiro; sem horário, por chegada
-  const ent = a => (ordem(a) === 2 && a.entrega) ? a.entrega : '99:99';
-  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || ent(a).localeCompare(ent(b)) || a.criado-b.criado);
+  // ordem: prontos (próximos a sair) · em serviço · pagos esperando o dono
+  const ordem = a => a.status === 'pago' ? 3 : (a.tipo === 'carro' && prontoEm(a) ? 1 : 2);
+  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || a.criado-b.criado);
   h += '<h2 class="sec">Em aberto <small>'+(ab.length? ab.length+(ab.length>1?' na lista':' na lista'):'')+'</small></h2>';
-  if (!ab.length) h += '<div class="vazio">Nenhum carro ou conta em aberto.</div>';
+  if (!ab.length) h += '<div class="vazio">Nenhum carro na lista.</div>';
   ab.forEach(a => h += cartao(a));
-  h += blocoContas();
+  h += blocoDevedores() + blocoContas();
   return h + '</div>';
 }
 function prontoEm(a){ return a.pronto || a.avisado || null; }
-// v1.6: horário de entrega no cartão – laranja faltando 30 min, vermelho se passou e não está pronto
-function etiquetaEntrega(a, pr){
-  let cls = '';
-  if (!pr && a.data === hoje()) {
-    const [hh, mm] = a.entrega.split(':').map(Number), d = new Date();
-    const falta = hh*60 + mm - (d.getHours()*60 + d.getMinutes());
-    cls = falta < 0 ? ' atrasado' : falta <= 30 ? ' perto' : '';
-  }
-  return '<div class="entr'+cls+'">'+(cls===' atrasado'?'ATRASADO · ':'')+'Entregar às '+esc(a.entrega)+'</div><br>';
-}
 function cartao(a){
   const tot = totalNormal(a);
   const cc = contaDo(a), pr = a.tipo === 'carro' ? prontoEm(a) : null;
   const emServico = a.tipo === 'carro' && a.status === 'aberto';
-  const cls = a.status === 'pago' ? 'pago' : a.status === 'areceber' ? 'areceber' : '';
+  const cls = a.status === 'pago' ? 'pago' : '';
   let faixa = '';
   if (a.status === 'pago') faixa = '<div class="faixa">PAGO · '+esc(FORMAS[a.pagoForma]?FORMAS[a.pagoForma].n:'')+' · '+fmt(a.pagoValor)+'</div>';
-  if (a.status === 'areceber') faixa = '<div class="faixa">A RECEBER · desde '+ddmm(a.data)+'</div>';
   const foto = a.foto ? '<div class="foto" style="background-image:url('+a.foto+')"></div>' : '<div class="foto">'+(a.tipo==='conta'?IC.copo:IC.carro)+'</div>';
-  const nome = a.nome || (a.tipo==='conta' ? 'Conta de bebida' : (a.tel ? a.tel : 'Sem nome'));
+  const nome = a.nome || (a.tipo==='conta' ? 'Venda' : (a.tel ? a.tel : 'Sem nome'));
   let h = '<div class="cartao '+cls+'" onclick="A.abrir(\''+a.id+'\')">'+faixa+foto+'<div class="info"><div class="nome">'+esc(nome)+'</div>'+
-    (cc?'<div class="tag-conta">CONTA'+((a.nome||'').trim().toLowerCase()===cc.nome.trim().toLowerCase()?'':' · '+esc(cc.nome))+'</div><br>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
-    (a.entrega && a.tipo==='carro' && a.status!=='pago' ? etiquetaEntrega(a, pr) : '')+
+    (cc?'<div class="tag-conta">CONTA'+((a.nome||'').trim().toLowerCase()===cc.nome.trim().toLowerCase()?'':' · '+esc(cc.nome))+'</div><br>':'')+
+    (devedorDo(a)?'<div class="tag-conta" style="background:var(--areceber)">JÁ DEVE '+fmt(saldoConta(devedorDo(a)))+'</div><br>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
     (a.lembrete?'<div class="lem">'+esc(a.lembrete)+'</div>':'')+
     (pr?'<div class="avisado">✓ Pronto '+hora(pr)+(a.avisado?' · avisado '+hora(a.avisado):'')+'</div>':'')+
     '<div class="pe"><span class="tot">'+(a.status==='pago'?'':(tot.falta?'+ a combinar':fmt(tot.t)))+'</span><div class="mini">';
@@ -1980,7 +2029,8 @@ function cartao(a){
     h += '<div class="acoes-c">';
     if (!pr) h += '<button class="c-pronto" onclick="event.stopPropagation();A.marcarPronto(\''+a.id+'\')">PRONTO</button>';
     else if (cc) h += '<button class="c-conta" onclick="event.stopPropagation();A.abrir(\''+a.id+'\')">NA CONTA</button>';
-    else h += '<button class="c-receber" onclick="event.stopPropagation();A.abrir(\''+a.id+'\')">RECEBER</button>';
+    else h += '<button class="c-receber" onclick="event.stopPropagation();A.abrir(\''+a.id+'\')">RECEBER</button>'+
+      '<button class="c-depois" onclick="event.stopPropagation();A.pagarDepois(\''+a.id+'\')">LEVOU<br>SEM PAGAR</button>';
     h += '<button class="m-wa" aria-label="Avisar no WhatsApp" onclick="event.stopPropagation();A.carroPronto(\''+a.id+'\')">'+IC.wa+'</button></div>';
   }
   return h + '</div></div>';
@@ -1997,7 +2047,7 @@ function renderFolha(){
   if (!f) { if (el) el.remove(); return; }
   if (!el) { el = document.createElement('div'); el.id = 'folha'; el.className = 'folha'; document.body.appendChild(el); }
   const st = el.scrollTop;
-  el.innerHTML = '<div class="wrap">' + ({novo:folhaNovo, receber:folhaReceber, itens:folhaItens, addserv:folhaAddServ, ajustes:folhaAjustes, conta:folhaConta}[f.t])(f) + '</div>';
+  el.innerHTML = '<div class="wrap">' + ({novo:folhaNovo, receber:folhaReceber, itens:folhaItens, addserv:folhaAddServ, ajustes:folhaAjustes, conta:folhaConta, clientes:folhaClientes}[f.t])(f) + '</div>';
   el.scrollTop = st;
 }
 
@@ -2017,33 +2067,27 @@ function folhaNovo(f){
   servsVisiveis(a.moto).forEach(s => h += '<button class="sv '+(marcados.has(s.id)?'on':'')+'" onclick="A.marcarServ(\''+a.id+'\',\''+s.id+'\')">'+(s.grupo==='cera'?'+ ':'')+esc(s.nome)+'</button>');
   a.servs.filter(s => s.id === 'outro').forEach((s,i) => h += '<button class="sv on" onclick="A.tirarOutro(\''+a.id+'\','+i+')">'+esc(s.nome)+'</button>');
   h += '<button class="sv outro" onclick="A.outroServ(\''+a.id+'\')">+ Outro serviço</button></div></div>';
-  // v1.6: tipo do carro sempre à vista, antes do cliente (muda o preço)
-  h += '<div class="bloco tipo-carro'+(a.tam||a.moto?'':' falta')+'"><h3>Tipo do carro'+(a.tam||a.moto?'':' <span class="pequeno" style="color:var(--areceber)">· marque, muda o preço</span>')+'</h3><div class="tams">';
-  [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
-  h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
-  if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
-  h += '</div>';
   h += '<div class="bloco"><h3>Cliente</h3>'+
     '<div class="campo"><input id="nTel" type="tel" inputmode="tel" placeholder="Telefone" value="'+esc(a.tel)+'" oninput="A.digitouTel(\''+a.id+'\',this.value)">'+
     ('contacts' in navigator && 'select' in (navigator.contacts||{}) ? '<button class="bq bq-ct" onclick="A.contatos(\''+a.id+'\')">'+IC.contato+'Contatos</button>' : '')+
     '<button class="bq bq-wa" onclick="abrirWa($(\'#nTel\').value)">'+IC.wa+'</button></div>'+
-    // v1.6: horário combinado para entregar o carro (logo depois do telefone)
-    '<div class="campo entrega"><label for="nEnt">Entregar às</label><input id="nEnt" type="time" value="'+esc(a.entrega||'')+'" onchange="A.entrega(\''+a.id+'\',this.value)">'+
-    (a.entrega?'<button class="bq" onclick="A.entrega(\''+a.id+'\',\'\',true)">Limpar</button>':'')+'</div>'+
     '<div class="campo"><input id="nNome" placeholder="Nome ou apelido" value="'+esc(a.nome)+'" oninput="A.digitouNome(\''+a.id+'\',this.value)" autocomplete="off"></div>'+
     '<div id="sugCli" class="sug"></div>';
-  // v1.5: cliente de conta escolhido aqui, com um toque (não depende de digitar o nome igual)
-  const ccN = contaDo(a);
-  h += '<div style="font-weight:800;margin:6px 0 2px;color:#1565C0">É cliente de conta? <span class="pequeno" style="font-weight:600">(paga depois)</span></div><div class="contas-ch">'+
-    D.contas.map(c => '<button class="'+(ccN===c?'on':'')+'" onclick="A.contaNoCarro(\''+a.id+'\',\''+c.id+'\')">'+(ccN===c?'✓ ':'')+esc(c.nome)+'</button>').join('')+
-    '<button class="novo" onclick="A.novaContaNoCarro(\''+a.id+'\')">+ Novo cliente de conta</button></div>';
-  const aberto = f.mais || a.lembrete;
-  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Esconder lembrete':'+ Lembrete')+'</button>';
+  // v1.6: a decisão (pagou / conta / depois) é na saída; aqui só avisa o que o app reconheceu pelo telefone
+  const ccN = contaDo(a), devN = devedorDo(a);
+  if (ccN) h += '<div class="tag-conta" style="font-size:15px;padding:4px 9px">CLIENTE DE CONTA · '+esc(ccN.nome)+'</div>';
+  if (devN) h += '<div class="aviso-dev" style="margin:8px 0 0">'+esc(devN.nome)+' já deve '+fmt(saldoConta(devN))+' desde '+ddmm(devendoDesde(devN))+'.</div>';
+  const aberto = f.mais || a.tam || a.lembrete;
+  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Menos detalhes':'+ Mais detalhes (tamanho, lembrete)')+'</button>';
   if (aberto) {
-    h += '<div style="font-weight:800;margin:4px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
+    h += '<div style="font-weight:800;margin:4px 0 6px">Tamanho</div><div class="tams">';
+    [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
+    h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
+    if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
+    h += '<div style="font-weight:800;margin:14px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
   }
   h += '</div>';
-  if (f.semFoto) h += '<button class="pronto" '+(ccN?'style="background:#1565C0;color:#fff" ':'')+'onclick="A.receberAgora(\''+a.id+'\')">'+(ccN?'LANÇAR NA CONTA AGORA':'RECEBER AGORA')+'</button>'+(f.daConta?'':'<button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>');
+  if (f.semFoto) h += '<button class="pronto" '+(f.daConta?'style="background:#1565C0;color:#fff" ':'')+'onclick="A.receberAgora(\''+a.id+'\')">'+(f.daConta?'LANÇAR NA CONTA':'RECEBER AGORA')+'</button>'+(f.daConta?'':'<button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>');
   else h += '<button class="pronto" onclick="A.prontoNovo()">SALVAR</button>';
   return h;
 }
@@ -2052,7 +2096,7 @@ function folhaNovo(f){
 function folhaReceber(f){
   const a = D.abertos.find(x => x.id === f.id); if (!a) return '';
   const R = f;  // estado da tela: outro (valor combinado), duas (modo 2 formas)
-  const nome = a.nome || (a.tipo==='conta' ? 'Conta de bebida' : 'Cliente sem nome');
+  const nome = a.nome || (a.tipo==='conta' ? 'Venda' : 'Cliente sem nome');
   let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>'+esc(nome)+'</h1>'+
     (a.tel?'<button class="bq bq-wa" onclick="abrirWa(\''+esc(a.tel)+'\')">'+IC.wa+'WhatsApp</button>':'')+'</div>';
   if (a.foto) h += '<img class="rec-foto" src="'+a.foto+'" alt="">';
@@ -2069,7 +2113,8 @@ function folhaReceber(f){
       : '<button class="d-pronto" onclick="A.marcarPronto(\''+a.id+'\')">CARRO PRONTO</button>')+
       '<button class="d-wa" onclick="A.carroPronto(\''+a.id+'\')">'+IC.wa+(a.avisado?'De novo':'Avisar')+'</button></div>';
   }
-  if (a.status === 'areceber') h += '<div class="bloco aviso" style="margin:12px">Levou o carro em '+ddmm(a.data)+' e ainda não pagou.</div>';
+  const jaDeve = devedorDo(a);
+  if (jaDeve) h += '<div class="aviso-dev">Atenção: '+esc(jaDeve.nome)+' já deve '+fmt(saldoConta(jaDeve))+' desde '+ddmm(devendoDesde(jaDeve))+'.</div>';
   const tam = tamUsado(a), linhas = linhasServ(a);
   if (a.tipo === 'carro') {
     const caro = linhas.some(s => ['pol','hig','vit'].includes(s.id));
@@ -2080,7 +2125,7 @@ function folhaReceber(f){
     lista.forEach(t => h += '<button class="tm '+(tam===t[0]?(a.tam?'on':'on palpite'):'')+'" onclick="A.tamRec(\''+a.id+'\',\''+t[0]+'\')">'+(a.moto?IC.moto:IC[{P:'carro',S:'suv',C:'caminhonete'}[t[0]]])+t[1]+'</button>');
     h += '</div></div>';
   }
-  h += '<div class="bloco"><h3>Conta</h3>';
+  h += '<div class="bloco"><h3>Serviços e itens</h3>';
   if (!linhas.length && !(a.itens||[]).length) h += '<div class="pequeno" style="padding:6px 0">Nada marcado ainda. Toque em + Serviço ou + Itens.</div>';
   linhas.forEach((s,i) => {
     h += '<div class="linha"><span>'+esc(s.nome)+'</span><span style="display:flex;align-items:center;gap:4px">'+
@@ -2106,16 +2151,23 @@ function folhaReceber(f){
     else h += '<div class="aviso">1ª forma: '+FORMAS[R.duas.primeira].n+' '+fmt(R.duas.v1)+'. Falta <b>'+fmt(r2(cobrar-R.duas.v1))+'</b>: toque na 2ª forma.</div>';
   }
   const cc = contaDo(a);
+  // v1.6: cliente de conta reconhecido pelo telefone: o botão dele vem primeiro
   if (cc && !R.duas) h += '<button class="pg pg-conta" '+(pode?'':'disabled')+' onclick="A.naConta(\''+a.id+'\',\''+cc.id+'\')">LANÇAR NA CONTA · '+esc(cc.nome)+'</button>'+
     '<div class="pequeno" style="text-align:center;margin:2px 0 8px">Se ele pagou agora, toque na forma:</div>';
+  if (!cc && !R.duas) h += '<div class="sub-pg">Pagou agora</div>';
   h += '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" '+(pode?'':'disabled')+' onclick="A.pagar(\''+a.id+'\',\''+k+'\')">'+FORMAS[k].n.toUpperCase()+'</button>').join('')+'</div>';
   if (!R.duas) h += '<button class="qr-btn" '+(pode?'':'disabled')+' onclick="A.mostrarQR(\''+a.id+'\')">Mostrar QR do Pix (cliente aqui)</button>';
   if (R.duas) h += '<button class="duas" onclick="A.duasFormas(\''+a.id+'\')">Cancelar 2 formas</button>';
-  else if (!R.mais) h += '<button class="duas" onclick="A.outrasOpcoes()">Outras opções ▾</button>';
-  else h += '<div class="botoes" style="margin-top:12px"><button onclick="A.duasFormas(\''+a.id+'\')">Pagou em 2 formas</button>'+
-    (!cc ? '<button style="color:#1565C0" '+(pode?'':'disabled')+' onclick="A.escolherConta(\''+a.id+'\')">Lançar na conta de um cliente</button>' : '')+
-    '<button style="background:#fff;color:var(--muted)" onclick="A.outrasOpcoes()">Fechar opções ▴</button></div>';
+  else h += '<button class="duas" onclick="A.duasFormas(\''+a.id+'\')">Pagou em 2 formas</button>';
   h += '</div>';
+  // v1.6: não pagou agora → cliente de conta (só cadastrado) ou devedor
+  if (!R.duas) {
+    const nSem = semanais().length;
+    h += '<div class="bloco"><div class="sub-pg">Não pagou agora</div><div class="nao-pagou">'+
+      '<button class="b-ncont" '+(pode && nSem ? '' : 'disabled')+' onclick="A.escolherConta(\''+a.id+'\')">CLIENTE DE CONTA<small>'+(nSem ? 'paga no sábado' : 'nenhum cadastrado')+'</small></button>'+
+      '<button class="b-depois" '+(pode?'':'disabled')+' onclick="A.pagarDepois(\''+a.id+'\')">VAI PAGAR DEPOIS<small>fica no fiado</small></button></div>'+
+      (!nSem ? '<button class="na-conta-link" onclick="abrirFolha({t:\'clientes\'})">Cadastrar cliente de conta</button>' : '')+'</div>';
+  }
   h += '<div class="pe-rec"><button class="b-apagar" onclick="A.apagar(\''+a.id+'\')">Apagar</button></div>';
   return h;
 }
@@ -2210,64 +2262,199 @@ function calcular(a, b){
     else if (n) { r.lav += vs*k; r.beb += vi*k; } else r.lav += l.valor;
   });
   ['total','lav','beb','contas','recContas'].forEach(k => r[k] = r2(r[k])); for (const k in r.formas) r.formas[k] = r2(r.formas[k]);
+  // v1.6: quem saiu sem pagar (conta semanal ou devedor) e como está hoje
+  const np = {n:0, carros:0, v:0, conta:{n:0,v:0}, dev:{n:0,v:0}, pagos:{n:0,v:0}, devem:{n:0,v:0}, L:[]};
+  L.filter(l => l.conta).forEach(l => {
+    const st = situacaoLanc(l), v = l.conta.valor, tp = l.conta.tipo === 'avulso' ? 'dev' : 'conta';
+    np.n++; if (l.tipo === 'carro') np.carros++; np.v += v; np[tp].n++; np[tp].v += v;
+    if (st.pagoEm) { np.pagos.n++; np.pagos.v += v; } else { np.devem.n++; np.devem.v += st.resta; np.pagos.v += r2(v - st.resta); }
+    np.L.push({l, st, tp});
+  });
+  ['v'].forEach(k => np[k] = r2(np[k])); ['conta','dev','pagos','devem'].forEach(k => np[k].v = r2(np[k].v));
+  r.np = np;
+  // v1.6.1: cada pagamento de conta/devedor sabe a que lavagens se refere (as mais antigas primeiro)
+  const LP = L.filter(l => l.contaPag), cacheQ = {};
+  let recV = 0, recAntes = 0;
+  const recL = LP.map(l => {
+    const c = contaPorId(l.contaPag); let aloc = [];
+    if (c) { const m = c.movs.find(x => x.lanc === l.id); if (m) { cacheQ[c.id] = cacheQ[c.id] || quitacao(c); aloc = (cacheQ[c.id][m.id] || {aloc:[]}).aloc; } }
+    const antes = r2(aloc.filter(x => x.data < a).reduce((x,y) => x + y.valor, 0));
+    recV += l.valor; recAntes += antes;
+    return {l, aloc, antes};
+  });
+  r.recAnt = {v:r2(recV), antes:r2(recAntes), L:recL};
+  // serviços feitos no período (pagos na hora + saíram sem pagar), sem contar pagamento de dívida
+  r.servicos = r2(L.filter(l => !l.contaPag).reduce((x,l) => x + l.valor + (l.conta ? l.conta.valor : 0), 0));
   return r;
 }
 function blocoFormas(r){
   const max = Math.max(1, ...Object.values(r.formas));
   return '<div class="bloco">'+Object.keys(FORMAS).map(k => '<div class="forma"><i style="background:'+FORMAS[k].c+'"></i><span>'+FORMAS[k].n+'</span><div class="bb"><u style="width:'+Math.round(r.formas[k]/max*100)+'%;background:'+FORMAS[k].c+'"></u></div><b style="min-width:110px;text-align:right">'+fmt(r.formas[k])+'</b></div>').join('')+'</div>';
 }
-function linhaContas(r){
-  if (!r.contas && !r.recContas) return '';
-  return '<div class="bloco" style="border:2px solid #cfe0f5">'+(r.contas?'<div class="linha"><span>Lançado em contas<br><span class="pequeno">'+r.nContas+' lançamento'+(r.nContas>1?'s':'')+' · ainda não entrou</span></span><b style="color:#1565C0">'+fmt(r.contas)+'</b></div>':'')+
-    (r.recContas?'<div class="linha"><span>Contas recebidas<br><span class="pequeno">já está no total acima</span></span><b>'+fmt(r.recContas)+'</b></div>':'')+'</div>';
+// =====================================================================
+//  v1.7 RELATÓRIOS SIMPLES: três palavras só
+//    ENTROU    = dinheiro que caiu (gaveta + banco)
+//    TRABALHOU = valor de todos os serviços feitos (pagos ou não)
+//    FIADO     = o que saiu sem pagar (cliente de conta ou levou sem pagar)
+// =====================================================================
+const LIM_LISTA = 10;
+const dSem = d => DIAS_SEM[dt(d).getDay()].toLowerCase()+' '+ddmm(d);
+// "lavagem de seg 23/11" / "lavagens de 16/11 e 23/11" / "lavagens de 4 dias (desde 02/11)"
+function deQuando(aloc){
+  const ds = [...new Set(aloc.map(x => x.data))].sort();
+  if (!ds.length) return '';
+  if (ds.length === 1) return 'lavagem de ' + dSem(ds[0]);
+  if (ds.length === 2) return 'lavagens de ' + ddmm(ds[0]) + ' e ' + ddmm(ds[1]);
+  return 'lavagens de ' + ds.length + ' dias (desde ' + ddmm(ds[0]) + ')';
 }
-// quanto está para receber agora (contas de clientes + carros A RECEBER)
-function blocoAReceber(){
-  const linhas = [];
-  D.contas.forEach(c => { const v = saldoConta(c); if (v > 0) linhas.push([c.nome, v, 'conta']); });
-  D.abertos.filter(a => a.status === 'areceber').forEach(a => { const t = totalNormal(a); if (t.t > 0) linhas.push([(a.nome||'Carro sem nome')+' · desde '+ddmm(a.data), t.t, 'carro']); });
-  if (!linhas.length) return '';
-  const tot = r2(linhas.reduce((x,l)=>x+l[1],0));
-  return '<div class="bloco" style="border:2px solid var(--areceber)"><h3 style="display:flex;justify-content:space-between">A receber hoje <span style="color:var(--areceber)">'+fmt(tot)+'</span></h3>'+
-    linhas.map(l => '<div class="linha"><span>'+esc(l[0])+'<br><span class="pequeno">'+(l[2]==='conta'?'cliente de conta':'levou e não pagou')+'</span></span><b>'+fmt(l[1])+'</b></div>').join('')+
-    '<p class="pequeno" style="margin:6px 0 0">Ainda não entrou. Entra no total do dia em que for pago.</p></div>';
+// topo: ENTROU (com gaveta e banco), TRABALHOU e FIADO
+function topoRelatorio(r, quando, comparar){
+  const banco = r2(r.formas.pix + r.formas.deb + r.formas.cre);
+  let h = '<div class="rel-entrou"><span>ENTROU '+quando+'</span><b>'+fmt(r.total)+'</b>'+
+    '<div class="gb"><div><small>Na gaveta (dinheiro)</small><strong>'+fmt(r.formas.din)+'</strong></div><div><small>No banco (Pix e cartão)</small><strong>'+fmt(banco)+'</strong></div></div>'+
+    (r.recAnt.v ? '<p class="nota">Desse total, <b>'+fmt(r.recAnt.v)+'</b> foi pagamento de fiado.</p>' : '')+(comparar||'')+'</div>';
+  h += '<div class="duas-col"><div class="num"><span>Trabalhou</span><b>'+fmt(r.servicos)+'</b><small class="sub">'+r.carros+' carro'+(r.carros===1?'':'s')+' atendido'+(r.carros===1?'':'s')+'</small></div>'+
+    '<div class="num'+(r.np.v?' fiado':'')+'"><span>Ficou no fiado</span><b>'+fmt(r.np.v)+'</b><small class="sub">'+r.np.carros+' carro'+(r.np.carros===1?'':'s')+(r.np.conta.n?' · '+r.np.conta.n+' na conta':'')+'</small></div></div>';
+  return h;
+}
+// lista de quem ficou no fiado no período (por pessoa no período longo, um por um no dia)
+function blocoFiado(r, titulo, porPessoa){
+  if (!r.np.n) return '<div class="bloco"><h3 style="margin:0">'+titulo+': ninguém</h3><span class="pequeno">Todo mundo pagou na hora.</span></div>';
+  let itens;
+  if (!porPessoa) itens = r.np.L.slice().sort((a,b) => a.l.ts - b.l.ts).map(({l, st, tp}) => ({nome:l.cliente||'Sem nome', det:esc((l.servs||[]).map(x=>x.nome).join(' + ')||'Venda'), valor:l.conta.valor, tp, pago:!!st.pagoEm, quando:st.pagoEm, resta:st.resta}));
+  else {
+    const por = {};
+    r.np.L.forEach(({l, st, tp}) => { const k = l.conta.id; const p = por[k] = por[k] || {nome:l.cliente||'Sem nome', n:0, valor:0, resta:0, tp}; p.n++; p.valor = r2(p.valor + l.conta.valor); p.resta = r2(p.resta + (st.pagoEm ? 0 : st.resta)); });
+    itens = Object.values(por).sort((a,b) => b.resta - a.resta || b.valor - a.valor).map(p => ({nome:p.nome, det:p.n+' serviço'+(p.n>1?'s':''), valor:p.valor, tp:p.tp, pago:p.resta <= 0.001, resta:p.resta}));
+  }
+  const linha = x => '<div class="np"><span class="d"><b>'+esc(x.nome)+(x.tp==='conta'?' <span class="chip-st tp-conta">conta</span>':'')+'</b><small>'+x.det+'</small>'+
+    (x.pago ? '<span class="chip-st st-ok">já pagou'+(x.quando?' '+ddmm(x.quando):'')+'</span>' : x.resta < x.valor ? '<span class="chip-st st-parte">pagou parte · deve '+fmt(x.resta)+'</span>' : '<span class="chip-st st-deve">ainda deve</span>')+
+    '</span><span class="v">'+fmt(x.valor)+'</span></div>';
+  const voltou = r2(r.np.v - r.np.devem.v);
+  return '<div class="bloco fiado-b"><h3>'+titulo+'</h3>'+itens.slice(0, LIM_LISTA).map(linha).join('')+
+    (itens.length > LIM_LISTA ? '<div class="linha"><span class="pequeno">+ '+(itens.length-LIM_LISTA)+' pessoas</span><b>'+fmt(r2(itens.slice(LIM_LISTA).reduce((a,x)=>a+x.valor,0)))+'</b></div>' : '')+
+    (voltou > 0.001 ? '<p class="pequeno" style="margin:8px 0 0">Desse fiado, <b style="color:var(--pago)">'+fmt(voltou)+' já voltou</b> · <b style="color:var(--red)">'+fmt(r.np.devem.v)+' ainda falta</b></p>' : '')+'</div>';
+}
+// carros que ainda estão na lista sem pagar (só no relatório do dia)
+function blocoPatio(d){
+  const patio = D.abertos.filter(a => a.tipo === 'carro' && a.data === d && a.status === 'aberto' && !a.temp);
+  if (!patio.length) return '';
+  return '<div class="bloco"><h3>Ainda na lista, sem pagar</h3>'+patio.map(a => { const t = totalNormal(a); return '<div class="linha"><span>'+esc(a.nome||'Sem nome')+'<br><span class="pequeno">'+esc(resumoServ(a)||'—')+'</span></span><b>'+(t.falta?'?':fmt(t.t))+'</b></div>'; }).join('')+
+    '<p class="pequeno" style="margin:6px 0 0">Resolva no FECHAR DIA: pagou, conta ou levou sem pagar.</p></div>';
+}
+// quem pagou fiado no período, e de que dia era a lavagem
+function blocoRecebiFiado(r, titulo){
+  if (!r.recAnt.L.length) return '';
+  const L = r.recAnt.L.slice().sort((a,b) => a.l.ts - b.l.ts);
+  return '<div class="bloco"><h3 style="display:flex;justify-content:space-between">'+titulo+' <span style="white-space:nowrap;color:var(--pago)">'+fmt(r.recAnt.v)+'</span></h3>'+
+    L.slice(0, LIM_LISTA).map(({l, aloc}) => '<div class="np"><span class="d"><b>'+esc(String(l.cliente||'').replace(/^(Conta|Pagamento) – /,''))+'</b><small>'+esc(deQuando(aloc))+' · pagou '+dSem(l.data)+' no '+(FORMAS[l.pag[0].forma]?FORMAS[l.pag[0].forma].n:'')+'</small></span><span class="v" style="color:var(--pago)">'+fmt(l.valor)+'</span></div>').join('')+
+    (L.length > LIM_LISTA ? '<div class="linha"><span class="pequeno">+ '+(L.length-LIM_LISTA)+' pagamentos</span><b>'+fmt(r2(L.slice(LIM_LISTA).reduce((a,x)=>a+x.l.valor,0)))+'</b></div>' : '')+'</div>';
+}
+// fiado de antes do período que continua aberto (acumula até pagar)
+function blocoFiadoAntigo(ini, quando){
+  const velhas = D.contas.map(c => ({c, v:dividaAntes(c, ini)})).filter(x => x.v > 0.001).sort((a,b) => devendoDesde(a.c) < devendoDesde(b.c) ? -1 : 1);
+  if (!velhas.length) return '';
+  const tot = r2(velhas.reduce((x,o)=>x+o.v,0));
+  return '<div class="bloco" style="border:2px solid var(--red)"><h3 style="display:flex;justify-content:space-between">Fiado antigo ainda aberto <span style="color:var(--red);white-space:nowrap">'+fmt(tot)+'</span></h3>'+
+    '<p class="pequeno" style="margin:-4px 0 6px">Serviços de antes '+quando+' que ainda não foram pagos. O fiado não some: acumula até pagar.</p>'+
+    velhas.slice(0, LIM_LISTA).map(({c, v}) => '<div class="linha"><span>'+esc(c.nome)+(c.tipo==='semanal'?' <span class="chip-st tp-conta">conta</span>':'')+'<br><span class="pequeno">desde '+dSem(devendoDesde(c))+'</span></span><b style="color:var(--red)">'+fmt(v)+'</b></div>').join('')+
+    (velhas.length > LIM_LISTA ? '<div class="linha"><span class="pequeno">+ '+(velhas.length-LIM_LISTA)+' pessoas</span><b>'+fmt(r2(velhas.slice(LIM_LISTA).reduce((a,x)=>a+x.v,0)))+'</b></div>' : '')+'</div>';
+}
+// v1.6.1: lavagens ainda não pagas (as mais antigas são quitadas primeiro)
+function lavsAbertas(c){ const q = quitacao(c); return c.movs.filter(m => m.tipo === 'lav' && q[m.id] && q[m.id].resta > 0.001).sort((a,b) => a.ts - b.ts); }
+function devendoDesde(c){ const l = lavsAbertas(c); return l.length ? l[0].data : hoje(); }
+// quanto um cliente ainda deve de lavagens feitas ANTES de um dia
+function dividaAntes(c, dia){
+  const q = quitacao(c);
+  return r2(c.movs.filter(m => m.tipo === 'lav' && m.data < dia).reduce((x,m) => x + (q[m.id] ? q[m.id].resta : 0), 0));
 }
 function maisFreq(o){ let k=null,n=0; for (const x in o) if (o[x]>n){n=o[x];k=x;} return k ? k+' ('+n+')' : '—'; }
+const MESES_LONGO = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const inicioMes = d => d.slice(0,8) + '01';
+function fimMes(d){ const x = dt(inicioMes(d)); x.setMonth(x.getMonth()+1); x.setDate(0); return ymd(x); }
+function addMeses(d, n){ const x = dt(inicioMes(d)); x.setMonth(x.getMonth()+n); return ymd(x); }
+function botaoMais(){ return '<button class="ver-mais" onclick="A.verMais()">'+(U.verMais?'▴ Esconder detalhes':'▾ Ver mais detalhes')+'</button>'; }
 function telaResumo(){
   if (estadoAcesso().nivel === 'parcial') return '<div class="wrap">' + telaTravada() + '</div>';
-  let h = '<div class="wrap"><div class="abas"><button class="'+(U.resumo==='dia'?'on':'')+'" onclick="A.aba(\'dia\')">Dia</button><button class="'+(U.resumo==='semana'?'on':'')+'" onclick="A.aba(\'semana\')">Semana</button></div>';
+  const ab = (id, n) => '<button class="'+(U.resumo===id?'on':'')+'" onclick="A.aba(\''+id+'\')">'+n+'</button>';
+  let h = '<div class="wrap"><div class="abas">'+ab('dia','Dia')+ab('semana','Semana')+ab('mes','Mês')+ab('periodo','Período')+'</div>';
   if (U.resumo === 'dia') {
-    const d = U.resDia, r = calcular(d, d), dd = dt(d);
-    h += '<div class="per"><button onclick="A.resDia(-1)">‹</button><b>'+(d===hoje()?'Hoje, ':DIAS_SEM[dd.getDay()]+', ')+dd.getDate()+' '+MESES[dd.getMonth()]+'</b><button '+(d>=hoje()?'disabled':'')+' onclick="A.resDia(1)">›</button></div>';
-    h += '<div class="grande-num"><span>Entrou no dia</span><b>'+fmt(r.total)+'</b></div>';
-    h += blocoFormas(r) + linhaContas(r) + (d === hoje() ? blocoAReceber() : '');
-    h += '<div class="duas-col"><div class="num"><span>Carros recebidos</span><b>'+r.carros+'</b></div><div class="num"><span>Bebidas/itens</span><b>'+r.bebidas+'</b></div></div>';
-    h += '<div class="bloco"><h3>Dinheiro recebido: '+fmt(r.formas.din)+'</h3><span class="pequeno">É o que deve ter entrado na gaveta hoje.</span></div>';
-    h += '<h2 class="sec">Lançamentos <small>toque para corrigir</small></h2><div class="bloco" style="margin-top:0">';
-    if (!r.L.length) h += '<div class="pequeno">Nada lançado neste dia.</div>';
-    r.L.slice().sort((a,b)=>b.ts-a.ts).forEach(l => {
-      h += '<button class="lan" onclick="A.editarLanc(\''+l.id+'\')"><span class="h">'+hora(l.ts)+'</span><span class="d">'+esc(l.cliente || (l.tipo==='carro'?'Carro':'Venda'))+'<small>'+esc([(l.servs||[]).map(s=>s.nome).join(' + '), (l.itens||[]).map(i=>i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · '))+'</small></span>'+
-        '<span class="v">'+(l.conta?fmt(l.conta.valor):fmt(l.valor))+'<br>'+(l.conta?'<span class="chip" style="background:#1565C0">Na conta</span>':'')+l.pag.map(p=>'<span class="chip" style="background:'+FORMAS[p.forma].c+'">'+FORMAS[p.forma].n+'</span>').join('')+'</span></button>';
-    });
-    h += '</div>';
+    const d = U.resDia, r = calcular(d, d), dd = dt(d), eHoje = d === hoje();
+    h += '<div class="per"><button onclick="A.resDia(-1)">‹</button><b>'+(eHoje?'Hoje, ':DIAS_SEM[dd.getDay()]+', ')+dd.getDate()+' '+MESES[dd.getMonth()]+'</b><button '+(d>=hoje()?'disabled':'')+' onclick="A.resDia(1)">›</button></div>';
+    h += topoRelatorio(r, eHoje ? 'HOJE' : 'NO DIA');
+    h += blocoFiado(r, eHoje ? 'Ficou no fiado hoje' : 'Ficou no fiado neste dia', false);
+    h += blocoPatio(d);
+    h += blocoRecebiFiado(r, eHoje ? 'Recebi de fiado hoje' : 'Recebi de fiado neste dia');
+    h += botaoMais();
+    if (U.verMais) {
+      h += '<div class="bloco"><h3>Formas de pagamento</h3>'+blocoFormas(r).replace(/^<div class="bloco">/,'').replace(/<\/div>$/,'')+'</div>';
+      h += '<div class="bloco"><div class="linha"><span>Do que entrou: lavagens</span><b>'+fmt(r.lav)+'</b></div><div class="linha"><span>Do que entrou: bebidas e itens</span><b>'+fmt(r.beb)+'</b></div><div class="linha"><span>Bebidas e itens vendidos</span><b>'+r.bebidas+' un.</b></div></div>';
+      h += '<h2 class="sec">Lançamentos <small>toque para corrigir</small></h2><div class="bloco" style="margin-top:0">';
+      if (!r.L.length) h += '<div class="pequeno">Nada lançado neste dia.</div>';
+      r.L.slice().sort((a,b)=>b.ts-a.ts).forEach(l => {
+        h += '<button class="lan" onclick="A.editarLanc(\''+l.id+'\')"><span class="h">'+hora(l.ts)+'</span><span class="d">'+esc(l.cliente || (l.tipo==='carro'?'Carro':'Venda'))+'<small>'+esc([(l.servs||[]).map(s=>s.nome).join(' + '), (l.itens||[]).map(i=>i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · '))+'</small></span>'+
+          '<span class="v">'+(l.conta?fmt(l.conta.valor):fmt(l.valor))+'<br>'+(l.conta?(l.conta.tipo==='avulso'?'<span class="chip" style="background:var(--areceber)">Fiado</span>':'<span class="chip" style="background:#1565C0">Conta</span>'):'')+l.pag.map(p=>'<span class="chip" style="background:'+FORMAS[p.forma].c+'">'+FORMAS[p.forma].n+'</span>').join('')+'</span></button>';
+      });
+      h += '</div>';
+    }
     if (D.dias[d] && D.dias[d].fechado) h += '<div class="fechado">✓ Dia fechado às '+hora(D.dias[d].fechado)+'</div>';
     h += '<button class="fechar" onclick="A.fecharDia()">'+(D.dias[d]&&D.dias[d].fechado?'Fechar dia de novo':'FECHAR DIA')+'</button>';
+  } else if (U.resumo === 'semana') {
+    const ini = U.resSem || inicioSemana(hoje()), fim = addDias(ini, 6), sab = addDias(ini, 5), atual = ini === inicioSemana(hoje());
+    h += '<div class="per"><button onclick="A.resSem(-1)">‹</button><b>Seg '+ddmm(ini)+' a sáb '+ddmm(sab)+(atual?'<br><span class="pequeno">esta semana</span>':'')+'</b><button '+(atual?'disabled':'')+' onclick="A.resSem(1)">›</button></div>';
+    h += relatorioPeriodo(ini, fim, {quando:'NA SEMANA', antes:'desta semana', nesta:'nesta semana', antIni:addDias(ini,-7), antFim:addDias(ini,-1), antNome:'a semana passada', grafico:'dias'});
+  } else if (U.resumo === 'mes') {
+    const ini = U.resMes || inicioMes(hoje()), fim = fimMes(ini), atual = ini === inicioMes(hoje()), m = dt(ini);
+    h += '<div class="per"><button onclick="A.resMes(-1)">‹</button><b>'+MESES_LONGO[m.getMonth()]+' '+m.getFullYear()+(atual?'<br><span class="pequeno">este mês, até hoje</span>':'')+'</b><button '+(atual?'disabled':'')+' onclick="A.resMes(1)">›</button></div>';
+    h += relatorioPeriodo(ini, fim, {quando:'NO MÊS', antes:'deste mês', nesta:'neste mês', antIni:addMeses(ini,-1), antFim:fimMes(addMeses(ini,-1)), antNome:'o mês passado', grafico:'semanas'});
   } else {
-    const ini = U.resSem || inicioSemana(hoje()), fim = addDias(ini, 6), r = calcular(ini, fim);
-    h += '<div class="per"><button onclick="A.resSem(-1)">‹</button><b>'+ddmm(ini)+' a '+ddmm(fim)+(ini===inicioSemana(hoje())?'<br><span class="pequeno">esta semana</span>':'')+'</b><button '+(ini>=inicioSemana(hoje())?'disabled':'')+' onclick="A.resSem(1)">›</button></div>';
-    h += '<div class="grande-num"><span>Entrou na semana</span><b>'+fmt(r.total)+'</b></div>';
-    const ant = calcular(addDias(ini,-7), addDias(ini,-1));
-    if (ant.L.length) { const dif = r2(r.total-ant.total); h += '<p style="text-align:center;margin:-6px 0 8px;font-weight:700;color:'+(dif>=0?'var(--pago)':'var(--red)')+'">'+(dif>=0?'▲ ':'▼ ')+fmt(Math.abs(dif))+' em relação à semana anterior</p>'; }
-    h += blocoFormas(r) + linhaContas(r) + (ini === inicioSemana(hoje()) ? blocoAReceber() : '');
-    h += '<div class="duas-col"><div class="num"><span>Lavagens</span><b>'+fmt(r.lav)+'</b></div><div class="num"><span>Bebidas/itens</span><b>'+fmt(r.beb)+'</b></div></div>';
-    const porDia = [...Array(7)].map((_,i) => { const d = addDias(ini,i); return {d, n:D.lanc.filter(l => l.data===d && l.tipo==='carro').length}; });
-    const mx = Math.max(...porDia.map(x=>x.n));
-    h += '<div class="bloco"><h3>Carros por dia · total '+r.carros+'</h3><div class="dias">'+porDia.map(x => '<div class="'+(mx&&x.n===mx?'mel':'')+'"><b>'+x.n+'</b><u style="height:'+(mx?Math.round(x.n/mx*100):0)+'%"></u>'+DIAS_SEM[dt(x.d).getDay()]+'</div>').join('')+'</div>'+
-      (mx?'<p class="pequeno" style="margin:8px 0 0">Melhor dia: <b>'+porDia.filter(x=>x.n===mx).map(x=>DIAS_SEM[dt(x.d).getDay()]).join(', ')+'</b></p>':'')+'</div>';
-    h += '<div class="bloco"><h3>Carros por tamanho</h3>'+(Object.keys(r.tam).length? Object.keys(TAM_NOME).filter(k=>r.tam[k]).map(k => '<div class="linha"><span>'+TAM_NOME[k]+'</span><b>'+r.tam[k]+'</b></div>').join('') : '<span class="pequeno">Sem tamanho marcado ainda.</span>')+'</div>';
-    h += '<div class="bloco"><div class="linha"><span>Serviço que mais saiu</span><b>'+esc(maisFreq(r.serv))+'</b></div><div class="linha"><span>Item que mais vendeu</span><b>'+esc(maisFreq(r.item))+'</b></div><div class="linha"><span>Bebidas/itens vendidos</span><b>'+r.bebidas+'</b></div></div>';
+    const ini = U.perIni || addDias(hoje(), -29), fim = U.perFim || hoje(), nd = diasEntre(ini, fim) + 1;
+    const at = (id, n) => '<button class="'+(U.perAtalho===id?'on':'')+'" onclick="A.perAtalho(\''+id+'\')">'+n+'</button>';
+    h += '<div class="filtro"><div class="datas"><label>De<input type="date" id="pIni" value="'+ini+'" max="'+hoje()+'" onchange="A.perDatas()"></label><label>Até<input type="date" id="pFim" value="'+fim+'" max="'+hoje()+'" onchange="A.perDatas()"></label></div>'+
+      '<div class="atalhos">'+at('7','Últimos 7 dias')+at('15','Últimos 15 dias')+at('30','Últimos 30 dias')+at('mes','Este mês')+at('mesant','Mês passado')+at('90','3 meses')+at('ano','Este ano')+'</div></div>';
+    h += '<p style="text-align:center;margin:4px 12px 0;font-weight:800">'+ddmm(ini)+'/'+ini.slice(0,4)+' a '+ddmm(fim)+'/'+fim.slice(0,4)+' <span class="pequeno">('+nd+' dia'+(nd>1?'s':'')+')</span></p>';
+    h += relatorioPeriodo(ini, fim, {quando:'NO PERÍODO', antes:'deste período', nesta:'no período', antIni:addDias(ini,-nd), antFim:addDias(ini,-1), antNome:'os '+nd+' dias anteriores', grafico: nd <= 15 ? 'dias' : nd <= 120 ? 'semanas' : 'meses'});
   }
   return h + '</div>';
+}
+// semana, mês e período: mesmo relatório
+function relatorioPeriodo(ini, fim, o){
+  const r = calcular(ini, fim), ant = calcular(o.antIni, o.antFim);
+  let comp = '';
+  if (ant.L.length) { const dif = r2(r.total-ant.total); comp = '<p class="nota" style="color:'+(dif>=0?'var(--pago)':'var(--red)')+'">'+(dif>=0?'▲ ':'▼ ')+fmt(Math.abs(dif))+(dif>=0?' a mais':' a menos')+' que '+o.antNome+'</p>'; }
+  let h = topoRelatorio(r, o.quando, comp);
+  h += blocoFiado(r, 'Quem ficou no fiado '+o.nesta, true);
+  h += blocoFiadoAntigo(ini, o.antes);
+  h += blocoRecebiFiado(r, 'Recebi de fiado '+o.nesta);
+  h += botaoMais();
+  if (U.verMais) {
+    h += '<div class="bloco"><h3>Formas de pagamento</h3>'+blocoFormas(r).replace(/^<div class="bloco">/,'').replace(/<\/div>$/,'')+'</div>';
+    const diasTrab = new Set(r.L.filter(l => !l.contaPag).map(l => l.data)).size;
+    h += '<div class="bloco"><div class="linha"><span>Dias trabalhados</span><b>'+diasTrab+'</b></div>'+(diasTrab?'<div class="linha"><span>Média por dia</span><b>'+fmt(r2(r.servicos/diasTrab))+'</b></div><div class="linha"><span>Carros por dia</span><b>'+(Math.round(r.carros/diasTrab*10)/10).toString().replace('.',',')+'</b></div>':'')+
+      '<div class="linha"><span>Do que entrou: lavagens</span><b>'+fmt(r.lav)+'</b></div><div class="linha"><span>Do que entrou: bebidas e itens</span><b>'+fmt(r.beb)+'</b></div><div class="linha"><span>Bebidas e itens vendidos</span><b>'+r.bebidas+' un.</b></div>'+
+      '<div class="linha"><span>Serviço que mais saiu</span><b>'+esc(maisFreq(r.serv))+'</b></div><div class="linha"><span>Item que mais vendeu</span><b>'+esc(maisFreq(r.item))+'</b></div></div>';
+    h += graficoCarros(ini, fim, o.grafico, r);
+    h += '<div class="bloco"><h3>Carros por tamanho</h3>'+(Object.keys(r.tam).length? Object.keys(TAM_NOME).filter(k=>r.tam[k]).map(k => '<div class="linha"><span>'+TAM_NOME[k]+'</span><b>'+r.tam[k]+'</b></div>').join('') : '<span class="pequeno">Sem tamanho marcado ainda.</span>')+'</div>';
+  }
+  return h;
+}
+// carros por dia (semana / período curto), por semana (mês) ou por mês (período longo)
+function graficoCarros(ini, fim, modo, r){
+  const carros = D.lanc.filter(l => l.tipo === 'carro' && l.data >= ini && l.data <= fim);
+  let gr = [];
+  if (modo === 'dias') {
+    for (let d = ini; d <= fim; d = addDias(d, 1)) { const Ld = carros.filter(l => l.data === d); gr.push({d, n:Ld.length, sp:Ld.filter(l => l.conta).length, rot: diasEntre(ini, fim) <= 6 ? DIAS_SEM[dt(d).getDay()] : String(dt(d).getDate()), domingo: dt(d).getDay() === 0}); }
+    gr = gr.filter(x => !x.domingo || x.n);
+  } else if (modo === 'semanas') {
+    for (let s0 = inicioSemana(ini); s0 <= fim; s0 = addDias(s0, 7)) { const a = s0 < ini ? ini : s0, b = addDias(s0, 6) > fim ? fim : addDias(s0, 6); const Ld = carros.filter(l => l.data >= a && l.data <= b); gr.push({n:Ld.length, sp:Ld.filter(l => l.conta).length, rot: ddmm(a), nome:'semana de '+ddmm(a)}); }
+  } else {
+    for (let m0 = inicioMes(ini); m0 <= fim; m0 = addMeses(m0, 1)) { const Ld = carros.filter(l => l.data.slice(0,7) === m0.slice(0,7)); gr.push({n:Ld.length, sp:Ld.filter(l => l.conta).length, rot: MESES[dt(m0).getMonth()], nome:MESES_LONGO[dt(m0).getMonth()]}); }
+  }
+  const mx = Math.max(0, ...gr.map(x => x.n));
+  const tit = modo === 'dias' ? 'Carros por dia' : modo === 'semanas' ? 'Carros por semana' : 'Carros por mês';
+  const melhor = mx ? gr.filter(x => x.n === mx).map(x => x.nome || (modo==='dias' && diasEntre(ini,fim) <= 6 ? x.rot : ddmm(x.d))).join(', ') : '';
+  return '<div class="bloco"><h3>'+tit+' · total '+r.carros+'</h3><div class="dias'+(gr.length > 8 ? ' muitos' : '')+'">'+gr.map(x => '<div class="'+(mx&&x.n===mx?'mel':'')+'"><b>'+x.n+'</b><span class="snp">'+(x.sp?x.sp:'')+'</span><u style="height:'+(mx?Math.round(x.n/mx*100):0)+'%"></u>'+x.rot+'</div>').join('')+'</div>'+
+    (gr.some(x=>x.sp)?'<p class="pequeno" style="margin:6px 0 0"><b style="color:var(--areceber)">Número laranja</b> = carros que ficaram no fiado</p>':'')+(mx?'<p class="pequeno" style="margin:8px 0 0">Melhor '+(modo==='dias'?'dia':modo==='semanas'?'semana':'mês')+': <b>'+esc(melhor)+'</b></p>':'')+'</div>';
 }
 
 // ---------- AJUSTES (escondido: segurar o dedo no nome POPÔ) ----------
@@ -2284,14 +2471,12 @@ function folhaAjustes(){
     '<div class="campo"><input id="cfPBanco" value="'+esc(c.pixBanco||'')+'" placeholder="Banco (ex.: Mercado Pago)"></div>'+
     '<div class="campo"><input id="cfPCid" value="'+esc(c.pixCidade)+'" placeholder="Cidade"></div>'+
     '<div class="botoes"><button class="pri" onclick="A.salvarAjustes()">Salvar ajustes</button><button class="lim" '+(ok?'':'disabled')+' onclick="A.salvarAjustes(true);A.testePix()">Testar Pix com R$ 1,00</button></div></div>';
-  h += '<div class="bloco"><h3>Clientes de conta</h3><p class="pequeno" style="margin-top:0">Pagam a soma das lavagens. A conta acumula até o RECEBI e então zera. A cobrança pelo WhatsApp pode ser mandada quando quiser; no sábado o app lembra. O Popo também cadastra pelo Início.</p><div class="botoes">'+
-    D.contas.map(x => '<button onclick="A.editarConta(\''+x.id+'\')">'+esc(x.nome)+' · '+esc(x.tel||'sem telefone')+'</button>').join('')+
-    '<button class="pri" onclick="A.novaConta()">+ Novo cliente de conta</button></div></div>';
+  h += '<div class="bloco"><h3>Clientes de conta e fiado</h3><p class="pequeno" style="margin-top:0">Agora ficam na tela Clientes (botão na tela Início).</p><div class="botoes"><button class="pri" onclick="abrirFolha({t:\'clientes\'})">Abrir Clientes</button></div></div>';
   h += '<div class="bloco"><h3>Serviços e itens</h3><div class="botoes"><button onclick="A.novoItem()">+ Novo item de venda</button><button onclick="A.removerItem()">Remover item de venda</button><button onclick="A.novoServico()">+ Novo serviço de carro</button><button onclick="A.removerServico()">Remover serviço</button></div><p class="pequeno">Os preços se mudam na aba Preços.</p></div>';
   h += '<div class="bloco"><h3>Cópia de segurança</h3><p class="pequeno" style="margin-top:0">Guarda todos os lançamentos, preços e clientes num arquivo (sem as fotos). Último: '+(c.ultBackup?ddmm(c.ultBackup):'nunca')+'</p><div class="botoes"><button class="pri" onclick="A.backup()">Salvar cópia</button><button onclick="$(\'#arqBackup\').click()">Recuperar de uma cópia</button></div></div>';
   h += '<div class="bloco"><h3>Funções por semana</h3><div class="sw"><span>Semana 1 – entradas</span><b style="color:var(--pago)">ligada</b></div>'+
-    '<div class="sw"><span>Semana 2 – gastos, ajudante, carro pronto<br><span class="pequeno">ainda em construção</span></span><input type="checkbox" disabled></div>'+
-    '<div class="sw"><span>Semana 3 – mês, ano e lucro<br><span class="pequeno">ainda em construção</span></span><input type="checkbox" disabled></div></div>';
+    '<div class="sw"><span>Semana 2 – gastos<br><span class="pequeno">ainda em construção</span></span><input type="checkbox" disabled></div>'+
+    '<div class="sw"><span>Semana 3 – lucro (gastos x entradas)<br><span class="pequeno">ainda em construção</span></span><input type="checkbox" disabled></div></div>';
   h += '<div class="bloco"><h3>Zerar</h3><div class="botoes"><button class="per" onclick="A.zerarLanc()">Apagar todos os lançamentos (mantém preços)</button></div><p class="pequeno">Use depois do treinamento, para começar do zero.</p></div>';
   const acA = estadoAcesso();
   h += '<div class="bloco"><h3>Acesso</h3><p style="margin:0 0 8px">Celular: <b>'+esc(c.aparelho)+'</b><br>Válido até: <b>'+(acA.ate?dmA(acA.ate):'—')+'</b>'+(acA.nivel==='parcial'?'<br><span style="color:var(--red)">Resumo e cobranças travados</span>':'')+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar novo código</button></div></div>';
@@ -2398,7 +2583,6 @@ const A = {
     salvar(); renderFolha();
   },
   lembrete(aid, v){ const a = D.abertos.find(x => x.id === aid); if (a) { a.lembrete = v; salvar(); } },
-  entrega(aid, v, redesenha){ const a = D.abertos.find(x => x.id === aid); if (!a) return; const tinha = !!a.entrega; a.entrega = /^\d\d:\d\d$/.test(v) ? v : ''; salvar(); if (redesenha || tinha !== !!a.entrega) renderFolha(); },
   prontoNovo(){
     const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === f.id);
     if (a) guardarCliente(a); salvar(); voltarHojeSeOutroDia(); fecharTodas();
@@ -2419,7 +2603,6 @@ const A = {
     pedirValor('Cobrar outro valor', 'Quanto você combinou com o cliente?', null, v => { f.outro = v; renderFolha(); });
   },
   duasFormas(){ const f = U.folhas[U.folhas.length-1]; f.duas = f.duas ? null : {primeira:null, v1:null}; f.mais = false; renderFolha(); },
-  outrasOpcoes(){ const f = U.folhas[U.folhas.length-1]; f.mais = !f.mais; renderFolha(); },
   pagar(aid, forma){
     const f = U.folhas[U.folhas.length-1]; const a = D.abertos.find(x => x.id === aid); if (!a) return;
     const tot = totalNormal(a); if (tot.falta) return;
@@ -2448,7 +2631,7 @@ const A = {
   },
   apagar(aid){
     const a = D.abertos.find(x => x.id === aid);
-    confirmar(a.tipo==='conta'?'Apagar esta conta?':'Apagar este carro?', 'Use quando o cliente desistiu ou a foto saiu errada.', 'Sim, apagar', 'Não', s => {
+    confirmar(a.tipo==='conta'?'Apagar esta venda?':'Apagar este carro?', 'Use quando o cliente desistiu ou a foto saiu errada.', 'Sim, apagar', 'Não', s => {
       if (!s) return; D.abertos = D.abertos.filter(x => x.id !== aid); salvar(); fecharTodas(); toast('Apagado');
     });
   },
@@ -2482,16 +2665,6 @@ const A = {
     confirmar('Voltar para "em serviço"?', 'O carro deixa de aparecer como pronto.', 'Sim, desmarcar', 'Não', s => {
       if (!s) return; delete a.pronto; delete a.avisado; salvar(); if (U.folhas.length) renderFolha(); render();
     });
-  },
-  // --- v1.5: cliente de conta escolhido na chegada do carro ---
-  contaNoCarro(aid, cid){
-    const a = D.abertos.find(x => x.id === aid), c = contaPorId(cid); if (!a || !c) return;
-    if (contaDo(a) === c) { a.contaId = 'nao'; salvar(); renderFolha(); return; }
-    a.contaId = c.id; a.nome = c.nome; if (c.tel) a.tel = c.tel; salvar(); renderFolha();
-  },
-  novaContaNoCarro(aid){
-    const a = D.abertos.find(x => x.id === aid);
-    A.novaConta(c => { const b = D.abertos.find(x => x.id === aid); if (b) { b.contaId = c.id; b.nome = c.nome; if (c.tel) b.tel = c.tel; salvar(); } renderFolha(); }, a && a.nome ? a : null);
   },
   // tela da conta: lançar uma lavagem direto (esqueceu de marcar na chegada ou lavou sem passar pela lista)
   lavagemConta(cid){
@@ -2529,11 +2702,55 @@ const A = {
     const tot = totalNormal(a); if (tot.falta) return;
     lancarNaConta(a, c, f.outro != null ? f.outro : tot.t, tot.t);
   },
-  escolherConta(aid){
-    const a = D.abertos.find(x => x.id === aid);
-    window._ec = cid => { fecharModal(); A.naConta(aid, cid); };
-    window._ecNovo = () => { fecharModal(); A.novaConta(c => A.naConta(aid, c.id), a); };
-    modal('<h3>Na conta de quem?</h3><div class="botoes">'+D.contas.map(c => '<button onclick="_ec(\''+c.id+'\')">'+esc(c.nome)+' · deve '+fmt(saldoConta(c))+'</button>').join('')+'<button class="lim" onclick="_ecNovo()">+ Novo cliente de conta</button><button onclick="fecharModal()">Cancelar</button></div>');
+  // v1.6: só aparecem clientes de conta CADASTRADOS (nos Ajustes); quem não está na lista é devedor
+  escolherConta(aid, cb){
+    const lista = semanais().slice().sort((x,y) => x.nome.localeCompare(y.nome));
+    if (!lista.length) { toast('Nenhum cliente de conta cadastrado'); return; }
+    window._ec = cid => { fecharModal(); if (cb) cb(contaPorId(cid)); else A.naConta(aid, cid); };
+    window._ecX = () => { fecharModal(); if (cb) cb(null); };
+    window._ecF = v => { const n = semAcento(v); document.querySelectorAll('#ecL button[data-n]').forEach(b => b.style.display = b.dataset.n.includes(n) ? '' : 'none'); };
+    modal('<h3>Qual cliente de conta?</h3>'+(lista.length > 6 ? '<input class="busca-ct" placeholder="Buscar nome ou carro" oninput="_ecF(this.value)">' : '')+
+      '<div class="botoes" id="ecL">'+lista.map(c => '<button data-n="'+esc(semAcento(c.nome+' '+(c.carro||'')))+'" onclick="_ec(\''+c.id+'\')">'+esc(c.nome)+(c.carro?' · '+esc(c.carro):'')+' <span class="pequeno">· deve '+fmt(saldoConta(c))+'</span></button>').join('')+
+      '<button class="pri" onclick="_ecX()">Cancelar</button></div><p class="pequeno">Não está na lista? Então vai para o fiado: use VAI PAGAR DEPOIS. Para cadastrar, use o botão Clientes na tela Início.</p>');
+  },
+  // v1.6: levou o carro e vai pagar depois → vira devedor (no dia do serviço)
+  pagarDepois(aid){
+    const a = D.abertos.find(x => x.id === aid); if (!a) return;
+    const f = U.folhas[U.folhas.length-1];
+    const tot = totalNormal(a);
+    if (tot.falta || !tot.t) { toast('Falta o valor do serviço. Confira antes.'); if (!f) A.abrir(aid); return; }
+    const valor = (f && f.t === 'receber' && f.id === aid && f.outro != null) ? f.outro : tot.t;
+    const cc = contaDo(a);
+    if (cc) {
+      window._pdc = r => { fecharModal(); if (r === 'conta') lancarNaConta(a, cc, valor, tot.t); else A.dadosDevedor(a, valor, tot.t); };
+      modal('<h3>'+esc(cc.nome)+' é cliente de conta</h3><p>Lançar na conta dele? Ele paga no sábado, junto com as outras lavagens.</p><div class="botoes"><button class="pri" style="background:#1565C0;color:#fff" onclick="_pdc(\'conta\')">Sim, lançar na conta</button><button onclick="_pdc(\'dev\')">Não, vai pagar depois (fiado)</button><button onclick="fecharModal()">Cancelar</button></div>');
+      return;
+    }
+    A.dadosDevedor(a, valor, tot.t);
+  },
+  // pede nome e telefone de quem levou sem pagar (depois = modo silencioso, usado no fechar dia)
+  dadosDevedor(a, valor, normal, depois){
+    let avisou = false;
+    window._dvOk = () => {
+      const nome = $('#dvNome').value.trim(), tel = $('#dvTel').value.trim();
+      if (!nome) { toast('Digite o nome de quem levou'); return; }
+      if (!so_dig(tel) && !avisou) { avisou = true; toast('Sem telefone não dá para cobrar no WhatsApp. Toque de novo para seguir assim.', 3500); return; }
+      fecharModal();
+      a.nome = nome; a.tel = tel;
+      const c = devedorPara(nome, tel);
+      if (depois) depois(c); else lancarNaConta(a, c, valor, normal);
+    };
+    window._dvNao = () => { fecharModal(); if (depois) depois(null); };
+    // v1.7.2: cliente de conta que o app não reconheceu (telefone diferente ou em branco)
+    window._dvConta = () => A.escolherConta(null, c => {
+      if (!c) { A.dadosDevedor(a, valor, normal, depois); return; }
+      if (depois) depois(c); else lancarNaConta(a, c, valor, normal);
+    });
+    modal((semanais().length ? '<button class="pg pg-conta" style="font-size:19px;min-height:0;padding:14px 8px;margin:0 0 12px" onclick="_dvConta()">É cliente de conta? Escolher na lista</button>' : '')+
+      '<h3>Vai pagar depois</h3><p><b>'+fmt(valor)+'</b> ficam no fiado até ele pagar.</p>'+
+      '<div class="campo"><input id="dvNome" placeholder="Nome de quem levou" value="'+esc(a.nome||'')+'"></div>'+
+      '<div class="campo"><input id="dvTel" type="tel" inputmode="tel" placeholder="Telefone (para cobrar)" value="'+esc(a.tel||'')+'"></div>'+
+      '<div class="botoes"><button class="pri" style="background:var(--areceber);color:#fff" onclick="_dvOk()">CONFIRMAR: FICOU NO FIADO</button><button onclick="_dvNao()">Cancelar</button></div>');
   },
   abrirConta(cid){ if (estadoAcesso().nivel === 'parcial') { modal(telaTravada()); return; } abrirFolha({t:'conta', id:cid}); },
   async atualizarApp(){
@@ -2570,39 +2787,88 @@ const A = {
       if (v == null || v <= 0) { toast('Digite o valor recebido'); return; }
       if (v > sd + 0.001) { toast('Valor maior que a conta ('+fmt(sd)+')'); return; }
       const ts = U.dia === hoje() ? Date.now() : dt(U.dia).getTime() + (Date.now() % 3600000);
-      const l = {id:uid(), ts, data:U.dia, tipo:'conta', cliente:'Conta – '+c.nome, tel:c.tel, tam:null, servs:[], itens:[], normal:v, valor:v, pag:[{forma, valor:v}], desconto:0, contaPag:c.id};
+      const l = {id:uid(), ts, data:U.dia, tipo:'conta', cliente:(c.tipo==='avulso'?'Pagamento – ':'Conta – ')+c.nome, tel:c.tel, tam:null, servs:[], itens:[], normal:v, valor:v, pag:[{forma, valor:v}], desconto:0, contaPag:c.id};
       const m = {id:uid(), tipo:'pag', data:U.dia, ts, forma, valor:v, lanc:l.id};
-      D.lanc.push(l); c.movs.push(m); salvar(); fecharModal(); vibra([60,40,60]); voltarHojeSeOutroDia(); render();
+      D.lanc.push(l); c.movs.push(m); salvar(); fecharModal(); vibra([60,40,60]); voltarHojeSeOutroDia();
       const resto = saldoConta(c);
-      modal('<h3>Recebido ✓</h3><p style="font-size:20px">'+fmt(v)+' de '+esc(c.nome)+' em '+FORMAS[forma].n+'.<br>'+(resto>0?'Ficou devendo <b>'+fmt(resto)+'</b>. Continua na conta.':'Conta zerada. A contagem recomeça do zero.')+'</p><div class="botoes"><button class="pri" onclick="fecharModal()">OK</button></div>');
+      if (c.tipo === 'avulso' && resto <= 0.001) U.folhas = U.folhas.filter(f => !(f.t === 'conta' && f.id === c.id));
+      render();
+      modal('<h3>Recebido ✓</h3><p style="font-size:20px">'+fmt(v)+' de '+esc(c.nome)+' em '+FORMAS[forma].n+'.<br>'+(resto>0?'Ficou devendo <b>'+fmt(resto)+'</b>.'+(c.tipo==='avulso'?' Continua no fiado.':' Continua na conta.'):(c.tipo==='avulso'?'Pagou tudo. Saiu do fiado.':'Conta zerada. A contagem recomeça do zero.'))+'</p><div class="botoes"><button class="pri" onclick="fecharModal()">OK</button></div>');
     };
-    modal('<h3>Recebi de '+esc(c.nome)+'</h3><p>A conta é '+fmt(sd)+'. Pagou tudo? Toque na forma. Se pagou só uma parte, troque o valor antes.</p><div class="campo"><input id="rcV" inputmode="decimal" value="'+String(sd).replace('.',',')+'"></div>'+
+    modal('<h3>Recebi de '+esc(c.nome)+'</h3><p>Ele deve '+fmt(sd)+'. Pagou tudo? Toque na forma. Se pagou só uma parte, troque o valor antes.</p><div class="campo"><input id="rcV" inputmode="decimal" value="'+String(sd).replace('.',',')+'"></div>'+
       '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" style="font-size:22px;min-height:60px" onclick="_rc(\''+k+'\')">'+FORMAS[k].n+'</button>').join('')+'</div><div class="botoes"><button onclick="fecharModal()">Cancelar</button></div>');
   },
-  novaConta(depois, a){
-    pedirTexto('Novo cliente de conta', 'Nome do cliente. Ele paga a soma das lavagens quando você cobrar.', a ? a.nome : '', nome => {
-      if (!nome) return;
-      pedirTexto('Telefone de '+nome, 'Para mandar a cobrança no WhatsApp', a ? a.tel : '', tel => {
-        const c = {id:uid(), nome, tel, movs:[], cobrancas:[]};
-        D.contas.push(c);
-        if (!acharCliente(tel, nome)) D.clientes.push({nome, tel, ult:Date.now()});
-        salvar(); render(); toast('Cliente de conta criado');
-        if (typeof depois === 'function') depois(c);
-      });
-    });
+  // v1.6: cadastro de cliente de conta (só pelos Ajustes). Telefone é obrigatório: é por ele que o app reconhece e cobra.
+  novaConta(depois, base){
+    window._ncOk = () => {
+      const nome = $('#ncNome').value.trim(), tel = $('#ncTel').value.trim(), carro = $('#ncCarro').value.trim();
+      if (!nome) { toast('Digite o nome'); return; }
+      if (so_dig(tel).length < 8) { toast('Digite o telefone com DDD'); return; }
+      const igual = semanais().find(c => tel8(c.tel) === tel8(tel));
+      if (igual) { toast('Esse telefone já é de '+igual.nome); return; }
+      const fiado = D.contas.find(c => c.tipo === 'avulso' && tel8(c.tel) === tel8(tel));
+      fecharModal();
+      if (fiado) {
+        // ele já estava no fiado: vira cliente de conta e o que deve vai junto
+        fiado.tipo = 'semanal'; fiado.ativo = true; fiado.nome = nome; fiado.tel = tel; fiado.carro = carro;
+        salvar(); render(); toast(nome+' virou cliente de conta'+(saldoConta(fiado)>0?' (com o fiado de '+fmt(saldoConta(fiado))+')':''), 3500);
+        if (typeof depois === 'function') depois(fiado);
+        return;
+      }
+      const c = {id:uid(), tipo:'semanal', ativo:true, nome, tel, carro, movs:[], cobrancas:[], criado:Date.now()};
+      D.contas.push(c);
+      if (!acharCliente(tel, nome)) D.clientes.push({nome, tel, ult:Date.now()});
+      salvar(); render(); toast('Cliente de conta cadastrado');
+      if (typeof depois === 'function') depois(c);
+    };
+    modal('<h3>Cadastrar cliente de conta</h3><p class="pequeno">Lava durante a semana e paga tudo no sábado.</p>'+
+      '<div class="campo"><input id="ncNome" placeholder="Nome" value="'+esc(base&&base.nome||'')+'"></div>'+
+      '<div class="campo"><input id="ncTel" type="tel" inputmode="tel" placeholder="Telefone com DDD (obrigatório)" value="'+esc(base&&base.tel||'')+'"></div>'+
+      '<div class="campo"><input id="ncCarro" placeholder="Carro e placa (ex.: Hilux prata ABC1D23)" value="'+esc(base&&base.carro||'')+'"></div>'+
+      '<div class="botoes"><button class="pri" onclick="_ncOk()">Cadastrar</button><button onclick="fecharModal()">Cancelar</button></div>');
   },
-  editarConta(cid){
-    const c = contaPorId(cid);
+  // editar cliente: nome, telefone; conta: carro, desativar/reativar; fiado: virar cliente de conta ou mover a dívida
+  editarConta(cid, adm){
+    const c = contaPorId(cid); if (!c) return;
+    const sd = saldoConta(c);
     window._ac = op => {
       fecharModal();
       if (op === 'tel') pedirTexto('Telefone de '+c.nome, 'Com DDD', c.tel, t => { c.tel = t; salvar(); render(); });
       if (op === 'nome') pedirTexto('Nome', '', c.nome, n => { if (n) { c.nome = n; salvar(); render(); } });
-      if (op === 'tirar') {
-        const sd = saldoConta(c);
-        confirmar('Tirar '+c.nome+' das contas?', sd>0 ? 'Ele ainda deve '+fmt(sd)+'. Esse valor some da lista de contas.' : 'A conta está zerada.', 'Tirar', 'Não', s => { if (s) { D.contas = D.contas.filter(x => x.id !== c.id); salvar(); U.folhas = U.folhas.filter(f => !(f.t === 'conta' && f.id === c.id)); render(); toast('Removido'); } });
+      if (op === 'carro') pedirTexto('Carro e placa', '', c.carro||'', n => { c.carro = n; salvar(); render(); });
+      if (op === 'desativar') {
+        if (sd > 0.001) { modal('<h3>Ainda deve '+fmt(sd)+'</h3><p>Só dá para desativar com a conta zerada. Receba primeiro (RECEBI) ou corrija os lançamentos.</p><div class="botoes"><button class="pri" onclick="fecharModal()">OK</button></div>'); return; }
+        confirmar('Desativar '+c.nome+'?', 'Ele sai da lista de clientes de conta. O histórico continua guardado e dá para reativar.', 'Desativar', 'Não', s => { if (s) { c.ativo = false; salvar(); U.folhas = U.folhas.filter(f => !(f.t === 'conta' && f.id === c.id)); render(); toast('Desativado'); } });
       }
+      if (op === 'reativar') { c.ativo = true; salvar(); render(); toast('Reativado'); }
+      if (op === 'promover') A.promoverDevedor(c);
+      if (op === 'mover') A.moverDivida(c);
     };
-    modal('<h3>'+esc(c.nome)+'</h3><p>Telefone: '+esc(c.tel||'—')+' · deve '+fmt(saldoConta(c))+'</p><div class="botoes"><button onclick="_ac(\'nome\')">Mudar nome</button><button onclick="_ac(\'tel\')">Mudar telefone</button><button class="per" onclick="_ac(\'tirar\')">Tirar das contas</button><button class="pri" onclick="fecharModal()">Fechar</button></div>');
+    let b = '<button onclick="_ac(\'nome\')">Mudar nome</button><button onclick="_ac(\'tel\')">Mudar telefone</button>';
+    if (c.tipo === 'semanal') b += '<button onclick="_ac(\'carro\')">Carro e placa</button>';
+    if (c.tipo === 'semanal') b += c.ativo === false ? '<button class="lim" onclick="_ac(\'reativar\')">Reativar</button>' : '<button class="per" onclick="_ac(\'desativar\')">Desativar</button>';
+    if (c.tipo === 'avulso') b += '<button class="lim" onclick="_ac(\'promover\')">Transformar em cliente de conta</button><button onclick="_ac(\'mover\')">Mover a dívida para um cliente de conta</button>';
+    modal('<h3>'+esc(c.nome)+'</h3><p>'+(c.tipo==='avulso'?'Fiado':'Cliente de conta')+' · telefone: '+esc(c.tel||'—')+' · deve '+fmt(sd)+'</p><div class="botoes">'+b+'<button class="pri" onclick="fecharModal()">Fechar</button></div>');
+  },
+  // devedor que virou cliente fixo: vira cliente de conta, com a dívida junto
+  promoverDevedor(c){
+    if (so_dig(c.tel).length < 8) { pedirTexto('Telefone de '+c.nome, 'Cliente de conta precisa de telefone com DDD', c.tel, t => { if (so_dig(t).length >= 8) { c.tel = t; A.promoverDevedor(c); } else toast('Telefone incompleto'); }); return; }
+    const igual = semanais().find(x => tel8(x.tel) === tel8(c.tel));
+    if (igual) { toast('Esse telefone já é do cliente de conta '+igual.nome+'. Use "Mover a dívida".', 4000); return; }
+    confirmar('Transformar '+c.nome+' em cliente de conta?', 'Ele passa a pagar no sábado. O que ele deve hoje ('+fmt(saldoConta(c))+') vai junto para a conta.', 'Transformar', 'Não', s => {
+      if (!s) return; c.tipo = 'semanal'; c.ativo = true; salvar(); render(); toast(c.nome+' agora é cliente de conta');
+    });
+  },
+  // lançou como devedor quem era cliente de conta: passa tudo para a conta certa
+  moverDivida(c){
+    A.escolherConta(null, dest => {
+      if (!dest) return;
+      confirmar('Mover para a conta de '+dest.nome+'?', 'Os '+fmt(saldoConta(c))+' que '+c.nome+' deve passam para a conta de '+dest.nome+'.', 'Mover', 'Não', s => {
+        if (!s) return;
+        c.movs.forEach(m => { dest.movs.push(m); const l = D.lanc.find(x => x.id === m.lanc); if (l) { if (l.conta) { l.conta.id = dest.id; l.conta.tipo = 'semanal'; l.cliente = dest.nome; } if (l.contaPag) { l.contaPag = dest.id; l.cliente = 'Conta – '+dest.nome; } } });
+        D.contas = D.contas.filter(x => x.id !== c.id); salvar(); render(); toast('Dívida movida para '+dest.nome);
+      });
+    });
   },
 
   // --- venda / itens ---
@@ -2644,13 +2910,7 @@ const A = {
     somarItens(a, linhasCarrinho(f)); D.abertos.push(a); salvar();
     U.folhas.pop(); abrirFolha({t:'receber', id:a.id});
   },
-  pagaDepois(){
-    const f = U.folhas[U.folhas.length-1];
-    pedirTexto('Paga depois', 'Apelido de quem está bebendo (pode deixar em branco)', '', apelido => {
-      const a = {id:uid(), tipo:'conta', criado:Date.now(), data:U.dia, foto:null, tel:'', nome:apelido, servs:[], itens:[], status:'aberto'};
-      somarItens(a, linhasCarrinho(f)); D.abertos.push(a); salvar(); fecharTodas(); toast('Conta aberta na lista');
-    });
-  },
+
 
   // --- preços ---
   precoServ(sid, t){
@@ -2672,15 +2932,27 @@ const A = {
   aba(x){ U.resumo = x; render(); },
   resDia(n){ U.resDia = addDias(U.resDia, n); if (U.resDia > hoje()) U.resDia = hoje(); render(); },
   resSem(n){ U.resSem = addDias(U.resSem || inicioSemana(hoje()), 7*n); render(); },
+  verMais(){ U.verMais = !U.verMais; render(); },
+  resMes(n){ U.resMes = addMeses(U.resMes || inicioMes(hoje()), n); if (U.resMes > inicioMes(hoje())) U.resMes = inicioMes(hoje()); render(); },
+  perDatas(){
+    let a = $('#pIni').value, b = $('#pFim').value; if (!a || !b) return;
+    if (b > hoje()) b = hoje(); if (a > b) { const t = a; a = b; b = t; }
+    U.perIni = a; U.perFim = b; U.perAtalho = null; render();
+  },
+  perAtalho(id){
+    const h = hoje();
+    const m = {'7':[addDias(h,-6),h], '15':[addDias(h,-14),h], '30':[addDias(h,-29),h], '90':[addDias(h,-89),h], mes:[inicioMes(h),h], mesant:[addMeses(h,-1), fimMes(addMeses(h,-1))], ano:[h.slice(0,4)+'-01-01',h]}[id];
+    if (!m) return; U.perIni = m[0]; U.perFim = m[1]; U.perAtalho = id; render();
+  },
   editarLanc(id){
     const l = D.lanc.find(x => x.id === id); if (!l) return;
     window._el = l;
     if (l.conta || l.contaPag) {
       const cl = contaPorId(l.conta ? l.conta.id : l.contaPag);
-      window._elc = () => confirmar('Apagar este lançamento?', l.conta ? fmt(l.conta.valor)+' sai da conta de '+(cl?cl.nome:'')+'.' : 'O pagamento de '+fmt(l.valor)+' sai do dia e a conta volta a dever esse valor.', 'Sim, apagar', 'Não', s => {
+      window._elc = () => confirmar('Apagar este lançamento?', l.conta ? fmt(l.conta.valor)+' sai da conta de '+(cl?cl.nome:'')+'.' : 'O pagamento de '+fmt(l.valor)+' sai do dia e ele volta a dever esse valor.', 'Sim, apagar', 'Não', s => {
         if (!s) return; D.lanc = D.lanc.filter(x => x.id !== l.id); if (cl) cl.movs = cl.movs.filter(m => m.lanc !== l.id); salvar(); render(); toast('Lançamento apagado');
       });
-      modal('<h3>'+esc(l.cliente)+' · '+hora(l.ts)+'</h3><p>'+(l.conta ? 'Lançado na conta: <b>'+fmt(l.conta.valor)+'</b>' : 'Pagamento de conta: <b>'+fmt(l.valor)+'</b> em '+FORMAS[l.pag[0].forma].n)+'</p><p class="pequeno">Para mudar o valor, apague e lance de novo.</p><div class="botoes"><button class="per" onclick="fecharModal();_elc()">Apagar lançamento</button><button class="pri" onclick="fecharModal()">Fechar</button></div>');
+      modal('<h3>'+esc(l.cliente)+' · '+hora(l.ts)+'</h3><p>'+(l.conta ? (l.conta.tipo==='avulso'?'Ficou no fiado':'Lançado na conta')+': <b>'+fmt(l.conta.valor)+'</b>' : 'Pagamento de '+(cl&&cl.tipo==='avulso'?'fiado':'cliente de conta')+': <b>'+fmt(l.valor)+'</b> em '+FORMAS[l.pag[0].forma].n)+'</p><p class="pequeno">Para mudar o valor, apague e lance de novo.</p><div class="botoes"><button class="per" onclick="fecharModal();_elc()">Apagar lançamento</button><button class="pri" onclick="fecharModal()">Fechar</button></div>');
       return;
     }
     let h = '<h3>'+esc(l.cliente || (l.tipo==='carro'?'Carro':'Venda'))+' · '+hora(l.ts)+'</h3><p>'+esc([(l.servs||[]).map(s=>s.nome+' '+fmt(s.preco)).join(', '), (l.itens||[]).map(i=>i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · '))+'</p>';
@@ -2704,7 +2976,6 @@ const A = {
   },
   fecharDia(){
     const d = U.resDia;
-    const abertos = D.abertos.filter(a => a.status !== 'pago');
     const fazer = () => {
       D.dias[d] = {fechado:Date.now()};
       if (d === hoje()) D.abertos = D.abertos.filter(a => a.status !== 'pago');
@@ -2712,10 +2983,10 @@ const A = {
       const r = calcular(d,d);
       modal('<h3>Dia fechado ✓</h3><p style="font-size:20px">Entrou <b>'+fmt(r.total)+'</b><br>'+r.carros+' carro'+(r.carros!==1?'s':'')+' · '+r.bebidas+' bebida'+(r.bebidas!==1?'s':'')+'/itens<br>Dinheiro: <b>'+fmt(r.formas.din)+'</b></p><div class="botoes"><button class="pri" onclick="fecharModal()">OK</button></div>');
     };
-    if (abertos.length && d === hoje()) {
-      const nc = abertos.filter(a=>a.tipo==='carro').length, nb = abertos.length - nc;
-      confirmar('Ainda tem coisa em aberto', [nc? nc+' carro'+(nc>1?'s':''):'', nb? nb+' conta'+(nb>1?'s':'')+' de bebida':''].filter(Boolean).join(' e ')+' sem pagar. Eles continuam na lista. Fechar o dia mesmo assim?', 'Fechar mesmo assim', 'Voltar', s => s && fazer());
-    } else fazer();
+    // v1.6: antes de fechar, pergunta o que aconteceu com cada carro que ficou na lista
+    const fila = d === hoje() ? D.abertos.filter(a => a.tipo === 'carro' && a.status === 'aberto' && !a.temp && a.data <= d) : [];
+    const resto = () => fazer();
+    if (fila.length) perguntarCarro(fila, 0, resto); else resto();
   },
 
   // --- ajustes ---
@@ -2762,12 +3033,12 @@ const A = {
     try {
       const novo = JSON.parse(await arq.text());
       if (!novo.cfg || !Array.isArray(novo.lanc)) throw 0;
-      confirmar('Recuperar esta cópia?', 'Tudo o que está no app agora será trocado pela cópia ('+novo.lanc.length+' lançamentos).', 'Recuperar', 'Cancelar', s => { if (s) { D = novo; salvar(); fecharTodas(); toast('Cópia recuperada'); } });
+      confirmar('Recuperar esta cópia?', 'Tudo o que está no app agora será trocado pela cópia ('+novo.lanc.length+' lançamentos).', 'Recuperar', 'Cancelar', s => { if (s) { D = novo; migrar(); salvar(); fecharTodas(); toast('Cópia recuperada'); } });
     } catch(e) { toast('Esse arquivo não é uma cópia do app'); }
   },
   zerarLanc(){
-    confirmar('Apagar todos os lançamentos?', 'Preços, Pix e clientes ficam. Os carros em aberto e os lançamentos somem. Não dá para desfazer.', 'Apagar tudo', 'Não', s => {
-      if (!s) return; D.lanc = []; D.abertos = []; D.dias = {}; salvar(); fecharTodas(); toast('Lançamentos apagados');
+    confirmar('Apagar todos os lançamentos?', 'Preços, Pix e o cadastro dos clientes de conta ficam. Os carros em aberto, os lançamentos, as contas e o fiado zeram. Não dá para desfazer.', 'Apagar tudo', 'Não', s => {
+      if (!s) return; D.lanc = []; D.abertos = []; D.dias = {}; D.contas = D.contas.filter(c => c.tipo === 'semanal'); D.contas.forEach(c => { c.movs = []; c.cobrancas = []; }); salvar(); fecharTodas(); toast('Lançamentos apagados');
     });
   },
 };
@@ -2872,7 +3143,7 @@ function telaTravada(){
   return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
 }
 function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
-const VERSAO_APP = '1.6';
+const VERSAO_APP = '1.7.3';
 async function checarVersao(){
   try {
     const t = await (await fetch('sw.js?t=' + Date.now(), {cache:'no-store'})).text();
@@ -2898,38 +3169,67 @@ async function checarRemoto(){
 
 // ---------- clientes de conta (fecham no sábado; o que não for pago acumula) ----------
 const contaPorId = id => D.contas.find(c => c.id === id);
+const semanais = () => D.contas.filter(c => c.tipo === 'semanal' && c.ativo !== false);
+const devedores = () => D.contas.filter(c => c.tipo === 'avulso' && saldoConta(c) > 0.001);
+const tel8 = t => so_dig(t).slice(-8);
+// v1.6: só reconhece cliente de conta CADASTRADO, e só pelo telefone (nome igual não basta)
 function contaDo(a){
-  if (!D.contas.length || !a) return null;
-  // v1.5: cliente de conta escolhido na chegada vale primeiro; 'nao' = o Popo desmarcou
+  if (!a) return null;
   if (a.contaId === 'nao') return null;
-  if (a.contaId) { const c = contaPorId(a.contaId); if (c) return c; }
-  const t = so_dig(a.tel).slice(-8);
-  if (t.length >= 8) { const c = D.contas.find(c => so_dig(c.tel).slice(-8) === t); if (c) return c; }
-  const n = (a.nome||'').trim().toLowerCase();
-  return n ? (D.contas.find(c => c.nome.trim().toLowerCase() === n) || null) : null;
+  if (a.contaId) { const c = contaPorId(a.contaId); if (c && c.tipo === 'semanal' && c.ativo !== false) return c; }
+  const t = tel8(a.tel);
+  if (t.length >= 8) return semanais().find(c => tel8(c.tel) === t) || null;
+  return null;
+}
+// devedor avulso com débito em aberto pelo telefone (para avisar quando ele volta)
+function devedorDo(a){
+  const t = tel8(a && a.tel); if (t.length < 8) return null;
+  return devedores().find(c => tel8(c.tel) === t) || null;
+}
+// acha (pelo telefone) ou cria o devedor avulso
+function devedorPara(nome, tel){
+  const t = tel8(tel);
+  let c = t.length >= 8 ? D.contas.find(x => x.tipo === 'avulso' && tel8(x.tel) === t) : null;
+  if (!c) { c = {id:uid(), tipo:'avulso', ativo:true, nome:nome || 'Sem nome', tel:tel || '', movs:[], cobrancas:[], criado:Date.now()}; D.contas.push(c); }
+  else { if (nome) c.nome = nome; if (tel) c.tel = tel; }
+  return c;
+}
+// quanto de cada lavagem já foi pago (os pagamentos quitam as lavagens mais antigas primeiro)
+function quitacao(c){
+  const res = {}, fila = [];
+  c.movs.slice().sort((a,b) => a.ts - b.ts || (a.tipo === 'lav' ? -1 : 1)).forEach(m => {
+    if (m.tipo === 'lav') { const r = {valor:m.valor, resta:m.valor, pagoEm:null, data:m.data, desc:m.desc}; res[m.id] = r; fila.push(r); return; }
+    let v = m.valor; const p = res[m.id] = {aloc:[]};
+    while (v > 0.001 && fila.length) {
+      const r = fila[0], t = Math.min(v, r.resta);
+      r.resta = r2(r.resta - t); v = r2(v - t); r.ultPag = m.data;
+      p.aloc.push({data:r.data, desc:r.desc, valor:r2(t)});
+      if (r.resta <= 0.001) { r.resta = 0; r.pagoEm = m.data; fila.shift(); }
+    }
+  });
+  return res;
+}
+// situação hoje de um lançamento que saiu sem pagar
+function situacaoLanc(l){
+  const c = contaPorId(l.conta.id); if (!c) return {txt:'sem registro', cls:'st-parte', resta:0};
+  const m = c.movs.find(x => x.lanc === l.id); if (!m) return {txt:'sem registro', cls:'st-parte', resta:0};
+  const q = quitacao(c)[m.id];
+  if (q.pagoEm) return {txt:'Pago em '+ddmm(q.pagoEm), cls:'st-ok', resta:0, pagoEm:q.pagoEm};
+  if (q.resta < q.valor) return {txt:'Pagou parte · falta '+fmt(q.resta), cls:'st-parte', resta:q.resta};
+  return {txt:'Ainda deve', cls:'st-deve', resta:q.resta};
 }
 function saldoConta(c, ate){
   return r2(c.movs.filter(m => !ate || m.data <= ate).reduce((x,m) => x + (m.tipo==='lav' ? m.valor : -m.valor), 0));
 }
-// ciclo em aberto: movimentos depois da última vez em que a conta zerou
-function cicloAberto(c){
-  const ms = c.movs.slice().sort((a,b)=>a.ts-b.ts);
-  let run = 0, ini = 0;
-  ms.forEach((m,i) => { run = r2(run + (m.tipo==='lav' ? m.valor : -m.valor)); if (run <= 0.001) ini = i+1; });
-  return ms.slice(ini);
-}
-// semana da conta: domingo a sábado
-function inicioSemConta(dia){ const d = dt(dia); d.setDate(d.getDate() - d.getDay()); return ymd(d); }
-function ultimoSabado(dia){ const d = dt(dia); d.setDate(d.getDate() - ((d.getDay()+1)%7)); return ymd(d); }
 // lembrete leve: só no sábado, se ainda deve e não mandou cobrança hoje
 function contaPrecisaCobrar(c){
-  return dt(hoje()).getDay() === 6 && saldoConta(c) > 0 && !(c.cobrancas||[]).includes(hoje());
+  return c.tipo === 'semanal' && dt(hoje()).getDay() === 6 && saldoConta(c) > 0 && !(c.cobrancas||[]).includes(hoje());
 }
 function fmtCnpj(k){ const d = so_dig(k); return d.length===14 ? d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5') : k; }
 function mensagemCobranca(c){
-  const ab = cicloAberto(c);
-  let t = 'Popô Estética Automotiva\nConta de ' + c.nome + (ab.length ? ' – desde ' + ddmm(ab[0].data) : '') + '\n\n';
-  ab.forEach(m => t += ddmm(m.data) + ' ' + (m.tipo==='lav' ? m.desc + ' – ' + fmt(m.valor) : 'Pagamento recebido – ' + fmt(m.valor)) + '\n');
+  const q = quitacao(c), ab = lavsAbertas(c);
+  let t = 'Popô Estética Automotiva\n' + (c.tipo === 'avulso' ? 'Serviço a pagar – ' : 'Conta de ') + c.nome + (ab.length ? ' – desde ' + ddmm(ab[0].data) : '') + '\n\n';
+  ab.forEach(m => { const r = q[m.id]; t += ddmm(m.data) + ' ' + m.desc + ' – ' + fmt(m.valor) + (r.resta < m.valor - 0.001 ? ' (já pagou ' + fmt(r2(m.valor - r.resta)) + ', falta ' + fmt(r.resta) + ')' : '') + '\n'; });
   const deb = saldoConta(c);
   t += '\n*Valor do débito: ' + fmt(deb) + '*\n';
   if (D.cfg.pixChave) {
@@ -2948,7 +3248,7 @@ function lancarNaConta(a, c, valor, normal, silencioso, diaLanc){
   const desc = [linhas.map(s => s.nome).join(' + '), (a.itens||[]).map(i => i.qtd+'× '+i.nome).join(', ')].filter(Boolean).join(' · ') + (tam ? ' (' + TAM_NOME[tam] + ')' : '');
   const l = {id:uid(), ts, data:dia, tipo:a.tipo === 'carro' ? 'carro' : 'venda', chegada:a.data, cliente:c.nome, tel:c.tel, tam,
     servs:linhas.map(s => ({id:s.id, nome:s.nome, preco:s.preco})), itens:(a.itens||[]).map(i => ({...i})),
-    normal, valor:0, pag:[], desconto:r2(normal - valor), conta:{id:c.id, valor:r2(valor)}};
+    normal, valor:0, pag:[], desconto:r2(normal - valor), conta:{id:c.id, valor:r2(valor), tipo:c.tipo || 'semanal'}};
   const m = {id:uid(), tipo:'lav', data:dia, ts, desc: desc || 'Serviço', valor:r2(valor), lanc:l.id};
   D.lanc.push(l); c.movs.push(m);
   if (a.tipo === 'carro') { a.tam = tam; if (!a.nome) a.nome = c.nome; if (!a.tel) a.tel = c.tel; guardarCliente(a); }
@@ -2957,49 +3257,89 @@ function lancarNaConta(a, c, valor, normal, silencioso, diaLanc){
   salvar();
   if (silencioso) return;
   vibra([60,40,60]); U.folhas = []; voltarHojeSeOutroDia(); render();
-  const el = document.createElement('div'); el.className = 'ok'; el.id = 'ok'; el.style.background = '#1565C0';
-  el.innerHTML = '<div class="ck" style="color:#1565C0">✓</div><b>'+fmt(valor)+'</b><span>Na conta de '+esc(c.nome)+'<br>Conta agora: '+fmt(saldoConta(c))+'</span><div class="acoes"><button id="okDesf">Desfazer</button><button class="fecha" id="okFecha" style="color:#1565C0">OK</button></div>';
+  const dev = c.tipo === 'avulso', cor = dev ? '#E07B00' : '#1565C0', sd = saldoConta(c);
+  const el = document.createElement('div'); el.className = 'ok'; el.id = 'ok'; el.style.background = cor;
+  el.innerHTML = '<div class="ck" style="color:'+cor+'">'+(dev?'!':'✓')+'</div><b>'+fmt(valor)+'</b><span>'+(dev
+      ? esc(c.nome)+' levou sem pagar'+(sd > valor + 0.001 ? '<br>Agora deve no total: '+fmt(sd) : '<br>Ficou no fiado')
+      : 'Na conta de '+esc(c.nome)+'<br>Conta agora: '+fmt(sd))+'</span><div class="acoes"><button id="okDesf">Desfazer</button><button class="fecha" id="okFecha" style="color:'+cor+'">OK</button></div>';
   document.body.appendChild(el);
   const tm = setTimeout(fechar, 6000);
   function fechar(){ clearTimeout(tm); el.remove(); }
   el.querySelector('#okFecha').onclick = fechar;
   el.querySelector('#okDesf').onclick = () => {
     D.lanc = D.lanc.filter(x => x.id !== l.id); c.movs = c.movs.filter(x => x.id !== m.id);
+    if (c.tipo === 'avulso' && !c.movs.length) D.contas = D.contas.filter(x => x.id !== c.id);
     if (!guard.temp) D.abertos.push(guard); salvar(); fechar(); render(); toast('Desfeito');
   };
 }
+// v1.6: Início mostra DEVEDORES (levaram sem pagar) separados dos CLIENTES DE CONTA (semanal)
+function blocoDevedores(){
+  const lista = devedores().map(c => ({c, ab:lavsAbertas(c)})).sort((x,y) => (x.ab[0]||{ts:0}).ts - (y.ab[0]||{ts:0}).ts);
+  if (!lista.length) return '';
+  const tot = r2(lista.reduce((x,o) => x + saldoConta(o.c), 0));
+  let h = '<h2 class="sec">Fiado <small>'+lista.length+' · '+fmt(tot)+'</small></h2>';
+  lista.forEach(({c, ab}) => {
+    const desde = ab.length ? ab[0].data : hoje(), dias = diasEntre(desde, hoje());
+    const nLav = ab.filter(m => m.tipo === 'lav').length;
+    h += '<button class="conta-l dev '+(dias >= 7 ? 'velho' : '')+'" onclick="A.abrirConta(\''+c.id+'\')"><span class="d"><b>'+esc(c.nome)+'</b>'+
+      '<span class="tagd">'+(dias === 0 ? 'Levou hoje sem pagar' : 'Deve desde '+ddmm(desde)+' · há '+dias+' dia'+(dias>1?'s':''))+'</span>'+
+      '<small>'+nLav+' serviço'+(nLav===1?'':'s')+(c.tel?'':' · sem telefone')+'</small></span><span class="v">'+fmt(saldoConta(c))+'</span></button>';
+  });
+  return h;
+}
 function blocoContas(){
-  let h = '<h2 class="sec">Contas de clientes <small>acumula até receber</small></h2>';
-  const ini = inicioSemConta(hoje());
-  D.contas.forEach(c => {
+  const lista = semanais();
+  let h = '<h2 class="sec">Clientes de conta <small>pagam no sábado</small></h2>';
+  if (!lista.length) h += '<p class="pequeno" style="margin:0 16px 8px">Nenhum cliente de conta cadastrado.</p>';
+  lista.forEach(c => {
     const sd = saldoConta(c), cob = contaPrecisaCobrar(c);
-    const ab = cicloAberto(c), nLav = ab.filter(m => m.tipo==='lav').length;
-    h += '<button class="conta-l '+(cob?'cobrar':'')+'" onclick="A.abrirConta(\''+c.id+'\')"><span class="d"><b>'+esc(c.nome)+'</b>'+
+    const ab = lavsAbertas(c), nLav = ab.length, atr = dividaAntes(c, inicioSemana(hoje()));
+    h += '<button class="conta-l '+(cob?'cobrar':'')+(atr>0.001?' velho':'')+'" onclick="A.abrirConta(\''+c.id+'\')"><span class="d"><b>'+esc(c.nome)+'</b>'+
       (cob ? '<span class="tag">Hoje é sábado: enviar cobrança</span>' : '<small>'+(sd>0 ? nLav+' lavage'+(nLav===1?'m':'ns')+' desde '+ddmm(ab[0].data) : 'Conta zerada')+'</small>')+
+      (atr > 0.001 ? '<span class="tag" style="color:var(--red)">'+fmt(atr)+' de semanas anteriores</span>' : '')+
       '</span><span class="v">'+fmt(sd)+'</span></button>';
   });
-  h += '<button class="sem-foto" style="margin-top:0" onclick="A.novaConta()">+ Novo cliente de conta</button>';
+  h += '<button class="b-clientes" onclick="abrirFolha({t:\'clientes\'})">'+IC.contato+'Clientes · cadastrar e editar</button>';
   return h;
+}
+// v1.7.1: tela Clientes (à vista, sem senha: só o Popo usa o app)
+function folhaClientes(){
+  const inat = D.contas.filter(x => x.tipo === 'semanal' && x.ativo === false), devs = devedores();
+  let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>Clientes</h1></div>';
+  h += '<div class="bloco"><h3>Clientes de conta</h3><p class="pequeno" style="margin-top:-4px">Lavam na semana e pagam tudo no sábado. Só quem está aqui aparece no botão CLIENTE DE CONTA. Quem não está vai para o fiado.</p>'+
+    '<button class="pronto" style="width:100%;margin:4px 0 10px;background:#1565C0;color:#fff" onclick="A.novaConta()">+ CADASTRAR CLIENTE DE CONTA</button>';
+  if (!semanais().length) h += '<p class="pequeno">Ninguém cadastrado ainda.</p>';
+  h += semanais().slice().sort((a,b) => a.nome.localeCompare(b.nome)).map(x => '<button class="cli-l" onclick="A.editarConta(\''+x.id+'\')"><span><b>'+esc(x.nome)+'</b><small>'+esc(x.tel||'sem telefone')+(x.carro?' · '+esc(x.carro):'')+'</small></span><em>'+(saldoConta(x)>0?'deve '+fmt(saldoConta(x)):'em dia')+' ›</em></button>').join('');
+  if (inat.length) h += '<p class="pequeno" style="margin:12px 0 4px">Desativados (toque para reativar):</p>'+inat.map(x => '<button class="cli-l" style="opacity:.6" onclick="A.editarConta(\''+x.id+'\')"><span><b>'+esc(x.nome)+'</b></span><em>›</em></button>').join('');
+  h += '</div>';
+  h += '<div class="bloco"><h3>Fiado</h3><p class="pequeno" style="margin-top:-4px">Quem levou o carro sem pagar. Toque para mudar nome ou telefone, transformar em cliente de conta ou passar a dívida para a conta certa.</p>';
+  h += devs.length ? devs.map(x => '<button class="cli-l" onclick="A.editarConta(\''+x.id+'\')"><span><b>'+esc(x.nome)+'</b><small>desde '+ddmm(devendoDesde(x))+(x.tel?'':' · sem telefone')+'</small></span><em style="color:#8a4a00">'+fmt(saldoConta(x))+' ›</em></button>').join('') : '<p class="pequeno">Ninguém no fiado.</p>';
+  return h + '</div>';
 }
 function folhaConta(f){
   const c = contaPorId(f.id); if (!c) return '';
   const sd = saldoConta(c);
   let h = '<div class="f-top"><button class="voltar" onclick="fecharFolha()">‹</button><h1>'+esc(c.nome)+'</h1><button class="voltar" onclick="A.editarConta(\''+c.id+'\')">Editar</button>'+(c.tel?'<button class="bq bq-wa" onclick="abrirWa(\''+esc(c.tel)+'\')">'+IC.wa+'</button>':'')+'</div>';
+  if (c.tipo === 'avulso') h += '<div class="aviso-dev">Fiado · levou sem pagar'+(c.tel?'':' · sem telefone: toque em Editar para colocar')+'</div>';
+  else if (c.carro) h += '<p class="pequeno" style="margin:8px 16px 0">Cliente de conta · '+esc(c.carro)+'</p>';
   h += '<div class="bloco"><div class="total"><span>Deve hoje</span><b style="color:'+(sd>0?'var(--g)':'var(--pago)')+'">'+fmt(sd)+'</b>'+
     ((c.cobrancas||[]).length ? '<em style="color:var(--muted)">Última cobrança enviada em '+ddmm(c.cobrancas[c.cobrancas.length-1])+'</em>' : '')+'</div></div>';
   h += '<div class="pe-rec" style="margin-bottom:4px"><button class="b-cobrar" '+(c.tel&&sd>0?'':'disabled style="opacity:.4"')+' onclick="A.cobrar(\''+c.id+'\')">Enviar cobrança no WhatsApp</button></div>';
   h += '<div class="pe-rec" style="margin-top:10px"><button class="b-recebi" '+(sd>0?'':'disabled style="opacity:.4"')+' onclick="A.recebiConta(\''+c.id+'\')">RECEBI</button></div>';
-  h += '<button class="b-lavconta" onclick="A.lavagemConta(\''+c.id+'\')">+ Lançar lavagem nesta conta</button>';
-  if (!c.tel) h += '<p class="pequeno" style="margin:8px 16px">Sem telefone: toque em Editar para colocar e poder mandar a cobrança.</p>';
+  if (c.tipo === 'semanal') h += '<button class="b-lavconta" onclick="A.lavagemConta(\''+c.id+'\')">+ Lançar lavagem nesta conta</button>';
+  if (!c.tel && c.tipo === 'semanal') h += '<p class="pequeno" style="margin:8px 16px">Sem telefone: toque em Editar para colocar e poder mandar a cobrança.</p>';
   h += '<h2 class="sec">Extrato</h2><div class="bloco" style="margin-top:0">';
-  const abertos = new Set(cicloAberto(c).map(m => m.id));
-  const movs = c.movs.slice().sort((a,b)=>b.ts-a.ts).slice(0,60);
+  const abertos = new Set(lavsAbertas(c).map(m => m.id));
+  const qx = quitacao(c);
+  const ordemG = m => m.tipo === 'pag' ? 2 : abertos.has(m.id) ? 0 : 1;
+  const movs = c.movs.slice().sort((a,b)=> ordemG(a)-ordemG(b) || b.ts-a.ts).slice(0,60);
   if (!movs.length) h += '<span class="pequeno">Nada lançado ainda.</span>';
   let grupo = null;
   movs.forEach(m => {
-    const g = abertos.has(m.id) ? 'Em aberto' : 'Já pago';
-    if (g !== grupo) { h += '<div class="pequeno" style="font-weight:800;margin-top:8px;color:'+(g==='Em aberto'?'#1565C0':'var(--muted)')+'">'+g+'</div>'; grupo = g; }
-    h += '<div class="mov '+(m.tipo==='pag'?'pag':'')+'"><span>'+ddmm(m.data)+' · '+esc(m.tipo==='lav'?m.desc:'Pagamento ('+(FORMAS[m.forma]?FORMAS[m.forma].n:'')+')')+'</span><b>'+(m.tipo==='pag'?'− ':'')+fmt(m.valor)+'</b></div>';
+    const g = m.tipo === 'pag' ? 'Pagamentos' : abertos.has(m.id) ? 'Falta pagar' : 'Já pago';
+    if (g !== grupo) { h += '<div class="pequeno" style="font-weight:800;margin-top:8px;color:'+(g==='Falta pagar'?'var(--red)':'var(--muted)')+'">'+g+'</div>'; grupo = g; }
+    const qm = m.tipo === 'lav' ? qx[m.id] : null, parte = qm && qm.resta > 0.001 && qm.resta < m.valor - 0.001;
+    h += '<div class="mov '+(m.tipo==='pag'?'pag':'')+'"><span>'+ddmm(m.data)+' · '+esc(m.tipo==='lav'?m.desc:'Pagamento ('+(FORMAS[m.forma]?FORMAS[m.forma].n:'')+')')+(parte?'<br><small style="color:var(--red);font-weight:800">pagou '+fmt(r2(m.valor-qm.resta))+' · falta '+fmt(qm.resta)+'</small>':'')+'</span><b>'+(m.tipo==='pag'?'− ':'')+fmt(m.valor)+'</b></div>';
   });
   h += '</div>';
   return h;
@@ -3017,26 +3357,31 @@ function perguntaManha(){
   if (!fila.length) { D.perguntaFeita = h; salvar(); return; }
   perguntarCarro(fila, 0);
 }
-function perguntarCarro(fila, i){
-  if (i >= fila.length) { D.perguntaFeita = hoje(); salvar(); fecharModal(); render(); return; }
-  const a = fila[i], tot = totalNormal(a);
+// v1.6: usado na manhã seguinte (carros de dias anteriores) e no FECHAR DIA (carros de hoje)
+function perguntarCarro(fila, i, fim){
+  if (i >= fila.length) { if (!fim) D.perguntaFeita = hoje(); salvar(); fecharModal(); render(); if (fim) fim(); return; }
+  const a = fila[i], tot = totalNormal(a), cc = contaDo(a);
+  const prox = () => { salvar(); perguntarCarro(fila, i+1, fim); };
   window._pc = (r) => {
-    if (r === 'aqui') { /* continua aberto */ }
-    else if (r === 'conta') { lancarNaConta(a, contaDo(a), tot.t, tot.t, true, a.data); }
-    else if (r === 'nao') { a.status = 'areceber'; }
-    else {
-      const l = {id:uid(), ts:dt(a.data).getTime()+6*3600000, data:a.data, chegada:a.data, tipo:'carro', cliente:a.nome||'', tel:a.tel||'', tam:tamUsado(a),
-        servs:linhasServ(a).map(s=>({id:s.id,nome:s.nome,preco:s.preco})), itens:(a.itens||[]).map(x=>({...x})), normal:tot.t, valor:tot.t, pag:[{forma:r, valor:tot.t}], desconto:0};
-      if (tot.falta) { toast('Esse carro tem serviço sem valor. Abra o cartão para receber.'); }
-      else { D.lanc.push(l); a.tam = l.tam; guardarCliente(a); D.abertos = D.abertos.filter(x => x.id !== a.id); }
-    }
-    salvar(); perguntarCarro(fila, i+1);
+    if (r === 'aqui') { prox(); return; }
+    if (r === 'conta') { lancarNaConta(a, cc, tot.t, tot.t, true, a.data); prox(); return; }
+    if (r === 'escolher') { A.escolherConta(null, c => { if (c) { lancarNaConta(a, c, tot.t, tot.t, true, a.data); prox(); } else perguntarCarro(fila, i, fim); }); return; }
+    if (r === 'nao') { A.dadosDevedor(a, tot.t, tot.t, c => { if (c) { lancarNaConta(a, c, tot.t, tot.t, true, a.data); prox(); } else perguntarCarro(fila, i, fim); }); return; }
+    const l = {id:uid(), ts:a.data === hoje() ? Date.now() : dt(a.data).getTime()+6*3600000, data:a.data, chegada:a.data, tipo:'carro', cliente:a.nome||'', tel:a.tel||'', tam:tamUsado(a),
+      servs:linhasServ(a).map(s=>({id:s.id,nome:s.nome,preco:s.preco})), itens:(a.itens||[]).map(x=>({...x})), normal:tot.t, valor:tot.t, pag:[{forma:r, valor:tot.t}], desconto:0};
+    D.lanc.push(l); a.tam = l.tam; guardarCliente(a); D.abertos = D.abertos.filter(x => x.id !== a.id);
+    prox();
   };
-  modal('<h3>Carro de '+ddmm(a.data)+' ('+(i+1)+' de '+fila.length+')</h3>'+(a.foto?'<img class="pergunta-foto" src="'+a.foto+'">':'')+
-    '<p><b>'+esc(a.nome||'Sem nome')+'</b> · '+esc(resumoServ(a)||'sem serviço')+(tot.falta?'':' · '+fmt(tot.t))+'</p><p>Este carro já foi pago?</p>'+
-    '<div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" style="font-size:22px;min-height:60px" '+(tot.falta||!tot.t?'disabled':'')+' onclick="_pc(\''+k+'\')">'+FORMAS[k].n+'</button>').join('')+'</div>'+
-    (contaDo(a)&&!tot.falta?'<button class="pg pg-conta" style="margin-top:10px;font-size:20px" onclick="_pc(\'conta\')">Na conta de '+esc(contaDo(a).nome)+'</button>':'')+
-    '<div class="botoes"><button class="pri" onclick="_pc(\'aqui\')">Ainda está aqui</button><button onclick="_pc(\'nao\')" style="background:#fff1de;color:#8a4a00">Levou e ainda não pagou</button></div>');
+  const semValor = tot.falta || !tot.t;
+  modal('<h3>'+(fim?'Fechando o dia':'Carro de '+ddmm(a.data))+' ('+(i+1)+' de '+fila.length+')</h3>'+(a.foto?'<img class="pergunta-foto" src="'+a.foto+'">':'')+
+    '<p><b>'+esc(a.nome||'Sem nome')+'</b> · '+esc(resumoServ(a)||'sem serviço')+(semValor?'':' · '+fmt(tot.t))+'</p>'+
+    (semValor?'<div class="aviso">Esse carro está sem valor. Toque em "Ainda está aqui" e abra o cartão para conferir.</div>':'')+
+    '<div class="sub-pg">Pagou</div><div class="pags">'+Object.keys(FORMAS).map(k => '<button class="pg pg-'+k+'" style="font-size:22px;min-height:60px" '+(semValor?'disabled':'')+' onclick="_pc(\''+k+'\')">'+FORMAS[k].n+'</button>').join('')+'</div>'+
+    '<div class="sub-pg" style="margin-top:12px">Não pagou</div><div class="nao-pagou">'+
+      (cc ? '<button class="b-ncont" '+(semValor?'disabled':'')+' onclick="_pc(\'conta\')">NA CONTA<small>'+esc(cc.nome)+'</small></button>'
+          : '<button class="b-ncont" '+(semValor||!semanais().length?'disabled':'')+' onclick="_pc(\'escolher\')">CLIENTE DE CONTA<small>paga no sábado</small></button>')+
+      '<button class="b-depois" '+(semValor?'disabled':'')+' onclick="_pc(\'nao\')">LEVOU SEM PAGAR<small>fica no fiado</small></button></div>'+
+    '<div class="botoes"><button class="pri" onclick="_pc(\'aqui\')">Ainda está aqui</button></div>');
 }
 
 // ---------- eventos gerais ----------
@@ -3080,6 +3425,7 @@ setInterval(() => { if (U.tela === 'inicio' && !U.folhas.length && !$('#modal') 
 
 try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e) {}
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(()=>{});
+migrar();
 render();
 checarRemoto();
 setInterval(checarRemoto, 30*60000);
