@@ -62,6 +62,11 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .nova-versao{display:flex;width:calc(100% - 24px);align-items:center;justify-content:space-between;gap:10px;background:var(--wa);color:#fff;border:0;border-radius:16px;padding:14px 16px;margin:12px 12px 0;font:inherit;font-size:17px;font-weight:700;text-align:left}.nova-versao b{background:#fff;color:var(--wa);border-radius:10px;padding:8px 12px;font-size:16px}
 .m-pronto{background:var(--wa);color:#fff;font-size:15px !important}
 .m-pronto svg{width:18px;height:18px}
+.ent{display:inline-block;font-size:14px;font-weight:800;color:#1f3a5f;background:#e8eef7;border-radius:8px;padding:2px 7px;margin-top:4px}
+.ent.atraso{color:#fff;background:var(--red)}
+.ent-linha{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ent-linha h3{margin:0}
+.ent-linha input{width:175px;flex:none;border:2px solid var(--line);border-radius:12px;padding:10px;font-size:22px;font-weight:800;font-family:inherit;text-align:center}
 .avisado{display:inline-block;font-size:13px;font-weight:800;color:var(--wa);background:#e5f3e8;border-radius:8px;padding:2px 6px;margin-top:4px}
 .b-pronto{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 24px);margin:12px;background:var(--wa);color:#fff;border-radius:16px;padding:16px;font-family:var(--fc);font-size:24px;font-weight:800;box-shadow:0 3px 0 rgba(0,0,0,.18)}
 .b-pronto svg{width:28px;height:28px}
@@ -1997,12 +2002,24 @@ function telaInicio(){
   h += avisoCopia();
   // ordem: prontos (próximos a sair) · em serviço · pagos esperando o dono
   const ordem = a => a.status === 'pago' ? 3 : (a.tipo === 'carro' && prontoEm(a) ? 1 : 2);
-  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || a.criado-b.criado);
+  const chave = a => entregaAtrasada(a) ? '0' : a.entrega ? '1'+a.entrega : '2';
+  const ab = D.abertos.slice().sort((a,b)=> (ordem(a)-ordem(b)) || (ordem(a)===2 ? chave(a).localeCompare(chave(b)) : 0) || a.criado-b.criado);
   h += '<h2 class="sec">Em aberto <small>'+(ab.length? ab.length+(ab.length>1?' na lista':' na lista'):'')+'</small></h2>';
   if (!ab.length) h += '<div class="vazio">Nenhum carro na lista.</div>';
   ab.forEach(a => h += cartao(a));
   h += blocoDevedores() + blocoContas();
   return h + '</div>';
+}
+// v1.7.5: horário de entrega combinado com o cliente
+function entregaAtrasada(a){
+  if (!a.entrega || a.tipo !== 'carro' || a.status !== 'aberto' || prontoEm(a)) return false;
+  const [h, m] = a.entrega.split(':').map(Number), lim = new Date(a.criado); lim.setHours(h, m, 0, 0);
+  // hora menor que a da chegada = dia seguinte (ex.: chegou 23h, entrega 00:30)
+  if (lim.getTime() < a.criado - 5*60000) lim.setDate(lim.getDate() + 1);
+  return Date.now() > lim.getTime();
+}
+function blocoEntrega(a){
+  return '<div class="bloco ent-linha"><h3>Horário de entrega</h3><input type="time" value="'+(a.entrega||'')+'" onchange="A.entregaHora(\''+a.id+'\',this.value)"></div>';
 }
 function prontoEm(a){ return a.pronto || a.avisado || null; }
 function cartao(a){
@@ -2018,6 +2035,7 @@ function cartao(a){
     (cc?'<div class="tag-conta">CONTA'+((a.nome||'').trim().toLowerCase()===cc.nome.trim().toLowerCase()?'':' · '+esc(cc.nome))+'</div><br>':'')+
     (devedorDo(a)?'<div class="tag-conta" style="background:var(--areceber)">JÁ DEVE '+fmt(saldoConta(devedorDo(a)))+'</div><br>':'')+'<div class="det">'+esc(resumoServ(a)||'Sem serviço marcado')+'<br>'+(a.tipo==='carro'?'Chegou '+hora(a.criado)+' · ':'')+haQuanto(a.criado)+'</div>'+
     (a.lembrete?'<div class="lem">'+esc(a.lembrete)+'</div>':'')+
+    (a.entrega && a.tipo==='carro' && a.status==='aberto' ? '<br><div class="ent'+(entregaAtrasada(a)?' atraso':'')+'">'+(entregaAtrasada(a)?'ATRASADO · entrega '+a.entrega:'Entrega '+a.entrega)+'</div>' : '')+
     (pr?'<div class="avisado">✓ Pronto '+hora(pr)+(a.avisado?' · avisado '+hora(a.avisado):'')+'</div>':'')+
     '<div class="pe"><span class="tot">'+(a.status==='pago'?'':(tot.falta?'+ a combinar':fmt(tot.t)))+'</span><div class="mini">';
   if (a.aguardaFoto && !a.foto) h += '<button class="m-it" onclick="event.stopPropagation();A.abrirCamera(\''+a.id+'\')">Foto</button>';
@@ -2067,6 +2085,13 @@ function folhaNovo(f){
   servsVisiveis(a.moto).forEach(s => h += '<button class="sv '+(marcados.has(s.id)?'on':'')+'" onclick="A.marcarServ(\''+a.id+'\',\''+s.id+'\')">'+(s.grupo==='cera'?'+ ':'')+esc(s.nome)+'</button>');
   a.servs.filter(s => s.id === 'outro').forEach((s,i) => h += '<button class="sv on" onclick="A.tirarOutro(\''+a.id+'\','+i+')">'+esc(s.nome)+'</button>');
   h += '<button class="sv outro" onclick="A.outroServ(\''+a.id+'\')">+ Outro serviço</button></div></div>';
+  // v1.7.4: tamanho sempre à mostra (o preço depende dele), antes do contato do cliente
+  h += '<div class="bloco"><h3>Tamanho</h3><div class="tams">';
+  [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
+  h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
+  if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
+  h += '</div>';
+  h += blocoEntrega(a);
   h += '<div class="bloco"><h3>Cliente</h3>'+
     '<div class="campo"><input id="nTel" type="tel" inputmode="tel" placeholder="Telefone" value="'+esc(a.tel)+'" oninput="A.digitouTel(\''+a.id+'\',this.value)">'+
     ('contacts' in navigator && 'select' in (navigator.contacts||{}) ? '<button class="bq bq-ct" onclick="A.contatos(\''+a.id+'\')">'+IC.contato+'Contatos</button>' : '')+
@@ -2077,14 +2102,10 @@ function folhaNovo(f){
   const ccN = contaDo(a), devN = devedorDo(a);
   if (ccN) h += '<div class="tag-conta" style="font-size:15px;padding:4px 9px">CLIENTE DE CONTA · '+esc(ccN.nome)+'</div>';
   if (devN) h += '<div class="aviso-dev" style="margin:8px 0 0">'+esc(devN.nome)+' já deve '+fmt(saldoConta(devN))+' desde '+ddmm(devendoDesde(devN))+'.</div>';
-  const aberto = f.mais || a.tam || a.lembrete;
-  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Menos detalhes':'+ Mais detalhes (tamanho, lembrete)')+'</button>';
+  const aberto = f.mais || a.lembrete;
+  h += '<button class="mais" onclick="A.maisDet()">'+(aberto?'– Esconder lembrete':'+ Lembrete (ex.: pretinho nos pneus)')+'</button>';
   if (aberto) {
-    h += '<div style="font-weight:800;margin:4px 0 6px">Tamanho</div><div class="tams">';
-    [['P','Pequeno','carro'],['S','SUV','suv'],['C','Caminhonete','caminhonete']].forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+IC[t[2]]+t[1]+'</button>');
-    h += '<button class="tm '+(a.moto?'on':'')+'" onclick="A.moto(\''+a.id+'\')">'+IC.moto+'Moto</button></div>';
-    if (a.moto) { h += '<div class="tams t3" style="margin-top:6px">'; TAMS_MOTO.forEach(t => h += '<button class="tm '+(a.tam===t[0]?'on':'')+'" onclick="A.tam(\''+a.id+'\',\''+t[0]+'\')">'+t[1]+'</button>'); h += '</div>'; }
-    h += '<div style="font-weight:800;margin:14px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
+    h += '<div style="font-weight:800;margin:4px 0 6px">Lembrete</div><div class="campo"><textarea id="nLem" rows="2" placeholder="Ex.: pretinho nos pneus (toque no microfone do teclado para falar)" oninput="A.lembrete(\''+a.id+'\',this.value)">'+esc(a.lembrete)+'</textarea></div>';
   }
   h += '</div>';
   if (f.semFoto) h += '<button class="pronto" '+(f.daConta?'style="background:#1565C0;color:#fff" ':'')+'onclick="A.receberAgora(\''+a.id+'\')">'+(f.daConta?'LANÇAR NA CONTA':'RECEBER AGORA')+'</button>'+(f.daConta?'':'<button class="pronto esc" onclick="A.prontoNovo()">DEIXAR EM ABERTO</button>');
@@ -2113,6 +2134,7 @@ function folhaReceber(f){
       : '<button class="d-pronto" onclick="A.marcarPronto(\''+a.id+'\')">CARRO PRONTO</button>')+
       '<button class="d-wa" onclick="A.carroPronto(\''+a.id+'\')">'+IC.wa+(a.avisado?'De novo':'Avisar')+'</button></div>';
   }
+  if (a.tipo === 'carro' && a.status === 'aberto' && !a.temp && !prontoEm(a)) h += blocoEntrega(a);
   const jaDeve = devedorDo(a);
   if (jaDeve) h += '<div class="aviso-dev">Atenção: '+esc(jaDeve.nome)+' já deve '+fmt(saldoConta(jaDeve))+' desde '+ddmm(devendoDesde(jaDeve))+'.</div>';
   const tam = tamUsado(a), linhas = linhasServ(a);
@@ -2568,6 +2590,7 @@ const A = {
       salvar(); renderFolha();
     } catch(e) { toast('Não deu para abrir os contatos'); }
   },
+  entregaHora(aid, v){ const a = D.abertos.find(x => x.id === aid); if (!a) return; if (v) a.entrega = v; else delete a.entrega; salvar(); renderFolha(); },
   maisDet(){ const f = U.folhas[U.folhas.length-1]; f.mais = !f.mais; renderFolha(); },
   tam(aid, t){
     const a = D.abertos.find(x => x.id === aid); if (!a) return;
@@ -3143,7 +3166,7 @@ function telaTravada(){
   return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
 }
 function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
-const VERSAO_APP = '1.7.3';
+const VERSAO_APP = '1.7.5';
 async function checarVersao(){
   try {
     const t = await (await fetch('sw.js?t=' + Date.now(), {cache:'no-store'})).text();
