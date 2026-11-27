@@ -64,6 +64,7 @@ h2.sec small{font-family:var(--f);font-size:15px;color:var(--muted)}
 .m-pronto svg{width:18px;height:18px}
 .ent{display:inline-block;font-size:14px;font-weight:800;color:#1f3a5f;background:#e8eef7;border-radius:8px;padding:2px 7px;margin-top:4px}
 .ent.atraso{color:#fff;background:var(--red)}
+.mudar-tam{font-family:var(--f);font-size:15px;font-weight:800;color:var(--muted);text-decoration:underline;padding:4px 0}
 .ent-linha{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .ent-linha h3{margin:0}
 .ent-linha input{width:175px;flex:none;border:2px solid var(--line);border-radius:12px;padding:10px;font-size:22px;font-weight:800;font-family:inherit;text-align:center}
@@ -2138,7 +2139,9 @@ function folhaReceber(f){
   const jaDeve = devedorDo(a);
   if (jaDeve) h += '<div class="aviso-dev">Atenção: '+esc(jaDeve.nome)+' já deve '+fmt(saldoConta(jaDeve))+' desde '+ddmm(devendoDesde(jaDeve))+'.</div>';
   const tam = tamUsado(a), linhas = linhasServ(a);
-  if (a.tipo === 'carro') {
+  // v1.7.6: o tamanho é marcado na chegada; aqui só aparece se faltou (ou se tocar em "mudar")
+  if (a.tipo === 'carro' && !a.tam) R.verTam = true;
+  if (a.tipo === 'carro' && R.verTam) {
     const caro = linhas.some(s => ['pol','hig','vit'].includes(s.id));
     h += '<div class="bloco"><h3>Tamanho'+(!a.tam?' <span class="pequeno" style="color:var(--areceber)">(confira)</span>':'')+'</h3>';
     if (!a.tam && caro) h += '<div class="aviso">Tamanho não foi marcado. O preço muda bastante: confira antes de receber.</div>';
@@ -2147,7 +2150,8 @@ function folhaReceber(f){
     lista.forEach(t => h += '<button class="tm '+(tam===t[0]?(a.tam?'on':'on palpite'):'')+'" onclick="A.tamRec(\''+a.id+'\',\''+t[0]+'\')">'+(a.moto?IC.moto:IC[{P:'carro',S:'suv',C:'caminhonete'}[t[0]]])+t[1]+'</button>');
     h += '</div></div>';
   }
-  h += '<div class="bloco"><h3>Serviços e itens</h3>';
+  h += '<div class="bloco"><h3 style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">Serviços e itens'+
+    (a.tipo === 'carro' && a.tam && !R.verTam ? '<button class="mudar-tam" onclick="A.verTam()">'+esc(TAM_NOME[a.tam]||'')+' · mudar</button>' : '')+'</h3>';
   if (!linhas.length && !(a.itens||[]).length) h += '<div class="pequeno" style="padding:6px 0">Nada marcado ainda. Toque em + Serviço ou + Itens.</div>';
   linhas.forEach((s,i) => {
     h += '<div class="linha"><span>'+esc(s.nome)+'</span><span style="display:flex;align-items:center;gap:4px">'+
@@ -2614,6 +2618,7 @@ const A = {
 
   // --- receber ---
   abrir(aid){ abrirFolha({t:'receber', id:aid}); },
+  verTam(){ const f = U.folhas[U.folhas.length-1]; f.verTam = true; renderFolha(); },
   tamRec(aid, t){ const a = D.abertos.find(x => x.id === aid); if (!a) return; a.tam = t; salvar(); renderFolha(); },
   tirarServ(aid, i){ const a = D.abertos.find(x => x.id === aid); a.servs.splice(i,1); salvar(); U.folhas[U.folhas.length-1].outro = null; renderFolha(); },
   tirarItem(aid, i){ const a = D.abertos.find(x => x.id === aid); const it = a.itens[i]; it.qtd--; if (it.qtd <= 0) a.itens.splice(i,1); salvar(); U.folhas[U.folhas.length-1].outro = null; renderFolha(); },
@@ -3166,7 +3171,7 @@ function telaTravada(){
   return '<div class="trava">🔒<b>Travado</b><p>'+esc(avisoTexto())+'</p><div class="botoes"><button class="pri" onclick="A.abrirAcesso()">Digitar código</button><button onclick="A.checarAgora()">Já paguei: verificar de novo</button></div></div>';
 }
 function avisoTexto(){ const ac = estadoAcesso(); return ac.motivo === 'vencido' ? 'O acesso venceu em '+dmA(ac.ate)+'. Para ver o Resumo e mandar cobranças, renove com '+SUPORTE+'.' : comSuporte(ac.msg || 'Acesso suspenso.'); }
-const VERSAO_APP = '1.7.5';
+const VERSAO_APP = '1.7.6';
 async function checarVersao(){
   try {
     const t = await (await fetch('sw.js?t=' + Date.now(), {cache:'no-store'})).text();
